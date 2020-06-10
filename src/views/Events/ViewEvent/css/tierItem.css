@@ -1,0 +1,13 @@
+.isNotChoose:hover{
+    cursor: pointer !important;
+}
+
+.isChoose{
+    background-color: #21a8d8;
+    color:white;
+}
+.isChoose:hover{
+    background-color: #21a8d8 !important;
+    color:white !important;
+    cursor: pointer !important;
+}
