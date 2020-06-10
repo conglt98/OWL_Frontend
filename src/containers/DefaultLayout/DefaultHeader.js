@@ -73,10 +73,10 @@ class DefaultHeader extends Component {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
-          //  full={{ src: logo, width: 89*2, height: 25*2, alt: 'OWL' }}
-          //  minimized={{ src: sygnet, width: 45, height: 45, alt: 'OWL' }}
+           full={{ src: logo, width: 89*2, height: 25*2, alt: 'OWL' }}
+           minimized={{ src: sygnet, width: 45, height: 45, alt: 'OWL' }}
         >
-        <b style={iconStyle}>TITAN </b> <Badge color="danger" size="sm">ADMIN</Badge>
+        {/* <b style={iconStyle}>TITAN </b> <Badge color="danger" size="sm">ADMIN</Badge> */}
         </AppNavbarBrand>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
