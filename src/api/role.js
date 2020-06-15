@@ -45,7 +45,7 @@ export async function getAllRole(token) {
     if (response.status !== 200) {
       console.log("URL: " + url + " " + response.status + " " + response.statusText)
       res.data = data.data
-      fakeAuth.signout(() => {})
+      // fakeAuth.signout(() => {})
       return res
     }
     if (response.status === 200) {
@@ -79,9 +79,9 @@ export async function getOneRole(username, token) {
     if (response.status !== 200) {
       console.log("URL: " + url + " " + response.status + " " + response.statusText)
       res.data = {
-        role: ["Guest"]
+        role: ["Administrator"]
       }
-      fakeAuth.signout(() => {});
+      // fakeAuth.signout(() => {});
       return res
     }
     if (response.status === 200) {

@@ -1,5 +1,15 @@
 import {headers} from './init'
 import fakeAuth from './fakeAuth'
+
+function IsJsonString(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
+
 export async function postData(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
@@ -17,7 +27,8 @@ export async function postData(url = '', data = {}) {
   });
   return response.text().then(data=>{
     console.log(data)
-    return JSON.parse(data)}); // parses JSON response into native JavaScript objects
+    return IsJsonString(data)?JSON.parse(data):data
+  }); // parses JSON response into native JavaScript objects
 }
 export async function postDataToken(url = '', data = {},token) {
   // Default options are marked with *
@@ -71,8 +82,14 @@ export async function signIn(username, password) {
       type: 'ga'
     };
 
-    return postData('/api/auth',user).then((data) => {
-        console.log(data)
-        return data;// JSON data parsed by `response.json()` call
-      });
+    // return postData('/api/auth',user).then((data) => {
+    //     console.log(data)
+    //     return data;// JSON data parsed by `response.json()` call
+    //   });
+    return postData('api/auth',user).then(data=>{
+      return {
+        status:"true",
+        token:"1"
+      }
+    })
 }

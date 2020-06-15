@@ -46,6 +46,23 @@ const AuthButton = withRouter(
     )
 );
 
+const AuthTxt = withRouter(
+  ({ history }) =>
+    fakeAuth.isAuthenticated() ? (
+      <div onClick={() => {
+        fakeAuth.signout(() => history.push("/"));
+      }}>
+        <i className="fa fa-lock"></i> Sign out
+      </div>
+    ) : (
+      <div 
+      onClick={() => {
+        fakeAuth.signout(() => history.push("/"));
+      }}
+        > <i className="fa fa-lock"></i> You are not logged in</div>
+    )
+);
+
 class DefaultHeader extends Component {
   componentWillMount=()=>{
     if (localStorage.getItem("font")){
@@ -88,7 +105,9 @@ class DefaultHeader extends Component {
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
               {/* <img src={'../../assets/img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-              Fonts
+              {/* Fonts */}
+              {localStorage.getItem("roles")?this.getTag(JSON.parse(localStorage.getItem('roles'))[0]):<span></span>}
+
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-center"><strong>Change font</strong></DropdownItem>
@@ -111,11 +130,11 @@ class DefaultHeader extends Component {
 
         </Nav>
         <Nav className="ml-auto" navbar>
-        <NavItem className="d-md-down-none px-3">
+        {/* <NavItem className="d-md-down-none px-3">
             <NavLink to="#" className="nav-link">
               {localStorage.getItem("roles")?this.getTag(JSON.parse(localStorage.getItem('roles'))[0]):<span></span>}
             </NavLink>
-          </NavItem>
+          </NavItem> */}
 
           {/* <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
@@ -129,11 +148,11 @@ class DefaultHeader extends Component {
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
               {/* <img src={'../../assets/img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-            <Button color="danger" size="sm" outline> <i className="fa fa-user fa-lg"></i> &nbsp; {fakeAuth.getUsername()}</Button>
+            <Button color="primary" size="sm" outline> <i className="fa fa-user fa-lg"></i> &nbsp; {fakeAuth.getUsername()}</Button>
             </DropdownToggle>
-            {/* <DropdownMenu right>
+            <DropdownMenu right>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
-              <DropdownItem><i className="fa fa-bell-o"></i> Updates<Badge color="info">42</Badge></DropdownItem>
+              {/* <DropdownItem><i className="fa fa-bell-o"></i> Updates<Badge color="info">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-envelope-o"></i> Messages<Badge color="success">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-tasks"></i> Tasks<Badge color="danger">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-comments"></i> Comments<Badge color="warning">42</Badge></DropdownItem>
@@ -143,16 +162,16 @@ class DefaultHeader extends Component {
               <DropdownItem><i className="fa fa-usd"></i> Payments<Badge color="secondary">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-file"></i> Projects<Badge color="primary">42</Badge></DropdownItem>
               <DropdownItem divider />
-              <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>
-            </DropdownMenu> */}
+              <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem> */}
+              <DropdownItem><AuthTxt/></DropdownItem>
+            </DropdownMenu>
           </UncontrolledDropdown>
-          <NavItem className="px-3">
+          {/* <NavItem className="px-3">
             <AuthButton/>
-          </NavItem>
+          </NavItem> */}
         </Nav>
-        {/* <AppAsideToggler className="d-md-down-none" />
-        <AppAsideToggler className="d-lg-none" mobile /> */}
+        <AppAsideToggler className="d-md-down-none" />
+        <AppAsideToggler className="d-lg-none" mobile />
       </React.Fragment>
     );
   }
