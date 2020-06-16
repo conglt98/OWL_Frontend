@@ -483,7 +483,7 @@ class Dashboard extends Component {
 
     return (
       <div className="animated fadeIn">
-        {/*
+        
         <Row>
           <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-info">
@@ -1122,15 +1122,15 @@ class Dashboard extends Component {
             </Card>
           </Col>
         </Row>
-        */}
-        <Row>
+       
+        {/* <Row>
           <Col>
           <Card>
             <CardHeader><i className="icon-settings"></i> Dashboard</CardHeader>
             <CardBody>This page will be available in the next version!</CardBody>
           </Card>
           </Col>
-        </Row>
+        </Row> */}
       </div>
     );
   }
