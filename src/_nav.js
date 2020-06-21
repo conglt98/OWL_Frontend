@@ -75,12 +75,12 @@ export default {
     },
     {
       name: 'Model manager',
-      url: 'admin/manager/model',
+      url: '/admin/manager/models',
       icon: 'icon-layers',
     },
     {
       name: 'API manager',
-      url: 'admin/manager/api',
+      url: '/admin/manager/api',
       icon: 'icon-rocket',
     },
     {
@@ -89,12 +89,12 @@ export default {
       children: [
         {
           name: 'Role Management',
-          url:  'admin/manager/role-management',
+          url:  '/admin/manager/role-management',
           icon: 'icon-people',
         },
         {
           name: 'Nav Management',
-          url:  'admin/manager/nav-management',
+          url:  '/admin/manager/nav-management',
           icon: 'icon-compass',
         },
       ],

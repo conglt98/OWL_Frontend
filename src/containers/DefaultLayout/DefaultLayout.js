@@ -139,6 +139,7 @@ class DefaultLayout extends Component {
     })
     console.log(retNavItems)
     let retNav = {items:retNavItems}
+    console.log(retRouter)
     return (
       <div className="app">
         <AppHeader fixed>

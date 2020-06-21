@@ -44,6 +44,10 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 
 const RoleManagement = React.lazy(() => import('./components/RoleManagement'));
 const NavManagement = React.lazy(() => import('./components/NavManagement'));
+
+const ModelManager = React.lazy(() => import('./components/models'));
+const APIManager = React.lazy(() => import('./components/models/apiModel'));
+
 // const SourcesManagement = React.lazy(() => import('./components/SourcesManagement'));
 // const RulesManagement = React.lazy(() => import('./components/RulesManagement'));
 // const RuleInfo = React.lazy(() => import('./components/RuleInfo'));
@@ -116,8 +120,10 @@ const routes = [
 
 
   // { path: '/data-definitions/:id', exact: true, name: 'DataDefinitionsInfo', component: DataDefinitionsInfo },
-  { path: '/role-management', name: 'RoleManagement', component: RoleManagement},
-  { path: '/nav-management', name: 'NavManagement', component: NavManagement},
+  { path: '/admin/manager/role-management',exact: true, name: 'Role Management', component: RoleManagement},
+  { path: '/admin/manager/nav-management',exact: true, name: 'Nav Management', component: NavManagement},
+  { path: '/admin/manager/models',exact: true, name: 'Model manager', component: ModelManager},
+  { path: '/admin/manager/api',exact: true, name: 'API manager', component: APIManager},
 
   // { path: '/theme', exact: true, name: 'Theme', component: Colors },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
