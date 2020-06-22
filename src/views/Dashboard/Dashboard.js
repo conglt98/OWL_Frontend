@@ -893,7 +893,7 @@ class Dashboard extends Component {
                   </Col>
                 </Row>
                 <br />
-                <Table hover responsive className="table-outline mb-0 d-none d-sm-table">
+                {/* <Table hover responsive className="table-outline mb-0 d-none d-sm-table">
                   <thead className="thead-light">
                   <tr>
                     <th className="text-center"><i className="icon-people"></i></th>
@@ -1118,6 +1118,7 @@ class Dashboard extends Component {
                   </tr>
                   </tbody>
                 </Table>
+               */}
               </CardBody>
             </Card>
           </Col>

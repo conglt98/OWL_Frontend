@@ -42,6 +42,9 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 // const EditEvent = React.lazy(() => import('./views/Events/EditEvent'));
 // const NewEvent = React.lazy(() => import('./views/Events/NewEvent'));
 
+const Keyword = React.lazy(() => import('./components/keyword'));
+
+
 const RoleManagement = React.lazy(() => import('./components/RoleManagement'));
 const NavManagement = React.lazy(() => import('./components/NavManagement'));
 
@@ -83,6 +86,8 @@ const APIManager = React.lazy(() => import('./components/models/apiModel'));
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/project/keywords', name: 'Keywords', component: Keyword },
+
   // { path: '/events', exact: true,name: 'Events', component: Events },
   // { path: '/events/event/add', exact: true, name: 'Add new event', component: NewEvent },
   // { path: '/events/:id/edit', exact: true, name: 'Edit', component: EditEvent },
