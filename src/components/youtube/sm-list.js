@@ -1,5 +1,6 @@
 import React from 'react'
 import { List, message, Avatar, Spin } from 'antd';
+import {DeleteOutlined} from '@ant-design/icons'
 
 import reqwest from 'reqwest';
 
@@ -9,6 +10,12 @@ import VList from 'react-virtualized/dist/commonjs/List';
 import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
 
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 3,
+  rtl: true,
+});
 
 export default class VirtualizedExample extends React.Component {
   state = {
@@ -75,7 +82,7 @@ export default class VirtualizedExample extends React.Component {
           title={<a href="https://ant.design">{item.name.last}</a>}
           description={item.email}
         />
-        <div>Content</div>
+        <div><DeleteOutlined style={{color:'red'}} /></div>
       </List.Item>
     );
   };

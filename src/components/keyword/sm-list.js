@@ -1,5 +1,6 @@
 import React from 'react'
 import { List, message, Avatar, Spin } from 'antd';
+import {DeleteOutlined} from '@ant-design/icons'
 
 import reqwest from 'reqwest';
 
@@ -79,11 +80,11 @@ export default class VirtualizedExample extends React.Component {
     return (
       <List.Item key={key} style={style}>
         <List.Item.Meta
-          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+          avatar={<Avatar src="/assets/keyword-icon.png" />}
           title={<a href="https://ant.design">{item.name.last}</a>}
           description={item.email}
         />
-        <div>Content</div>
+        <div><DeleteOutlined style={{color:'red'}} /></div>
       </List.Item>
     );
   };
