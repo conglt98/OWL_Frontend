@@ -128,7 +128,10 @@ class DraggableTabs extends React.Component {
 }
 const IconLink = ({ src, text }) => (
   <a className="example-link">
+    <Row>
     <img className="example-link-icon" src={src} alt={text} /> &nbsp;<span style={{color:"#4B90FF"}}>{text}</span> &nbsp;&nbsp;
+
+    </Row>
   </a>
 );
 
