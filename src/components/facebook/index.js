@@ -135,9 +135,9 @@ const IconLink = ({ src, text }) => (
 const content = (
   <>
     <Paragraph>
-      OWL platform can support users to add keyword then crawler and analyze daily.
+      OWL platform can support users to add more pages from Facebook then crawler and analyze daily.
       <br></br>
-      All data are collected and analyzed then visualized and showed on dashboard.
+      All data are collected and analyzed then visualized then show on dashboard.
     </Paragraph>
     <div>
       <IconLink
@@ -170,7 +170,7 @@ export default class Demo extends React.Component{
         return(
         <Card>
            <PageHeader
-    title="Keywords"
+    title="Facebook"
     className="site-page-header"
     subTitle="analysis"
     // tags={<Tag color="blue">Running</Tag>}
@@ -178,15 +178,15 @@ export default class Demo extends React.Component{
       // <Button key="3">Operation</Button>,
       // <Button key="2">Operation</Button>,
       <Button key="1" type="primary">
-        Add keyword
+        Add more
       </Button>
     ]}
-    avatar={{ src: '/assets/keyword.jpg' }}
+    avatar={{ src: '/assets/fb.png' }}
   >
     <Content
       extraContent={
         <img
-          src="/assets/Keyword-Research.jpg"
+          src="/assets/fb-banner.png"
           alt="content"
           width="100%"
         />
@@ -198,11 +198,13 @@ export default class Demo extends React.Component{
             <CardBody className="pt-0">
             <DraggableTabs>
             <TabPane tab="Overview" key="1">
+            
             <Row>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
             </Row>
+
             </TabPane>
-            <TabPane tab="Keywords" key="2">
+            <TabPane tab="Pages" key="2">
             <MyList/>
             </TabPane>
         </DraggableTabs>

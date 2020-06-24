@@ -49,22 +49,22 @@ export default {
     },
     {
       name: 'Video highlight',
-      url: '/charts',
+      url: '/manual/video-highlight',
       icon: 'icon-pie-chart',
     },
-    {
-      title: true,
-      name: 'User',
-      wrapper: {
-        element: '',
-        attributes: {},
-      },
-    },
-    {
-      name: 'Configuration',
-      url: '/user/configuration',
-      icon: 'icon-equalizer'
-    },
+    // {
+    //   title: true,
+    //   name: 'User',
+    //   wrapper: {
+    //     element: '',
+    //     attributes: {},
+    //   },
+    // },
+    // {
+    //   name: 'Configuration',
+    //   url: '/user/configuration',
+    //   icon: 'icon-equalizer'
+    // },
     {
       title: true,
       name: 'Admin',

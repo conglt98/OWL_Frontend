@@ -5,9 +5,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody} from 'reactstrap'
 import './index.css'
 import MyList from './sm-list'
-import ColChart from '../chart/colchart';
-import BasicPieChart from '../chart/basicpiechart';
-
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
@@ -135,9 +132,9 @@ const IconLink = ({ src, text }) => (
 const content = (
   <>
     <Paragraph>
-      OWL platform can support users to add keyword then crawler and analyze daily.
+      OWL platform can support users to upload data from local or put link for video highlight.
       <br></br>
-      All data are collected and analyzed then visualized and showed on dashboard.
+      All data are collected and analyzed then visualized then show on dashboard.
     </Paragraph>
     <div>
       <IconLink
@@ -170,23 +167,23 @@ export default class Demo extends React.Component{
         return(
         <Card>
            <PageHeader
-    title="Keywords"
+    title="Video highlight"
     className="site-page-header"
-    subTitle="analysis"
+    subTitle="manual"
     // tags={<Tag color="blue">Running</Tag>}
     extra={[
       // <Button key="3">Operation</Button>,
       // <Button key="2">Operation</Button>,
       <Button key="1" type="primary">
-        Add keyword
+        Add more
       </Button>
     ]}
-    avatar={{ src: '/assets/keyword.jpg' }}
+    avatar={{ src: '/assets/videohighlight.png' }}
   >
     <Content
       extraContent={
         <img
-          src="/assets/Keyword-Research.jpg"
+          src="/assets/videohighlight-banner.jpg"
           alt="content"
           width="100%"
         />
@@ -195,18 +192,16 @@ export default class Demo extends React.Component{
       {content}
     </Content>
   </PageHeader>
-            <CardBody className="pt-0">
-            <DraggableTabs>
-            <TabPane tab="Overview" key="1">
-            <Row>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
-            </Row>
+    <CardBody className="pt-0">
+    <DraggableTabs>
+            <TabPane tab="Main" key="1">
+            Content of Tab Pane 1
             </TabPane>
-            <TabPane tab="Keywords" key="2">
+            <TabPane tab="Tasks" key="2">
             <MyList/>
             </TabPane>
         </DraggableTabs>
-            </CardBody>
+    </CardBody>
         </Card>
         )
     }

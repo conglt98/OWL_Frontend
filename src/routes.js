@@ -43,6 +43,11 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 // const NewEvent = React.lazy(() => import('./views/Events/NewEvent'));
 
 const Keyword = React.lazy(() => import('./components/keyword'));
+const Facebook = React.lazy(() => import('./components/facebook'));
+const Youtube = React.lazy(() => import('./components/youtube'));
+
+const VideoHighlight = React.lazy(() => import('./components/videohighlight'));
+const ObjectDetection = React.lazy(() => import('./components/objectdetection'));
 
 
 const RoleManagement = React.lazy(() => import('./components/RoleManagement'));
@@ -87,6 +92,10 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/project/keywords', name: 'Keywords', component: Keyword },
+  { path: '/project/facebook', name: 'Facebook', component: Facebook },
+  { path: '/project/youtube', name: 'Youtube', component: Youtube },
+  { path: '/manual/video-highlight', name: 'Video highlight', component: VideoHighlight },
+  { path: '/manual/object-detection', name: 'Object detection', component: ObjectDetection },
 
   // { path: '/events', exact: true,name: 'Events', component: Events },
   // { path: '/events/event/add', exact: true, name: 'Add new event', component: NewEvent },

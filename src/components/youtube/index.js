@@ -1,16 +1,15 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import ColChart from '../chart/colchart';
+import BasicPieChart from '../chart/basicpiechart';
+
 import {Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody} from 'reactstrap'
 import './index.css'
 import MyList from './sm-list'
-import ColChart from '../chart/colchart';
-import BasicPieChart from '../chart/basicpiechart';
-
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
-
 // Drag & Drop node
 class TabNode extends React.Component {
   render() {
@@ -135,9 +134,9 @@ const IconLink = ({ src, text }) => (
 const content = (
   <>
     <Paragraph>
-      OWL platform can support users to add keyword then crawler and analyze daily.
+      OWL platform can support users to add more channel from Youtube then crawler and analyze daily.
       <br></br>
-      All data are collected and analyzed then visualized and showed on dashboard.
+      All data are collected and analyzed then visualized then show on dashboard.
     </Paragraph>
     <div>
       <IconLink
@@ -165,12 +164,16 @@ const Content = ({ children, extraContent }) => {
   );
 };
 export default class Demo extends React.Component{
-    render()
-    {
-        return(
-        <Card>
+  constructor(props){
+    super(props)
+  }  
+  
+  render()
+  {
+  return(
+  <Card>
            <PageHeader
-    title="Keywords"
+    title="Youtube"
     className="site-page-header"
     subTitle="analysis"
     // tags={<Tag color="blue">Running</Tag>}
@@ -178,15 +181,15 @@ export default class Demo extends React.Component{
       // <Button key="3">Operation</Button>,
       // <Button key="2">Operation</Button>,
       <Button key="1" type="primary">
-        Add keyword
+        Add more
       </Button>
     ]}
-    avatar={{ src: '/assets/keyword.jpg' }}
+    avatar={{ src: '/assets/yt.png' }}
   >
     <Content
       extraContent={
         <img
-          src="/assets/Keyword-Research.jpg"
+          src="/assets/yt-banner.png"
           alt="content"
           width="100%"
         />
@@ -194,20 +197,20 @@ export default class Demo extends React.Component{
     >
       {content}
     </Content>
-  </PageHeader>
-            <CardBody className="pt-0">
-            <DraggableTabs>
-            <TabPane tab="Overview" key="1">
-            <Row>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
-            </Row>
-            </TabPane>
-            <TabPane tab="Keywords" key="2">
-            <MyList/>
-            </TabPane>
-        </DraggableTabs>
-            </CardBody>
-        </Card>
-        )
-    }
+    </PageHeader>
+    <CardBody className="pt-0">
+      <DraggableTabs>
+        <TabPane tab="Overview" key="1">
+        <Row>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
+        </Row>
+        </TabPane>
+        <TabPane tab="Channels" key="2">
+          <MyList/>
+        </TabPane>
+      </DraggableTabs>
+    </CardBody>
+  </Card>
+  )
+  }
 }

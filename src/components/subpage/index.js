@@ -1,15 +1,11 @@
 import React from 'react'
-import {Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import { PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody} from 'reactstrap'
 import './index.css'
-import MyList from './sm-list'
-import ColChart from '../chart/colchart';
-import BasicPieChart from '../chart/basicpiechart';
-
+import MyList from './list'
 const { TabPane } = Tabs;
-const { Paragraph } = Typography;
 
 // Drag & Drop node
 class TabNode extends React.Component {
@@ -126,83 +122,44 @@ class DraggableTabs extends React.Component {
     );
   }
 }
-const IconLink = ({ src, text }) => (
-  <a className="example-link">
-    <img className="example-link-icon" src={src} alt={text} /> &nbsp;<span style={{color:"#4B90FF"}}>{text}</span> &nbsp;&nbsp;
-  </a>
-);
 
-const content = (
-  <>
-    <Paragraph>
-      OWL platform can support users to add keyword then crawler and analyze daily.
-      <br></br>
-      All data are collected and analyzed then visualized and showed on dashboard.
-    </Paragraph>
-    <div>
-      <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg"
-        text="More information"
-      />
-      {/* <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg"
-        text=" Product Info"
-      />
-      <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"
-        text="Product Doc"
-      /> */}
-    </div>
-  </>
-);
-
-const Content = ({ children, extraContent }) => {
-  return (
-    <Row>
-      <div style={{ flex: 1 }}>{children}</div>
-      <div className="image">{extraContent}</div>
-    </Row>
-  );
-};
 export default class Demo extends React.Component{
     render()
     {
         return(
         <Card>
-           <PageHeader
-    title="Keywords"
-    className="site-page-header"
-    subTitle="analysis"
-    // tags={<Tag color="blue">Running</Tag>}
-    extra={[
-      // <Button key="3">Operation</Button>,
-      // <Button key="2">Operation</Button>,
-      <Button key="1" type="primary">
-        Add keyword
-      </Button>
-    ]}
-    avatar={{ src: '/assets/keyword.jpg' }}
-  >
-    <Content
-      extraContent={
-        <img
-          src="/assets/Keyword-Research.jpg"
-          alt="content"
-          width="100%"
-        />
-      }
+          <PageHeader
+      className="site-page-header"
+      onBack={() => window.history.back()}
+      title="Title"
+      subTitle="This is a subtitle"
+      extra={[
+        <Button key="3">Operation</Button>,
+        <Button key="2">Operation</Button>,
+        <Button key="1" type="primary">
+          Primary
+        </Button>,
+      ]}
     >
-      {content}
-    </Content>
-  </PageHeader>
-            <CardBody className="pt-0">
+      <Descriptions size="small" column={2}>
+        <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
+        <Descriptions.Item label="Association">
+          <a>421421</a>
+        </Descriptions.Item>
+        <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
+        <Descriptions.Item label="Effective Time">2017-10-10</Descriptions.Item>
+        <Descriptions.Item label="Remarks">
+          Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
+        </Descriptions.Item>
+      </Descriptions>
+    </PageHeader>
+            <CardBody>
+            
             <DraggableTabs>
             <TabPane tab="Overview" key="1">
-            <Row>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
-            </Row>
+            Content of Tab Pane 1
             </TabPane>
-            <TabPane tab="Keywords" key="2">
+            <TabPane tab="Details" key="2">
             <MyList/>
             </TabPane>
         </DraggableTabs>
