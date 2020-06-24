@@ -1,12 +1,15 @@
 import React from 'react'
-import {Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import { PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody} from 'reactstrap'
+import ColChart from '../../chart/colchart';
+import BasicPieChart from '../../chart/basicpiechart';
+
 import './index.css'
-import MyList from './sm-list'
+// import MyList from './list'
+import MyList from '../../masonry/index'
 const { TabPane } = Tabs;
-const { Paragraph } = Typography;
 
 // Drag & Drop node
 class TabNode extends React.Component {
@@ -123,85 +126,51 @@ class DraggableTabs extends React.Component {
     );
   }
 }
-const IconLink = ({ src, text }) => (
-  <a className="example-link">
-    <img className="example-link-icon" src={src} alt={text} /> &nbsp;<span style={{color:"#4B90FF"}}>{text}</span> &nbsp;&nbsp;
-  </a>
-);
 
-const content = (
-  <>
-    <Paragraph>
-      OWL platform can support users to upload data from local or put link for video highlight.
-      <br></br>
-      All data are collected and analyzed then visualized then show on dashboard.
-    </Paragraph>
-    <div>
-      <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg"
-        text="Information"
-      />
-      {/* <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg"
-        text=" Product Info"
-      />
-      <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"
-        text="Product Doc"
-      /> */}
-    </div>
-  </>
-);
-
-const Content = ({ children, extraContent }) => {
-  return (
-    <Row>
-      <div style={{ flex: 1 }}>{children}</div>
-      <div className="image">{extraContent}</div>
-    </Row>
-  );
-};
 export default class Demo extends React.Component{
     render()
     {
         return(
         <Card>
-           <PageHeader
-    title="Video highlight"
-    className="site-page-header"
-    subTitle="manual"
-    // tags={<Tag color="blue">Running</Tag>}
-    extra={[
-      // <Button key="3">Operation</Button>,
-      // <Button key="2">Operation</Button>,
-      <Button key="1" type="primary">
-        Add more
-      </Button>
-    ]}
-    avatar={{ src: '/assets/videohighlight.png' }}
-  >
-    <Content
-      extraContent={
-        <img
-          src="/assets/videohighlight-banner.jpg"
-          alt="content"
-          width="100%"
-        />
-      }
+          <PageHeader
+      className="site-page-header"
+      onBack={() => window.history.back()}
+      title={"Title_"+this.props.match.params.id}
+      subTitle="channel"
+    //   extra={[
+    //     // <Button key="3">Operation</Button>,
+    //     // <Button key="2">Operation</Button>,
+    //     <Button key="1" type="primary">
+    //       Primary
+    //     </Button>,
+    //   ]}
+      avatar={{ src: '/assets/yt.png' }}
     >
-      {content}
-    </Content>
-  </PageHeader>
-    <CardBody className="pt-0">
-    <DraggableTabs>
-            <TabPane tab="Main" key="1">
-            Content of Tab Pane 1
+      <Descriptions size="small" column={2}>
+        <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
+        <Descriptions.Item label="Association">
+          <a>421421</a>
+        </Descriptions.Item>
+        <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
+        <Descriptions.Item label="Effective Time">2017-10-10</Descriptions.Item>
+        <Descriptions.Item label="Remarks">
+          Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
+        </Descriptions.Item>
+      </Descriptions>
+    </PageHeader>
+            <CardBody>
+            
+            <DraggableTabs>
+            <TabPane tab="Overview" key="1">
+            <Row>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
+            </Row>
             </TabPane>
-            <TabPane tab="Tasks" key="2">
-            <MyList/>
+            <TabPane tab="Videos" key="2">
+            <MyList id={this.props.match.params.id}/>
             </TabPane>
         </DraggableTabs>
-    </CardBody>
+            </CardBody>
         </Card>
         )
     }

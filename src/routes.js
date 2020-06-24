@@ -45,6 +45,7 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 const Keyword = React.lazy(() => import('./components/keyword'));
 const Facebook = React.lazy(() => import('./components/facebook'));
 const Youtube = React.lazy(() => import('./components/youtube'));
+const YoutubeChannel = React.lazy(() => import('./components/youtube/channel'));
 
 const VideoHighlight = React.lazy(() => import('./components/videohighlight'));
 const ObjectDetection = React.lazy(() => import('./components/objectdetection'));
@@ -93,7 +94,8 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/project/keywords', name: 'Keywords', component: Keyword },
   { path: '/project/facebook', name: 'Facebook', component: Facebook },
-  { path: '/project/youtube', name: 'Youtube', component: Youtube },
+  { path: '/project/youtube', exact:true, name: 'Youtube', component: Youtube },
+  { path: '/project/youtube/:id',exact:true, name: 'Youtube channel', component: YoutubeChannel },
   { path: '/manual/video-highlight', name: 'Video highlight', component: VideoHighlight },
   { path: '/manual/object-detection', name: 'Object detection', component: ObjectDetection },
 

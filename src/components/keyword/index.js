@@ -142,7 +142,7 @@ const content = (
     <div>
       <IconLink
         src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg"
-        text="More information"
+        text="Information"
       />
       {/* <IconLink
         src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg"
