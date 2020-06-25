@@ -5,7 +5,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody} from 'reactstrap'
 import ColChart from '../../chart/colchart';
 import BasicPieChart from '../../chart/basicpiechart';
-
+import VideoHighlight from './video-highlight'
 import './index.css'
 // import MyList from './list'
 import MyList from '../../masonry/index'
@@ -135,8 +135,8 @@ export default class Demo extends React.Component{
           <PageHeader
       className="site-page-header"
       onBack={() => window.history.back()}
-      title={"Channel_"+this.props.match.params.id}
-      subTitle="channel"
+      title={"Video_"+this.props.match.params.videoid}
+      subTitle="video"
     //   extra={[
     //     // <Button key="3">Operation</Button>,
     //     // <Button key="2">Operation</Button>,
@@ -146,7 +146,7 @@ export default class Demo extends React.Component{
     //   ]}
       avatar={{ src: '/assets/yt.png' }}
     >
-      <Descriptions size="small" column={2}>
+      {/* <Descriptions size="small" column={2}>
         <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
         <Descriptions.Item label="Association">
           <a>421421</a>
@@ -156,18 +156,17 @@ export default class Demo extends React.Component{
         <Descriptions.Item label="Remarks">
           Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
         </Descriptions.Item>
-      </Descriptions>
+      </Descriptions> */}
     </PageHeader>
-            <CardBody>
-            
+          <CardBody className="pt-0">
             <DraggableTabs>
-            <TabPane tab="Overview" key="1">
+            <TabPane tab="Video" key="1">
+              <VideoHighlight/>
+            </TabPane>
+            <TabPane tab="Analysis" key="2">
             <Row>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
             </Row>
-            </TabPane>
-            <TabPane tab="Videos" key="2">
-            <MyList id={this.props.match.params.id}/>
             </TabPane>
         </DraggableTabs>
             </CardBody>
