@@ -1,15 +1,18 @@
 import React from 'react'
-import { PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import {DatePicker,Switch, PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import {Card, CardBody} from 'reactstrap'
-import ColChart from '../../chart/colchart';
-import BasicPieChart from '../../chart/basicpiechart';
+import {Card, Col,CardBody} from 'reactstrap'
+import Dnd from "../../dnd";
+import Layout from './layout'
 import VideoHighlight from './video-highlight'
+import moment from 'moment'
 import './index.css'
 // import MyList from './list'
-import MyList from '../../masonry/index'
+// import MyList from '../../masonry/index'
 const { TabPane } = Tabs;
+const { RangePicker } = DatePicker;
+
 
 // Drag & Drop node
 class TabNode extends React.Component {
@@ -128,6 +131,18 @@ class DraggableTabs extends React.Component {
 }
 
 export default class Demo extends React.Component{
+  constructor(props){
+    super(props)
+    this.state={
+      edit:false
+    }
+  }  
+  
+  changeMode=(e)=>{
+    this.setState({
+      edit:!this.state.edit
+    })
+  }
     render()
     {
         return(
@@ -137,13 +152,10 @@ export default class Demo extends React.Component{
       onBack={() => window.history.back()}
       title={"Video_"+this.props.match.params.videoid}
       subTitle="video"
-    //   extra={[
-    //     // <Button key="3">Operation</Button>,
-    //     // <Button key="2">Operation</Button>,
-    //     <Button key="1" type="primary">
-    //       Primary
-    //     </Button>,
-    //   ]}
+      extra={[
+        // <Button key="3">Operation</Button>,
+        <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
+      ]}
       avatar={{ src: '/assets/yt.png' }}
     >
       {/* <Descriptions size="small" column={2}>
@@ -158,15 +170,25 @@ export default class Demo extends React.Component{
         </Descriptions.Item>
       </Descriptions> */}
     </PageHeader>
-          <CardBody className="pt-0">
-            <DraggableTabs>
-            <TabPane tab="Video" key="1">
-              <VideoHighlight/>
-            </TabPane>
-            <TabPane tab="Analysis" key="2">
+        <CardBody className="pt-0">
             <Row>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
+              <Col>
+              <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
+              </Col>
             </Row>
+            <DraggableTabs>
+            
+            <TabPane tab="Analysis" key="1">
+            <Row>
+        
+            <CardBody className="card-layout">
+                <Dnd layout={Layout} edit={this.state.edit}></Dnd>
+            </CardBody>
+
+            </Row>
+            </TabPane>
+            <TabPane tab="Video" key="2">
+              <VideoHighlight/>
             </TabPane>
         </DraggableTabs>
             </CardBody>

@@ -1,65 +1,71 @@
 import React, { useEffect } from 'react';
-import {Chart} from '@antv/g2';
-
+import { Pie } from '@antv/g2plot';
+import uuid from 'react-uuid'
 const ColChart = (propsMaster) => {
   const ref = React.useRef(null)
   let data = [
-    { item: '1', count: 40, percent: 0.4 },
-    { item: '2', count: 21, percent: 0.21 },
-    { item: '3', count: 17, percent: 0.17 },
-    { item: '4', count: 13, percent: 0.13 },
-    { item: '5', count: 9, percent: 0.09 },
-  ];
+    {
+      type: 'Like',
+      value: 27,
+    },
+    {
+      type: 'Share',
+      value: 25,
+    },
+    {
+      type: 'Comments',
+      value: 18,
+    },
+    {
+      type: 'Haha',
+      value: 15,
+    },
+    {
+      type: 'Sad',
+      value: 10,
+    },
+    {
+      type: 'Heart',
+      value: 5,
+    },
+  ]
   if (propsMaster.data){
     data = propsMaster.data
   }
+
+  const id = uuid()
   useEffect(() => {
 
       
-    const chart = new Chart({
-        container: ref.current,
-        autoFit:true,
-        height: 500,
-        width:500,
-        renderer:'svg'
-      });
-      
-      chart.coordinate('theta', {
-        radius: 0.75,
-      });
-      
-      chart.data(data);
-      
-      chart.scale('percent', {
-        formatter: (val) => {
-          val = val * 100 + '%';
-          return val;
-        },
-      });
-      
-      chart.tooltip({
-        showTitle: false,
-        showMarkers: false,
-      });
-      
-      chart
-        .interval()
-        .position('percent')
-        .color('item')
-        .label('percent', {
-          content: (data) => {
-            return `${data.item}: ${data.percent * 100}%`;
-          },
-        })
-        .adjust('stack');
-      
-      chart.interaction('element-active');
-      
-      chart.render();
+    const piePlot = new Pie(document.getElementById(id), {
+      forceFit: true,
+      title: {
+        visible: true,
+        text: 'Reaction pie',
+      },
+      // description: {
+      //   visible: true,
+      //   text:
+      //     '',
+      // },
+      radius: 0.8,
+      renderer:'svg',
+      width:480,
+      height:480,
+      data,
+      angleField: 'value',
+      colorField: 'type',
+      label: {
+        visible: true,
+        type: 'inner',
+      },
+    });
+    
+    piePlot.render();
   }, [])
   return (
     <>
-    <div ref={ref}>
+    <div id={id}>
     </div>
     </>
   );

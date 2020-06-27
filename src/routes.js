@@ -59,6 +59,10 @@ const NavManagement = React.lazy(() => import('./components/NavManagement'));
 const ModelManager = React.lazy(() => import('./components/models'));
 const APIManager = React.lazy(() => import('./components/models/apiModel'));
 
+
+const Configuration = React.lazy(() => import('./components/dnd/configuration'));
+
+
 // const SourcesManagement = React.lazy(() => import('./components/SourcesManagement'));
 // const RulesManagement = React.lazy(() => import('./components/RulesManagement'));
 // const RuleInfo = React.lazy(() => import('./components/RuleInfo'));
@@ -143,6 +147,7 @@ const routes = [
   { path: '/admin/manager/nav-management',exact: true, name: 'Nav Management', component: NavManagement},
   { path: '/admin/manager/models',exact: true, name: 'Model manager', component: ModelManager},
   { path: '/admin/manager/api',exact: true, name: 'API manager', component: APIManager},
+  { path: '/admin/configuration',exact: true, name: 'Configuration', component: Configuration},
 
   // { path: '/theme', exact: true, name: 'Theme', component: Colors },
   // { path: '/theme/colors', name: 'Colors', component: Colors },

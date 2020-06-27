@@ -1,15 +1,17 @@
 import React,{useEffect} from 'react'
-import ColChart from '../chart/colchart';
-import BasicPieChart from '../chart/basicpiechart';
-
-import {Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import {DatePicker, Switch,Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import {Card, CardBody} from 'reactstrap'
+import {Card, CardBody, Col} from 'reactstrap'
+import Dnd from "../dnd";
+import Layout from './layout'
 import './index.css'
 import MyList from './sm-list'
+import moment from 'moment'
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
+const { RangePicker } = DatePicker;
+
 // Drag & Drop node
 class TabNode extends React.Component {
   render() {
@@ -128,7 +130,7 @@ class DraggableTabs extends React.Component {
 const IconLink = ({ src, text }) => (
   <a className="example-link">
     <Row>
-    <img className="example-link-icon" src={src} alt={text} /> &nbsp;<span style={{color:"#4B90FF"}}>{text}</span> &nbsp;&nbsp;
+    {/* <img className="example-link-icon" src={src} alt={text} /> &nbsp;<span style={{color:"#4B90FF"}}>{text}</span> &nbsp;&nbsp; */}
 
     </Row>
   </a>
@@ -140,6 +142,9 @@ const content = (
       OWL platform can support users to add more channel from Youtube then crawler and analyze daily.
       <br></br>
       All data are collected and analyzed then visualized then show on dashboard.
+    </Paragraph>
+    <Paragraph>
+      <Tag color="magenta">Today is:  {moment().format("YYYY-MM-DD")}</Tag>
     </Paragraph>
     <div>
       <IconLink
@@ -169,20 +174,30 @@ const Content = ({ children, extraContent }) => {
 export default class Demo extends React.Component{
   constructor(props){
     super(props)
+    this.state={
+      edit:false,
+      layout:Layout
+    }
   }  
   
+  changeMode=(e)=>{
+    this.setState({
+      edit:!this.state.edit
+    })
+  }
+
   render()
   {
   return(
   <Card>
-           <PageHeader
+    <PageHeader
     title="Youtube"
     className="site-page-header"
     subTitle="analysis"
     // tags={<Tag color="blue">Running</Tag>}
     extra={[
       // <Button key="3">Operation</Button>,
-      // <Button key="2">Operation</Button>,
+      <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
       <Button key="1" type="primary">
         Add more
       </Button>
@@ -202,10 +217,19 @@ export default class Demo extends React.Component{
     </Content>
     </PageHeader>
     <CardBody className="pt-0">
+      <Row>
+        <Col>
+        <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
+        </Col>
+      </Row>
       <DraggableTabs>
         <TabPane tab="Overview" key="1">
         <Row>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ColChart/><BasicPieChart/>
+        
+        <CardBody className="card-layout">
+            <Dnd layout={this.state.layout} edit={this.state.edit}></Dnd>
+        </CardBody>
+
         </Row>
         </TabPane>
         <TabPane tab="Channels" key="2">

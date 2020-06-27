@@ -2,6 +2,10 @@
     outline: 0 !important;
 }
 
+.card-layout{
+    padding: 0!important;
+}
+
 .player-wrapper {
     position: relative;
     padding-top: 56.25%

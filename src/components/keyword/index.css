@@ -2,6 +2,10 @@
     outline: 0 !important;
 }
 
+.card-layout{
+    padding: 0!important;
+}
+
 #components-page-header-demo-content .image {
     margin: 0 0 0 60px;
     display: flex;

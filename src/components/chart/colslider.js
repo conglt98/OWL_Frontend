@@ -43,15 +43,15 @@ const ColChart = (propsMaster) => {
         formatter: (v) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
       },
       yField: Object.keys(data[0])[1],
-      // interactions: [
-      //   {
-      //     type: 'slider',
-      //     cfg: {
-      //       start: 0.4,
-      //       end: 0.45,
-      //     },
-      //   },
-      // ],
+      interactions: [
+        {
+          type: 'slider',
+          cfg: {
+            start: 0,
+            end: 1,
+          },
+        },
+      ],
     });
     columnPlot.render();
 
