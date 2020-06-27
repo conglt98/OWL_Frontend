@@ -14,16 +14,19 @@ const ColChart = (propsMaster) => {
   if (propsMaster.data){
     data = propsMaster.data
   }
+  let title = propsMaster.title?propsMaster.title:"Reaction chart"
+  let des = propsMaster.description?propsMaster.description:""
+
   useEffect(() => {
     const columnPlot = new Column(document.getElementById(id), {
       title: {
         visible: true,
-        text: 'Reaction col',
+        text: title,
       },
-      // description: {
-      //   visible: true,
-      //   text: 'Demo nho nho',
-      // },
+      description: {
+        visible: true,
+        text: des,
+      },
       forceFit: true,
       width:480,
       height:480,

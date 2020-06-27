@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Pie } from '@antv/g2plot';
+import { Pie, DensityHeatmap } from '@antv/g2plot';
 import uuid from 'react-uuid'
 const ColChart = (propsMaster) => {
   const ref = React.useRef(null)
@@ -32,6 +32,9 @@ const ColChart = (propsMaster) => {
   if (propsMaster.data){
     data = propsMaster.data
   }
+  let title = propsMaster.title?propsMaster.title:"Reaction chart"
+  let des = propsMaster.description?propsMaster.description:""
+
 
   const id = uuid()
   useEffect(() => {
@@ -41,13 +44,13 @@ const ColChart = (propsMaster) => {
       forceFit: true,
       title: {
         visible: true,
-        text: 'Reaction pie',
+        text: title,
       },
-      // description: {
-      //   visible: true,
-      //   text:
-      //     '',
-      // },
+      description: {
+        visible: true,
+        text:
+          des,
+      },
       radius: 0.8,
       renderer:'svg',
       width:480,
