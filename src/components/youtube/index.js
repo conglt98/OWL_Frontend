@@ -227,7 +227,7 @@ export default class Demo extends React.Component{
         <Row>
         
         <CardBody className="card-layout">
-            <Dnd layout={this.state.layout} edit={this.state.edit}></Dnd>
+            <Dnd id={'layout-yt'} layout={this.state.layout} edit={this.state.edit}></Dnd>
         </CardBody>
 
         </Row>

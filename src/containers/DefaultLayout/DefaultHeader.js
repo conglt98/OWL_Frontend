@@ -151,7 +151,7 @@ class DefaultHeader extends Component {
             <Button color="primary" size="sm" outline> <i className="fa fa-user fa-lg"></i> &nbsp; {fakeAuth.getUsername()}</Button>
             </DropdownToggle>
             <DropdownMenu right>
-        <DropdownItem header tag="div" className="text-center"><strong>{JSON.parse(localStorage.getItem('roles'))[0].toUpperCase()}</strong></DropdownItem>
+        <DropdownItem header tag="div" className="text-center"><strong>{localStorage.getItem('roles')?JSON.parse(localStorage.getItem('roles'))[0].toUpperCase():"USER"}</strong></DropdownItem>
               {/* <DropdownItem><i className="fa fa-bell-o"></i> Updates<Badge color="info">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-envelope-o"></i> Messages<Badge color="success">42</Badge></DropdownItem>
               <DropdownItem><i className="fa fa-tasks"></i> Tasks<Badge color="danger">42</Badge></DropdownItem>

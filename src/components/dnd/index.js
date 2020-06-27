@@ -55,11 +55,17 @@ class InnerList extends React.PureComponent {
 export default class DragDropDashboard extends Component {
   constructor(props) {
     super(props);
+    let savedLayout = this.props.layout?this.props.layout:initialData
+    let local = localStorage.getItem(this.props.id)
+    local = local?JSON.parse(local):savedLayout
 
+    //convert data to local
+    //
+    
     this.state = {
       dropdownOpen: false,
       activeTab1: '11',
-      data: this.props.layout?this.props.layout:initialData
+      data: savedLayout
     };
     this.toggle = this
       .toggle
@@ -68,6 +74,7 @@ export default class DragDropDashboard extends Component {
       .toggle1
       .bind(this);
 
+    
   }
 
   toggle() {
@@ -185,7 +192,7 @@ export default class DragDropDashboard extends Component {
   }
 
   render() {
-
+    localStorage.setItem([this.props.id],JSON.stringify(this.state.data))
     return (
       <DragDropContext
         onDragStart={this.onDragStart}
