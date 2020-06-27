@@ -1,16 +1,18 @@
-import React,{useEffect} from 'react'
-import {DatePicker, Switch,Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import React from 'react'
+import {DatePicker,Switch, PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import {Card, CardBody, Col} from 'reactstrap'
-import Dnd from "../dnd";
+import {Card, Col,CardBody} from 'reactstrap'
+import Dnd from "../../dnd";
 import Layout from './layout'
-import './index.css'
-import MyList from './sm-list'
+import VideoHighlight from './video-highlight'
 import moment from 'moment'
+import './index.css'
+// import MyList from './list'
+// import MyList from '../../masonry/index'
 const { TabPane } = Tabs;
-const { Paragraph } = Typography;
 const { RangePicker } = DatePicker;
+
 
 // Drag & Drop node
 class TabNode extends React.Component {
@@ -127,50 +129,7 @@ class DraggableTabs extends React.Component {
     );
   }
 }
-const IconLink = ({ src, text }) => (
-  <a className="example-link">
-    <Row>
-    {/* <img className="example-link-icon" src={src} alt={text} /> &nbsp;<span style={{color:"#4B90FF"}}>{text}</span> &nbsp;&nbsp; */}
 
-    </Row>
-  </a>
-);
-
-const content = (
-  <>
-    <Paragraph>
-      OWL platform can support users to add more Keyword then crawler and analyze daily.
-      <br></br>
-      All data are collected and analyzed then visualized then show on dashboard.
-    </Paragraph>
-    <Paragraph>
-      <Tag color="magenta">Today is:  {moment().format("YYYY-MM-DD")}</Tag>
-    </Paragraph>
-    <div>
-      <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg"
-        text="Information"
-      />
-      {/* <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg"
-        text=" Product Info"
-      />
-      <IconLink
-        src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg"
-        text="Product Doc"
-      /> */}
-    </div>
-  </>
-);
-
-const Content = ({ children, extraContent }) => {
-  return (
-    <Row>
-      <div style={{ flex: 1 }}>{children}</div>
-      <div className="image">{extraContent}</div>
-    </Row>
-  );
-};
 export default class Demo extends React.Component{
   constructor(props){
     super(props)
@@ -184,59 +143,56 @@ export default class Demo extends React.Component{
       edit:!this.state.edit
     })
   }
-
-  render()
-  {
-  return(
-  <Card>
-    <PageHeader
-    title="Keyword"
-    className="site-page-header"
-    subTitle="analysis"
-    // tags={<Tag color="blue">Running</Tag>}
-    extra={[
-      // <Button key="3">Operation</Button>,
-      <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
-      <Button key="1" type="primary">
-        Add more
-      </Button>
-    ]}
-    avatar={{ src: '/assets/keyword.jpg' }}
-  >
-    <Content
-      extraContent={
-        <img
-          src="/assets/keyword-research.jpg"
-          alt="content"
-          width="100%"
-        />
-      }
+    render()
+    {
+        return(
+        <Card>
+          <PageHeader
+      className="site-page-header"
+      onBack={() => window.history.back()}
+      title={"Video_"+this.props.match.params.videoid}
+      subTitle="video"
+      extra={[
+        // <Button key="3">Operation</Button>,
+        <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
+      ]}
+      avatar={{ src: '/assets/yt.png' }}
     >
-      {content}
-    </Content>
+      {/* <Descriptions size="small" column={2}>
+        <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
+        <Descriptions.Item label="Association">
+          <a>421421</a>
+        </Descriptions.Item>
+        <Descriptions.Item label="Creation Time">2017-01-10</Descriptions.Item>
+        <Descriptions.Item label="Effective Time">2017-10-10</Descriptions.Item>
+        <Descriptions.Item label="Remarks">
+          Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
+        </Descriptions.Item>
+      </Descriptions> */}
     </PageHeader>
-    <CardBody className="pt-0">
-      <Row>
-        <Col>
-        <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
-        </Col>
-      </Row>
-      <DraggableTabs>
-        <TabPane tab="Overview" key="1">
-        <Row>
+        <CardBody className="pt-0">
+            <Row>
+              <Col>
+              <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
+              </Col>
+            </Row>
+            <DraggableTabs>
+            
+            <TabPane tab="Analysis" key="1">
+            <Row>
         
-        <CardBody className="card-layout">
-            <Dnd layout={Layout} edit={this.state.edit}></Dnd>
-        </CardBody>
+            <CardBody className="card-layout">
+                <Dnd layout={Layout} edit={this.state.edit}></Dnd>
+            </CardBody>
 
-        </Row>
-        </TabPane>
-        <TabPane tab="Keywords" key="2">
-          <MyList/>
-        </TabPane>
-      </DraggableTabs>
-    </CardBody>
-  </Card>
-  )
-  }
+            </Row>
+            </TabPane>
+            <TabPane tab="Video" key="2">
+              <VideoHighlight/>
+            </TabPane>
+        </DraggableTabs>
+            </CardBody>
+        </Card>
+        )
+    }
 }

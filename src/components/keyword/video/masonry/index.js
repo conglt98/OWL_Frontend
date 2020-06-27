@@ -4,51 +4,62 @@ import catNames from "cat-names";
 import cats from "./cats";
 import { styles } from "./theme";
 import { Masonry } from "masonic";
+import 'animate.css/animate.css'
+import {connect} from 'react-redux';
+import {setPeekVideo} from '../../../../reducers/MainEvent'
 
-const App = (props) => {
-  const mainId = props.id
-  // Constructs the data for our grid items
-  const [items] = React.useState(() =>
-    Array.from(Array(5000), () => ({
-      id: i++,
-      name: catNames.random(),
-      src: randomChoice(cats)
-    }))
-  );
 
-  const type = props.type?props.type:'youtube'
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      mainId: this.props.id,
+      items: 
+      Array.from(Array(5000), () => ({
+        id: i++,
+        name: catNames.random(),
+        src: randomChoice(cats)
+      })),
+    }
+  }
 
+  processClickImg(id){
+    let myId = 'imglist'+ id    
+    document.getElementById(myId).classList.add("animate__animated");
+    document.getElementById(myId).classList.add("animate__zoomOutLeft");
+    this.props.setPeekVideo(JSON.parse(JSON.stringify({"time":id})))
+  }
   
-    const FakeCard = ({ data: { id, name, src } }) => (
-        <div className={style("card")}>
+  FakeCard = ({ data: { id, name, src, animated } }) => (
+        <div id={'imglist'+id} className={style("card")} onClick={()=>{this.processClickImg(id)}}>
         <img className={style("img")} alt="kitty" src={src} />
-        <span style={{marginTop:"5px"}} children={'11/11/2020 15h30 '+id+"s"} />
-        <span children={<a href={`#/project/${type}/${mainId}/${id}`}>{name}</a>} />
-
+        <span style={{marginTop:"5px"}} children={id+"s"} />
+        {/* <span children={name}/> */}
         </div>
-    );
-
-  return (
-    <div className="animated fadeIn">
-        <main className={style("container")}>
-            <div className={style("masonic")}>
-                <Masonry
-                // Provides the data for our grid items
-                items={items}
-                // Adds 8px of space between the grid cells
-                columnGutter={8}
-                // Sets the minimum column width to 172px
-                columnWidth={250}
-                // Pre-renders 5 windows worth of content
-                overscanBy={5}
-                // This is the grid item component
-                render={FakeCard}
-                />
-            </div>
-            </main>
-    </div>
-    
   );
+  render(){
+    return (
+      <div className="animated fadeIn">
+          <main className={style("container")}>
+              <div className={style("masonic")}>
+                  <Masonry
+                  // Provides the data for our grid items
+                  items={this.state.items}
+                  // Adds 8px of space between the grid cells
+                  columnGutter={8}
+                  // Sets the minimum column width to 172px
+                  columnWidth={250}
+                  // Pre-renders 5 windows worth of content
+                  overscanBy={5}
+                  // This is the grid item component
+                  render={this.FakeCard}
+                  />
+              </div>
+              </main>
+      </div>
+      
+    );
+  }
 };
 
 const Header = () => {
@@ -137,4 +148,11 @@ const style = styles({
 const randomChoice = items => items[Math.floor(Math.random() * items.length)];
 let i = 0;
 
-export default App
+
+const mapStateToProps = state => ({
+});
+const mapDispatchToProps = dispatch => ({
+  setPeekVideo:data => dispatch(setPeekVideo(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

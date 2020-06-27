@@ -49,6 +49,10 @@ const YoutubeChannel = React.lazy(() => import('./components/youtube/channel'));
 const YoutubeVideo = React.lazy(() => import('./components/youtube/video'));
 
 
+const KeywordKeyword = React.lazy(() => import('./components/keyword/keyword/index'));
+const KeywordVideo = React.lazy(() => import('./components/keyword/video'));
+
+
 const VideoHighlight = React.lazy(() => import('./components/videohighlight'));
 const ObjectDetection = React.lazy(() => import('./components/objectdetection'));
 
@@ -98,11 +102,17 @@ const Configuration = React.lazy(() => import('./components/dnd/configuration'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/project/keywords', name: 'Keywords', component: Keyword },
-  { path: '/project/facebook', name: 'Facebook', component: Facebook },
+  { path: '/project/keywords',exact:true, name: 'Keywords', component: Keyword },
+  { path: '/project/facebook',exact:true, name: 'Facebook', component: Facebook },
   { path: '/project/youtube', exact:true, name: 'Youtube', component: Youtube },
   { path: '/project/youtube/:id',exact:true, name: 'Youtube channel', component: YoutubeChannel },
   { path: '/project/youtube/:id/:videoid',exact:true, name: 'Youtube video', component: YoutubeVideo },
+
+
+  { path: '/project/keywords/:id',exact:true, name: 'Keyword', component: KeywordKeyword },
+  { path: '/project/keywords/:id/:videoid',exact:true, name: 'Keyword video', component: KeywordVideo },
+
+
   { path: '/manual/video-highlight', name: 'Video highlight', component: VideoHighlight },
   { path: '/manual/object-detection', name: 'Object detection', component: ObjectDetection },
 

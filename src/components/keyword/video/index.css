@@ -1,0 +1,32 @@
+*:focus {
+    outline: 0 !important;
+}
+
+.card-layout{
+    padding: 0!important;
+}
+
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%
+        /* Player ratio: 100 / (1280 / 720) */
+}
+
+.react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.list-events{
+    background-color: #1D2326;
+    border-radius: 5px;
+    color:white;
+    width: auto; /* Making auto-sizable width */
+    height: auto; /* Making auto-sizable height */
+    padding: 10px 30px 10px 30px; /* Making space around letters */
+}
+
+.ant-back-top{
+    left: 270px !important;
+}
