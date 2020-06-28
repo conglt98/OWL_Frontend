@@ -19,18 +19,28 @@ const initialData = {
       id: 'task-4',
       content: 'PercentArea',
       title:'Sentimental trend'
+    },
+    'task-5': {
+      id: 'task-5',
+      content: 'StackColLine',
+      title:'Growth trend'
+    },
+    'task-6': {
+      id: 'task-6',
+      content: 'Liquid',
+      title:'Subscriber'
     }
   },
   columns: {
     'column-1': {
       id: 'column-1',
       title: '',
-      taskIds: ['task-1', 'task-3', ]
+      taskIds: ['task-5', 'task-1', 'task-3', ]
     },
     'column-2': {
       id: 'column-2',
       title: '',
-      taskIds: ['task-2', 'task-4', ]
+      taskIds: ['task-6', 'task-2', 'task-4', ]
     }
   },
   columnOrder: ['column-1', 'column-2']

@@ -13,6 +13,9 @@ import Radar from './radar'
 import Gauge from './gauge'
 import TreeMap from './treemap'
 import WorldCloud from './wordcloud'
+import Liquid from './liquid'
+import StackColLine from './stackcolline'
+
 function getChart(type, title, data){
     if (type === 'BasicPieChart'){
         return <BasicPieChart data={data} title={title}/>
@@ -41,6 +44,10 @@ function getChart(type, title, data){
         return <TreeMap data={data} title={title}/>
     }else if (type === 'WorldCloud'){
         return <WorldCloud data={data} title={title}/>
+    }else if (type === 'Liquid'){
+        return <Liquid data={data} title={title}/>
+    }else if (type === 'StackColLine'){
+        return <StackColLine data={data} title={title}/>
     }
     else{
         return <BasicColChart data={data} title={title}/>
