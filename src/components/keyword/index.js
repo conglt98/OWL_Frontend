@@ -185,13 +185,15 @@ export default class Demo extends React.Component{
     })
   }
 
+  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
   render()
   {
   return(
   <Card>
     <PageHeader
     title="Keyword"
-    className="site-page-header"
+    className="site-page-header animated fadeIn"
     subTitle="analysis"
     // tags={<Tag color="blue">Running</Tag>}
     extra={[

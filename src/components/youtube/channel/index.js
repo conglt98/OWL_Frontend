@@ -5,6 +5,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody,Col} from 'reactstrap'
 import Dnd from "../../dnd";
 import Layout from './layout'
+import LayoutSubscriber from './layoutsubscriber'
+import LayoutView from './layoutview'
+import LayoutUpload from './layoutupload'
+
 import moment from 'moment'
 import './index.css'
 // import MyList from './list'
@@ -185,7 +189,34 @@ export default class Demo extends React.Component{
 
             </Row>
             </TabPane>
-            <TabPane tab="Videos" key="2">
+            <TabPane tab="Subscribers" key="2">
+              <Row>
+        
+              <CardBody className="card-layout">
+                  <Dnd layout={LayoutSubscriber} edit={this.state.edit}></Dnd>
+              </CardBody>
+
+              </Row>
+            </TabPane>
+            <TabPane tab="Views" key="3">
+            <Row>
+        
+              <CardBody className="card-layout">
+                  <Dnd layout={LayoutView} edit={this.state.edit}></Dnd>
+              </CardBody>
+
+              </Row>
+            </TabPane>
+            <TabPane tab="Uploads" key="4">
+            <Row>
+        
+              <CardBody className="card-layout">
+                  <Dnd layout={LayoutUpload} edit={this.state.edit}></Dnd>
+              </CardBody>
+
+              </Row>
+            </TabPane>
+            <TabPane tab="Videos" key="5">
             <MyList id={this.props.match.params.id}/>
             </TabPane>
         </DraggableTabs>

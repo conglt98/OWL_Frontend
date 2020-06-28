@@ -39,6 +39,9 @@ const ColChart = (propsMaster) => {
             visible: false,
           },
         },
+        tooltip: {
+          visible: true,
+        },
         pivot: {
           visible: true,
           thickness: 10,
@@ -58,9 +61,9 @@ const ColChart = (propsMaster) => {
         statistic: {
           visible: true,
           position: ['50%', '100%'],
-          text: '',
+          text: `${data}% positive comments`,
           color: '#2e3033',
-          size: 40,
+          size: 20,
         },
       });
       gaugePlot.render();

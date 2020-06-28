@@ -31,8 +31,8 @@ class ResponsivePlayer extends React.Component {
     render () {
       return (
         <>
-        <Row className="animated fadeIn">
-            <Col md={8}>
+        <Row className="animated fadeIn justify-content-center">
+            <Col md={10}>
                 <Affix offsetTop={55}>
                     <div className='player-wrapper'>
                     <ReactPlayer
@@ -53,13 +53,13 @@ class ResponsivePlayer extends React.Component {
                     </div>
                 </Affix>
             </Col>
-            <Col md={4}>
+            {/* <Col md={4}>
                 <Affix offsetTop={55}>
                 <h4 className="list-events">List events</h4>
                 </Affix>
                 
                 <Masonry/>
-            </Col>
+            </Col> */}
         </Row>
         <BackTop visibilityHeight={20}>
         </BackTop>

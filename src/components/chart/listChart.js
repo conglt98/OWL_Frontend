@@ -15,6 +15,7 @@ import TreeMap from './treemap'
 import WorldCloud from './wordcloud'
 import Liquid from './liquid'
 import StackColLine from './stackcolline'
+import AreaChart from './areachart'
 
 function getChart(type, title, data){
     if (type === 'BasicPieChart'){
@@ -48,6 +49,8 @@ function getChart(type, title, data){
         return <Liquid data={data} title={title}/>
     }else if (type === 'StackColLine'){
         return <StackColLine data={data} title={title}/>
+    }else if (type === 'AreaChart'){
+        return <AreaChart data={data} title={title}/>
     }
     else{
         return <BasicColChart data={data} title={title}/>

@@ -156,7 +156,7 @@ export default class Demo extends React.Component{
         // <Button key="3">Operation</Button>,
         <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
       ]}
-      avatar={{ src: '/assets/yt.png' }}
+      avatar={{ src: '/assets/keyword-icon.png' }}
     >
       {/* <Descriptions size="small" column={2}>
         <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
@@ -173,7 +173,7 @@ export default class Demo extends React.Component{
         <CardBody className="pt-0">
             <Row>
               <Col>
-              <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
+              {/* <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/> */}
               </Col>
             </Row>
             <DraggableTabs>

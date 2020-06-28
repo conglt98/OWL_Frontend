@@ -41,12 +41,12 @@ const ColChart = (propsMaster) => {
         title: {
           visible: true,
           text: title,
-          alignTo: 'middle',
+          // alignTo: 'middle',
         },
         description: {
           visible: true,
           text: des,
-          alignTo: 'middle',
+          // alignTo: 'middle',
         },
         data: data,
         width:480,

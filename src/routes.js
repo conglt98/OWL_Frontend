@@ -44,8 +44,12 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 
 const Keyword = React.lazy(() => import('./components/keyword'));
 const Facebook = React.lazy(() => import('./components/facebook'));
+const FacebookPage = React.lazy(() => import('./components/facebook/page'));
+const FacebookPost = React.lazy(() => import('./components/facebook/post'));
+
 const Youtube = React.lazy(() => import('./components/youtube'));
 const YoutubeChannel = React.lazy(() => import('./components/youtube/channel'));
+const YoutubeTopic = React.lazy(() => import('./components/youtube/topic'));
 const YoutubeVideo = React.lazy(() => import('./components/youtube/video'));
 
 
@@ -104,8 +108,12 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/project/keywords',exact:true, name: 'Keywords', component: Keyword },
   { path: '/project/facebook',exact:true, name: 'Facebook', component: Facebook },
+  { path: '/project/facebook/page/:id',exact:true, name: 'Facebook page', component: FacebookPage },
+  { path: '/project/facebook/:id/:postid',exact:true, name: 'Facebook post', component: FacebookPost },
+
   { path: '/project/youtube', exact:true, name: 'Youtube', component: Youtube },
-  { path: '/project/youtube/:id',exact:true, name: 'Youtube channel', component: YoutubeChannel },
+  { path: '/project/youtube/channel/:id',exact:true, name: 'Youtube channel', component: YoutubeChannel },
+  { path: '/project/youtube/topic/:id',exact:true, name: 'Youtube topic', component: YoutubeTopic },
   { path: '/project/youtube/:id/:videoid',exact:true, name: 'Youtube video', component: YoutubeVideo },
 
 

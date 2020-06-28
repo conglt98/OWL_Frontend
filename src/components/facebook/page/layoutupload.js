@@ -3,12 +3,12 @@ const initialData = {
     'task-1': {
       id: 'task-1',
       content: 'AreaChart',
-      title:'Keywords in video'
+      title:'Post upload daily'
     },
     'task-2': {
       id: 'task-2',
-      content: 'Radar',
-      title:'Statistic video'
+      content: 'ColSlider',
+      title:'Post upload weekly'
     },
   },
   columns: {

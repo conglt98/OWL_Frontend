@@ -149,13 +149,13 @@ export default class Demo extends React.Component{
           <PageHeader
       className="site-page-header"
       onBack={() => window.history.back()}
-      title={"Keyword_"+this.props.match.params.id}
-      subTitle="keyword"
+      title={"Topic_"+this.props.match.params.id}
+      subTitle="topic"
       extra={[
         // <Button key="3">Operation</Button>,
         <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
       ]}
-      avatar={{ src: '/assets/keyword-icon.png' }}
+      avatar={{ src: '/assets/yt.png' }}
     >
       <Descriptions size="small" column={2}>
         <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
@@ -176,7 +176,7 @@ export default class Demo extends React.Component{
               </Col>
             </Row>
             <DraggableTabs>
-            <TabPane tab="Overview" key="1">
+            <TabPane tab="Analysis" key="1">
             <Row>
         
             <CardBody className="card-layout">
@@ -184,9 +184,6 @@ export default class Demo extends React.Component{
             </CardBody>
 
             </Row>
-            </TabPane>
-            <TabPane tab="Videos" key="2">
-            <MyList type={"keywords"} id={this.props.match.params.id}/>
             </TabPane>
         </DraggableTabs>
             </CardBody>

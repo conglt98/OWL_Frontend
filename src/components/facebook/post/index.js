@@ -1,14 +1,17 @@
 import React from 'react'
-import { DatePicker,Switch,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import {DatePicker,Switch, PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import {Card, CardBody,Col} from 'reactstrap'
+import {Card, Col,CardBody} from 'reactstrap'
 import Dnd from "../../dnd";
 import Layout from './layout'
+import LayoutReaction from './layoutreaction'
+import LayoutFavourite from './layoutfavourite'
+import ObjectDetection from './objectdetection'
 import moment from 'moment'
 import './index.css'
 // import MyList from './list'
-import MyList from '../../masonry/index'
+// import MyList from '../../masonry/index'
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
 
@@ -149,15 +152,15 @@ export default class Demo extends React.Component{
           <PageHeader
       className="site-page-header"
       onBack={() => window.history.back()}
-      title={"Keyword_"+this.props.match.params.id}
-      subTitle="keyword"
+      title={"Post_"+this.props.match.params.postid}
+      subTitle="post"
       extra={[
         // <Button key="3">Operation</Button>,
         <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
       ]}
-      avatar={{ src: '/assets/keyword-icon.png' }}
+      avatar={{ src: '/assets/pages.png' }}
     >
-      <Descriptions size="small" column={2}>
+      {/* <Descriptions size="small" column={2}>
         <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
         <Descriptions.Item label="Association">
           <a>421421</a>
@@ -167,26 +170,42 @@ export default class Demo extends React.Component{
         <Descriptions.Item label="Remarks">
           Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
         </Descriptions.Item>
-      </Descriptions>
+      </Descriptions> */}
     </PageHeader>
-            <CardBody className="pt-0">
+        <CardBody className="pt-0">
             <Row>
               <Col>
               <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
               </Col>
             </Row>
             <DraggableTabs>
+            
             <TabPane tab="Overview" key="1">
             <Row>
-        
             <CardBody className="card-layout">
                 <Dnd layout={Layout} edit={this.state.edit}></Dnd>
             </CardBody>
-
             </Row>
             </TabPane>
-            <TabPane tab="Videos" key="2">
-            <MyList type={"keywords"} id={this.props.match.params.id}/>
+
+            <TabPane tab="Reaction" key="2">
+            <Row>
+            <CardBody className="card-layout">
+                <Dnd layout={LayoutReaction} edit={this.state.edit}></Dnd>
+            </CardBody>
+            </Row>
+            </TabPane>
+
+            <TabPane tab="Share" key="3">
+            <Row>
+            <CardBody className="card-layout">
+                <Dnd layout={LayoutFavourite} edit={this.state.edit}></Dnd>
+            </CardBody>
+            </Row>
+            </TabPane>
+
+            <TabPane tab="Post" key="4">
+              <ObjectDetection/>
             </TabPane>
         </DraggableTabs>
             </CardBody>

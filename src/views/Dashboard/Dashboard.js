@@ -287,11 +287,11 @@ const socialChartOpts = {
 const sparkLineChartData = [
   {
     data: [35, 23, 56, 22, 97, 23, 64],
-    label: 'Positive',
+    label: 'Images',
   },
   {
     data: [65, 59, 84, 84, 51, 55, 40],
-    label: 'Negative',
+    label: 'Videos',
   },
   {
     data: [35, 23, 56, 22, 97, 23, 64],
@@ -598,7 +598,7 @@ class Dashboard extends Component {
                     <Row>
                       <Col sm="6">
                         <div className="callout callout-info">
-                          <small className="text-muted">Positive</small>
+                          <small className="text-muted">Images</small>
                           <br />
                           <strong className="h4">9,123</strong>
                           <div className="chart-wrapper">
@@ -608,7 +608,7 @@ class Dashboard extends Component {
                       </Col>
                       <Col sm="6">
                         <div className="callout callout-danger">
-                          <small className="text-muted">Negative</small>
+                          <small className="text-muted">Videos</small>
                           <br />
                           <strong className="h4">22,643</strong>
                           <div className="chart-wrapper">
@@ -698,10 +698,10 @@ class Dashboard extends Component {
                     <div className="legend text-center">
                       <small>
                         <sup className="px-1"><Badge pill color="info">&nbsp;</Badge></sup>
-                        Positive
+                        Images
                         &nbsp;
                         <sup className="px-1"><Badge pill color="danger">&nbsp;</Badge></sup>
-                        Negative
+                        Videos
                       </small>
                     </div>
                   </Col>

@@ -78,8 +78,8 @@ export default class VirtualizedExample extends React.Component {
     return (
       <List.Item key={key} style={style}>
         <List.Item.Meta
-          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title={<a href={"/#/project/youtube/"+index}>{item.name.last}</a>}
+          avatar={<Avatar src={this.props.type==='topic'?"/assets/topic-icon.png":"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />}
+          title={<a href={"/#/project/youtube/"+this.props.type+"/"+index}>{item.name.last}</a>}
           description={item.email}
         />
         <div><DeleteOutlined style={{color:'red'}} /></div>

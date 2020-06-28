@@ -186,10 +186,13 @@ export default class Demo extends React.Component{
     })
   }
 
+  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
+
   render()
   {
   return(
-  <Card>
+  <Card className="animated fadeIn">
     <PageHeader
     title="Youtube"
     className="site-page-header"
@@ -233,7 +236,10 @@ export default class Demo extends React.Component{
         </Row>
         </TabPane>
         <TabPane tab="Channels" key="2">
-          <MyList/>
+          <MyList type={'channel'}/>
+        </TabPane>
+        <TabPane tab="Topics" key="3">
+          <MyList type={'topic'}/>
         </TabPane>
       </DraggableTabs>
     </CardBody>

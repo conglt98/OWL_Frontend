@@ -184,6 +184,8 @@ export default class Demo extends React.Component{
       edit:!this.state.edit
     })
   }
+  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
 
   render()
   {
@@ -191,7 +193,7 @@ export default class Demo extends React.Component{
   <Card>
     <PageHeader
     title="Facebook"
-    className="site-page-header"
+    className="site-page-header animated fadeIn"
     subTitle="analysis"
     // tags={<Tag color="blue">Running</Tag>}
     extra={[
@@ -231,8 +233,8 @@ export default class Demo extends React.Component{
 
         </Row>
         </TabPane>
-        <TabPane tab="Channels" key="2">
-          <MyList/>
+        <TabPane tab="Pages" key="2">
+          <MyList type="page"/>
         </TabPane>
       </DraggableTabs>
     </CardBody>

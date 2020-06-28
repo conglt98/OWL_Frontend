@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Column } from '@antv/g2plot';
+import { Area } from '@antv/g2plot';
 import uuid from 'react-uuid'
 const ColChart = (propsMaster) => {
   const ref = React.useRef(null)
@@ -18,7 +18,7 @@ const ColChart = (propsMaster) => {
   let des = propsMaster.description?propsMaster.description:""
 
   useEffect(() => {
-    const columnPlot = new Column(document.getElementById(id), {
+    const columnPlot = new Area(document.getElementById(id), {
       title: {
         visible: true,
         text: title,
@@ -31,6 +31,7 @@ const ColChart = (propsMaster) => {
       width:480,
       height:480,
       data,
+      color:title.includes("Negative")==true?'red':'green',
       renderer:'svg',
       padding: 'auto',
       xField: Object.keys(data[0])[0],

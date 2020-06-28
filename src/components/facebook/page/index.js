@@ -5,6 +5,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody,Col} from 'reactstrap'
 import Dnd from "../../dnd";
 import Layout from './layout'
+import LayoutLike from './layoutlike'
+import LayoutFollow from './layoutfollow'
+import LayoutUpload from './layoutupload'
+
 import moment from 'moment'
 import './index.css'
 // import MyList from './list'
@@ -149,13 +153,13 @@ export default class Demo extends React.Component{
           <PageHeader
       className="site-page-header"
       onBack={() => window.history.back()}
-      title={"Keyword_"+this.props.match.params.id}
-      subTitle="keyword"
+      title={"Page_"+this.props.match.params.id}
+      subTitle="page"
       extra={[
         // <Button key="3">Operation</Button>,
         <Switch onChange={this.changeMode} unCheckedChildren="View mode" checkedChildren="Edit mode" checked={this.state.edit} />,
       ]}
-      avatar={{ src: '/assets/keyword-icon.png' }}
+      avatar={{ src: '/assets/pages.png' }}
     >
       <Descriptions size="small" column={2}>
         <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
@@ -185,8 +189,35 @@ export default class Demo extends React.Component{
 
             </Row>
             </TabPane>
-            <TabPane tab="Videos" key="2">
-            <MyList type={"keywords"} id={this.props.match.params.id}/>
+            <TabPane tab="Likes" key="2">
+              <Row>
+        
+              <CardBody className="card-layout">
+                  <Dnd layout={LayoutLike} edit={this.state.edit}></Dnd>
+              </CardBody>
+
+              </Row>
+            </TabPane>
+            <TabPane tab="Follows" key="3">
+            <Row>
+        
+              <CardBody className="card-layout">
+                  <Dnd layout={LayoutFollow} edit={this.state.edit}></Dnd>
+              </CardBody>
+
+              </Row>
+            </TabPane>
+            <TabPane tab="Uploads" key="4">
+            <Row>
+        
+              <CardBody className="card-layout">
+                  <Dnd layout={LayoutUpload} edit={this.state.edit}></Dnd>
+              </CardBody>
+
+              </Row>
+            </TabPane>
+            <TabPane tab="Posts" key="5">
+            <MyList id={this.props.match.params.id} type={"facebook"}/>
             </TabPane>
         </DraggableTabs>
             </CardBody>

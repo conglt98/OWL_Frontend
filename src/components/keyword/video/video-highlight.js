@@ -1,25 +1,31 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
-import {Button, Affix, BackTop } from 'antd'
+import {Tag, Button, Affix, BackTop } from 'antd'
 import {Row, Col} from 'reactstrap'
 import Masonry from './masonry/index'
 import './index.css'
-
+import {SyncOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux';
 import {setPeekVideo} from '../../../reducers/MainEvent'
-
 
 class ResponsivePlayer extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            pip:false
+            pip:false,
+            listEvent:[]
         }
         this.myRef = React.createRef();
     }
     togglePIP=()=>{
         this.setState({
             pip:!this.state.pip
+        })
+    }
+
+    refreshEvent=()=>{
+        this.setState({
+            listEvent:[]
         })
     }
 
@@ -51,14 +57,19 @@ class ResponsivePlayer extends React.Component {
                         }}
                     />
                     </div>
+                    <br></br>
+                    <div>
+                    <Tag className="float-left" color="magenta">Keyword</Tag>
+                    <Button onClick={this.refreshEvent} className="float-right" type="primary">Refresh</Button>
+                    </div>
                 </Affix>
+                
             </Col>
             <Col md={4}>
                 <Affix offsetTop={55}>
-                <h4 className="list-events">List events</h4>
+                <h4 className="list-events">List events</h4> 
                 </Affix>
-                
-                <Masonry/>
+                <Masonry data = {this.state.listEvent}/>
             </Col>
         </Row>
         <BackTop visibilityHeight={20}>

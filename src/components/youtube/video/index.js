@@ -5,6 +5,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, Col,CardBody} from 'reactstrap'
 import Dnd from "../../dnd";
 import Layout from './layout'
+import LayoutView from './layoutview'
+import LayoutSentimental from './layoutsentimental'
+import LayoutReaction from './layoutreaction'
+import LayoutFavourite from './layoutfavourite'
 import VideoHighlight from './video-highlight'
 import moment from 'moment'
 import './index.css'
@@ -178,16 +182,47 @@ export default class Demo extends React.Component{
             </Row>
             <DraggableTabs>
             
-            <TabPane tab="Analysis" key="1">
+            <TabPane tab="Overview" key="1">
             <Row>
-        
             <CardBody className="card-layout">
                 <Dnd layout={Layout} edit={this.state.edit}></Dnd>
             </CardBody>
-
             </Row>
             </TabPane>
-            <TabPane tab="Video" key="2">
+
+            <TabPane tab="Views" key="2">
+            <Row>
+            <CardBody className="card-layout">
+                <Dnd layout={LayoutView} edit={this.state.edit}></Dnd>
+            </CardBody>
+            </Row>
+            </TabPane>
+
+            <TabPane tab="Sentimental" key="3">
+            <Row>
+            <CardBody className="card-layout">
+                <Dnd layout={LayoutSentimental} edit={this.state.edit}></Dnd>
+            </CardBody>
+            </Row>
+            </TabPane>
+
+            <TabPane tab="Reaction" key="4">
+            <Row>
+            <CardBody className="card-layout">
+                <Dnd layout={LayoutReaction} edit={this.state.edit}></Dnd>
+            </CardBody>
+            </Row>
+            </TabPane>
+
+            <TabPane tab="Favourite" key="5">
+            <Row>
+            <CardBody className="card-layout">
+                <Dnd layout={LayoutFavourite} edit={this.state.edit}></Dnd>
+            </CardBody>
+            </Row>
+            </TabPane>
+
+            <TabPane tab="Video" key="6">
               <VideoHighlight/>
             </TabPane>
         </DraggableTabs>

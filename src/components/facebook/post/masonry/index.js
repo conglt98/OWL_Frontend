@@ -6,7 +6,6 @@ import { styles } from "./theme";
 import { Masonry } from "masonic";
 import 'animate.css/animate.css'
 import {connect} from 'react-redux';
-import {Drawer, Tag} from 'antd'
 import {setPeekVideo} from '../../../../reducers/MainEvent'
 
 
@@ -15,11 +14,6 @@ class App extends React.Component {
     super(props)
     this.state = {
       mainId: this.props.id,
-      showImg:false,
-      item:{
-        src:"",
-        seconds: ""
-      },
       items: 
       Array.from(Array(5000), () => ({
         id: i++,
@@ -27,37 +21,6 @@ class App extends React.Component {
         src: randomChoice(cats)
       })),
     }
-  }
-
-  toggleShowImg = (id)=>{
-    let src = this.state.items.find(ele=>ele.id == id).src
-    this.setState({
-      showImg:true,
-      item:{
-        src: src,
-        seconds: id
-      }
-    })
-  }
-
-  toggleCloseImg = ()=>{
-    this.setState({
-      showImg:false
-    })
-  }
-
-  componentWillReceiveProps=(nextProps)=>{
-    console.log(nextProps)
-    this.state.items.map(ele=>{
-      let myId = 'imglist'+ ele.id 
-      if (document.getElementById(myId)){
-        if (document.getElementById(myId).classList.contains("animate__zoomOutLeft")){
-          document.getElementById(myId).classList.remove("animate__zoomOutLeft")
-          // document.getElementById(myId).classList.add("animate__zoomOutRight")
-  
-        }
-      }
-    })
   }
 
   processClickImg(id){
@@ -68,9 +31,9 @@ class App extends React.Component {
   }
   
   FakeCard = ({ data: { id, name, src, animated } }) => (
-        <div id={'imglist'+id} className={style("card")}>
-        <img className={style("img")} alt="kitty" src={src} onClick={()=>{this.toggleShowImg(id)}}/>
-        <span onClick={()=>{this.processClickImg(id)}} style={{marginTop:"5px"}} children={id+"s"} />
+        <div id={'imglist'+id} className={style("card")} onClick={()=>{this.processClickImg(id)}}>
+        <img className={style("img")} alt="kitty" src={src} />
+        <span style={{marginTop:"5px"}} children={id+"s"} />
         {/* <span children={name}/> */}
         </div>
   );
@@ -93,20 +56,6 @@ class App extends React.Component {
                   />
               </div>
               </main>
-              <Drawer
-                title="Basic Drawer"
-                placement="right"
-                closable={false}
-                width={720}
-                onClose={this.toggleCloseImg}
-                visible={this.state.showImg}
-              >
-                <img style={{width:'auto'}} src={this.state.item.src} alt="img"></img>
-                <br></br>
-                <Tag color = "magenta">
-                  Object detection for keyword at {this.state.item.id} seconds
-                </Tag>
-              </Drawer>
       </div>
       
     );

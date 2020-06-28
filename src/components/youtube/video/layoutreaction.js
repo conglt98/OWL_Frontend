@@ -2,13 +2,13 @@ const initialData = {
   tasks: {
     'task-1': {
       id: 'task-1',
-      content: 'AreaChart',
-      title:'Keywords in video'
+      content: 'GroupCol',
+      title:'Reaction daily'
     },
     'task-2': {
       id: 'task-2',
-      content: 'Radar',
-      title:'Statistic video'
+      content: 'BasicPieChart',
+      title:'Reaction'
     },
   },
   columns: {

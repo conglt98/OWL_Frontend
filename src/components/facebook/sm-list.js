@@ -78,7 +78,7 @@ export default class VirtualizedExample extends React.Component {
       <List.Item key={key} style={style}>
         <List.Item.Meta
           avatar={<Avatar src="/assets/pages.png" />}
-          title={<a href="https://ant.design">{item.name.last}</a>}
+          title={<a href={"/#/project/facebook/"+this.props.type+"/"+index}>{item.name.last}</a>}
           description={'Page Facebook'}
         />
         <div><DeleteOutlined style={{color:'red'}} /></div>
