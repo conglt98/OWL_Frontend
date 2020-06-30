@@ -11,6 +11,7 @@ import fakeAuth from '../../../api/fakeAuth'
 import {getOneRole} from '../../../api/role'
 import {getAllNavRole} from '../../../api/nav_role'
 import swal from 'sweetalert';
+import logo from '../../../assets/img/brand/logo.svg'
 
 class Login extends Component {
   constructor(props){
@@ -37,7 +38,7 @@ class Login extends Component {
         <i className="icon-lock"></i>
       </InputGroupText>
     </InputGroupAddon>
-    <Input type="password" name="password" placeholder="Password + OTP" autoComplete="current-password" />
+    <Input type="password" name="password" placeholder="Password" autoComplete="current-password" />
   </InputGroup>
   </div>)
   }
@@ -141,15 +142,15 @@ class Login extends Component {
                 <Card className="p-4">
                   <CardBody>
                     <Form onSubmit={this.handleSubmit}>
-                      <h1>TITAN <Badge color="danger">ADMIN</Badge></h1>
-                      <p className="text-muted">Sign In to your account</p>
+                      <img src={logo}></img>
+                      {/* <p className="text-muted">Sign In to your account</p> */}
                       <Nav tabs>
                       <NavItem>
                         <NavLink
                           active={this.state.activeTab[0] === '1'}
                           onClick={() => { this.toggle(0, '1'); }}
-                        >
-                          VNG TOKEN GATEWAY
+                        > 
+                           SIGN IN
                         </NavLink>
                       </NavItem>
                       

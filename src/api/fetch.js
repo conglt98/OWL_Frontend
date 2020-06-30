@@ -86,10 +86,14 @@ export async function signIn(username, password) {
     //     console.log(data)
     //     return data;// JSON data parsed by `response.json()` call
     //   });
-    return postData('api/auth',user).then(data=>{
-      return {
-        status:"true",
-        token:"1"
-      }
-    })
+    // return postData('api/auth',user).then(data=>{
+    //   return {
+    //     status:"true",
+    //     token:"1"
+    //   }
+    // })
+    return {
+      status:"true",
+      token:"1"
+    }
 }

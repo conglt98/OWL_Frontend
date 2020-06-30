@@ -41,29 +41,30 @@ const data = {
   ]
 }
 export async function getAllNavRole(token){
-    let url='/api/nav_role'
-    return await fetch(url,{
-        method:'GET',
-        headers:{
-          Authorization:'Bearer '+token,
-        },
-    })
-    .then(res => {
-      if (res.status===200){
-        return res.json().then((data)=>{
-          data.map(ele=>{
-            ele.roles = ele.roles.split(",");
-          })
-          console.log(data);
-          return {data:data};
-        })
-      }
-      return data;
-    }).catch((err) => {
-      console.log(err)
-      swal("Thông báo",err,"error")
-      return data
-    })
+    // let url='/api/nav_role'
+    // return await fetch(url,{
+    //     method:'GET',
+    //     headers:{
+    //       Authorization:'Bearer '+token,
+    //     },
+    // })
+    // .then(res => {
+    //   if (res.status===200){
+    //     return res.json().then((data)=>{
+    //       data.map(ele=>{
+    //         ele.roles = ele.roles.split(",");
+    //       })
+    //       console.log(data);
+    //       return {data:data};
+    //     })
+    //   }
+    //   return data;
+    // }).catch((err) => {
+    //   console.log(err)
+    //   swal("Thông báo",err,"error")
+    //   return data
+    // })
+    return data
 }
 
 export async function updateNavRole(data,token) {

@@ -3,6 +3,7 @@ import { Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import {getModels} from '../../data/index'
 import moment from 'moment'
+import {getFromURL, getConfig} from '../../data'
 
 
 
@@ -119,6 +120,10 @@ export default class Demo extends React.Component {
  }
 
   render() {
+    getFromURL(getConfig('AutoTraining')+'/autotraining/models').then(res=>{
+      console.log(res.data)
+    })
+
     const { xScroll, yScroll, ...state } = this.state;
 
     const scroll = {};

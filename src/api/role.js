@@ -67,48 +67,53 @@ export async function getAllRole(token) {
 }
 
 export async function getOneRole(username, token) {
-  let url = '/api/get_role/' + username;
-  return await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  }).then(response => {
-    let res = response
-    res.data = []
-    if (response.status !== 200) {
-      console.log("URL: " + url + " " + response.status + " " + response.statusText)
-      res.data = {
-        role: ["Administrator"]
-      }
-      // fakeAuth.signout(() => {});
-      return res
-    }
-    if (response.status === 200) {
-      console.log("URL: " + url + " 200 OK")
-      return response
-        .json()
-        .then(data => {
-          console.log(data)
-          if (data.length === 0 || data[0].status === 'OFF') {
-            res.data = {
-              role: ["Guest"]
-            }
-          } else {
-            res.data = {
-              role: data[0]
-                .role
-                .split(",")
-            }
-          }
-          return res;
-        })
-    }
-    return res
-  }).catch(() => {
-    console.log("Can’t access " + url + " response. Blocked by browser?")
-    return {};
-  })
+  let res = {}
+  res.data = {
+    role: ["Administrator"]
+  }
+  return res
+  // let url = '/api/get_role/' + username;
+  // return await fetch(url, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Authorization': 'Bearer ' + token
+  //   }
+  // }).then(response => {
+  //   let res = response
+  //   res.data = []
+  //   if (response.status !== 200) {
+  //     console.log("URL: " + url + " " + response.status + " " + response.statusText)
+  //     res.data = {
+  //       role: ["Administrator"]
+  //     }
+  //     // fakeAuth.signout(() => {});
+  //     return res
+  //   }
+  //   if (response.status === 200) {
+  //     console.log("URL: " + url + " 200 OK")
+  //     return response
+  //       .json()
+  //       .then(data => {
+  //         console.log(data)
+  //         if (data.length === 0 || data[0].status === 'OFF') {
+  //           res.data = {
+  //             role: ["Guest"]
+  //           }
+  //         } else {
+  //           res.data = {
+  //             role: data[0]
+  //               .role
+  //               .split(",")
+  //           }
+  //         }
+  //         return res;
+  //       })
+  //   }
+  //   return res
+  // }).catch(() => {
+  //   console.log("Can’t access " + url + " response. Blocked by browser?")
+  //   return {};
+  // })
 }
 
 export async function updateUserRole(data, token) {

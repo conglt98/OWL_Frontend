@@ -2,6 +2,7 @@ import React from "react";
 import useWindowScroll from "@react-hook/window-scroll";
 import catNames from "cat-names";
 import cats from "./cats";
+import mock from './mock'
 import { styles } from "./theme";
 import { Masonry } from "masonic";
 import 'animate.css/animate.css'
@@ -9,10 +10,36 @@ import {connect} from 'react-redux';
 import {Drawer, Tag} from 'antd'
 import {setPeekVideo} from '../../../../reducers/MainEvent'
 
+function format(time) {   
+  // Hours, minutes and seconds
+  var hrs = ~~(time / 3600);
+  var mins = ~~((time % 3600) / 60);
+  var secs = ~~time % 60;
+
+  // Output like "1:01" or "4:03:59" or "123:03:59"
+  var ret = "";
+  if (hrs > 0) {
+      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+  }
+  ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+  ret += "" + secs;
+  return ret;
+}
 
 class App extends React.Component {
   constructor(props){
     super(props)
+    let mockData = []
+    Object.keys(mock).map(ele=>{
+      mockData.push({
+        id:parseInt(ele.split('.')[0]),
+        name:format(parseInt(ele.split('.')[0])),
+        src:`https://drive.google.com/uc?export=view&id=${mock[ele]}`
+      })
+    })
+
+    mockData.sort((a,b)=>a.id - b.id)
+
     this.state = {
       mainId: this.props.id,
       showImg:false,
@@ -20,12 +47,13 @@ class App extends React.Component {
         src:"",
         seconds: ""
       },
-      items: 
-      Array.from(Array(5000), () => ({
-        id: i++,
-        name: catNames.random(),
-        src: randomChoice(cats)
-      })),
+      // items: 
+      // Array.from(Array(5000), () => ({
+      //   id: i++,
+      //   name: catNames.random(),
+      //   src: randomChoice(cats)
+      // })),
+      items:mockData
     }
   }
 
@@ -70,7 +98,7 @@ class App extends React.Component {
   FakeCard = ({ data: { id, name, src, animated } }) => (
         <div id={'imglist'+id} className={style("card")}>
         <img className={style("img")} alt="kitty" src={src} onClick={()=>{this.toggleShowImg(id)}}/>
-        <span onClick={()=>{this.processClickImg(id)}} style={{marginTop:"5px"}} children={id+"s"} />
+        <span onClick={()=>{this.processClickImg(id)}} style={{marginTop:"5px"}} children={name} />
         {/* <span children={name}/> */}
         </div>
   );

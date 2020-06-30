@@ -4,7 +4,7 @@ import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody} from 'reactstrap'
 import './index.css'
-import MyList from './sm-list'
+import MyList from './list'
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 
@@ -178,7 +178,7 @@ export default class Demo extends React.Component{
       // <Button key="3">Operation</Button>,
       // <Button key="2">Operation</Button>,
       <Button key="1" type="primary">
-        Add more
+        Upload
       </Button>
     ]}
     avatar={{ src: '/assets/videohighlight.png' }}
@@ -197,11 +197,8 @@ export default class Demo extends React.Component{
   </PageHeader>
     <CardBody className="pt-0">
     <DraggableTabs>
-            <TabPane tab="Main" key="1">
-            Content of Tab Pane 1
-            </TabPane>
-            <TabPane tab="Tasks" key="2">
-            <MyList/>
+            <TabPane tab="Task Videos" key="1">
+              <MyList/>
             </TabPane>
         </DraggableTabs>
     </CardBody>

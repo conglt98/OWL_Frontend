@@ -1,8 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "private": true,
-  "proxy": "http://localhost:9080",
   "dependencies": {
     "@antv/g2": "^4.0.12",
     "@antv/g2plot": "^1.1.7",

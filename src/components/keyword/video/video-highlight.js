@@ -31,7 +31,7 @@ class ResponsivePlayer extends React.Component {
 
     componentWillReceiveProps=(nextProps)=>{
         console.log(nextProps.seekVideo)
-        this.myRef.current.seekTo(nextProps.seekVideo.time, 'seconds');
+        this.myRef.current.seekTo(nextProps.seekVideo.time-1, 'seconds');
     }
 
     render () {
@@ -47,7 +47,7 @@ class ResponsivePlayer extends React.Component {
                         pip ={this.state.pip}
                         className='react-player'
                         controls={true}
-                        url='https://www.youtube.com/watch?v=knW7-x7Y7RE'
+                        url='https://www.youtube.com/watch?v=Ynxk72iCc6A'
                         width='100%'
                         height='100%'
                         config={{

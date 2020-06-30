@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { Table, Input, InputNumber, Popconfirm, Form } from 'antd';
-
 const originData = [
+      {
+        key: '0',
+        config: 'Use API',
+        value: 'OFF',
+    },
     {
         key: '1',
-        host: 'AutoTraining',
-        url: 'http://',
+        config: 'AutoTraining',
+        value: 'http://',
     },
     {
         key: '2',
-        host: 'Crawler&Detect',
-        url: 'http://',
+        config: 'Crawler&Detect',
+        value: 'http://',
     },
     {
         key: '3',
-        host: 'Result',
-        url: 'http://',
+        config: 'Result',
+        value: 'http://',
     }
 ];
 
@@ -56,15 +60,15 @@ const EditableCell = ({
 
 const EditableTable = () => {
   const [form] = Form.useForm();
-  const [data, setData] = useState(localStorage.getItem('url')?JSON.parse(localStorage.getItem('url')):originData);
+  const [data, setData] = useState(localStorage.getItem('config')?JSON.parse(localStorage.getItem('config')):originData);
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = record => record.key === editingKey;
 
   const edit = record => {
     form.setFieldsValue({
-      host: '',
-      url: '',
+      config: '',
+      value: '',
       ...record,
     });
     setEditingKey(record.key);
@@ -90,7 +94,7 @@ const EditableTable = () => {
         setData(newData);
         setEditingKey('');
       }
-      localStorage.setItem("url",JSON.stringify(newData))
+      localStorage.setItem("config",JSON.stringify(newData))
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
@@ -98,19 +102,25 @@ const EditableTable = () => {
 
   const columns = [
     {
-      title: 'host',
-      dataIndex: 'host',
+      title:  ()=>{
+        return <b>Config</b>
+    },
+      dataIndex: 'config',
       width: '25%',
       editable: true,
     },
     {
-      title: 'url',
-      dataIndex: 'url',
+      title: ()=>{
+        return <b>Value</b>
+    },
+      dataIndex: 'value',
       width: '40%',
       editable: true,
-    },
+    },  
     {
-      title: 'operation',
+      title:  ()=>{
+        return <b>Operation</b>
+    },
       dataIndex: 'operation',
       render: (_, record) => {
         const editable = isEditing(record);
