@@ -1,5 +1,5 @@
 import {
-    mockModels
+    mockModels, mockTasks
 } from './mock'
 import axios from 'axios'
 
@@ -21,6 +21,15 @@ export async function getModels() {
     return mockModels['models']
 }
 
+export async function getTasks() {
+    if (getConfig('Use API')=='ON'){
+        let res = await getFromURL(getConfig('AutoTraining')+'/tasks')
+        let data = res?res.data:{tasks:[]}
+        return data['tasks']
+    }
+    return mockTasks
+}
+
 export async function getModelsAPI() {
     if (getConfig('Use API')=='ON'){
         let res = await getFromURL(getConfig('AutoTraining')+'/models')
@@ -32,6 +41,19 @@ export async function getModelsAPI() {
 
 export function getFromURL(url) {
     return axios.get(CORS+url)
+    .then(function (response) {
+        // handle success
+        console.log(response);
+        return response
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    })
+}
+
+export function postFromURL(url, data) {
+    return axios.post(CORS+url, data)
     .then(function (response) {
         // handle success
         console.log(response);

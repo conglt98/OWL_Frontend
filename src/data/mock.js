@@ -125,3 +125,20 @@ export const mockModels = {
         }
     ]
 }
+
+export const mockTasks = [
+    {
+      name:'vinfast',
+      createAt: 1591465641920,
+      type:'CenterNet',
+      model:'ctdet_coco_dla_2x',
+      status:'Done'
+    },
+    {
+      name:'fami',
+      createAt: 1591465641920,
+      type:'CenterNet',
+      model:'ctdet_coco_dla_2x',
+      status:'Pending'
+    }
+  ]

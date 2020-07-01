@@ -2,29 +2,8 @@ import React from 'react'
 import { Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import moment from 'moment'
-
-const mock = [
-  {
-    name:'vinfast',
-    createAt: 1591465641920,
-    type:'CenterNet',
-    model:'ctdet_coco_dla_2x',
-    status:'Done'
-  },
-  {
-    name:'fami',
-    createAt: 1591465641920,
-    type:'CenterNet',
-    model:'ctdet_coco_dla_2x',
-    status:'Pending'
-  }
-]
-
-const data = mock
-
-data.map(ele=>{
-    ele.key = ele.id
-})
+import {getTasks} from '../../data'
+import { element } from 'prop-types';
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
@@ -33,22 +12,35 @@ const footer = () => 'Here is footer';
 const pagination = { position: 'bottom' };
 
 export default class Demo extends React.Component {
-  state = {
-    bordered: false,
-    loading: false,
-    pagination,
-    size: 'default',
-    expandable:undefined,
-    title: undefined,
-    showHeader,
-    footer: undefined,
-    rowSelection: undefined,
-    scroll: undefined,
-    hasData: true,
-    tableLayout: undefined,
-    top: 'none',
-    bottom: 'bottomRight',
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+      bordered: false,
+      loading: false,
+      pagination,
+      size: 'default',
+      expandable:undefined,
+      title: undefined,
+      showHeader,
+      footer: undefined,
+      rowSelection: undefined,
+      scroll: undefined,
+      hasData: true,
+      data:[],
+      tableLayout: undefined,
+      top: 'none',
+      bottom: 'bottomRight',
+    };
+  }
+
+  componentWillMount=()=>{
+    getTasks().then(res=>{
+      this.setState({
+        data: res.filter(ele=>(ele.typeSrc?ele.typeSrc=='video':false))
+      })
+    })
+  }
+  
  menu = (
     <Menu>
       <Menu.Item key="delete">Delete</Menu.Item>
@@ -84,7 +76,7 @@ export default class Demo extends React.Component {
     title: ()=>{
         return <b>Model</b>
     },
-    dataIndex: 'model',
+    dataIndex: 'modelId',
   },
   {
     title: ()=>{
@@ -152,7 +144,7 @@ export default class Demo extends React.Component {
           {...this.state}
           pagination={{ position: [this.state.top, this.state.bottom] }}
           columns={tableColumns}
-          dataSource={state.hasData ? data : null}
+          dataSource={this.state.hasData ? this.state.data : null}
           scroll={scroll}
         />
       </>

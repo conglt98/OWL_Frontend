@@ -1,13 +1,16 @@
 import React from 'react'
-import {Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import {Spin, Input, Select, Modal, Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs, message } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import {Card, CardBody} from 'reactstrap'
-import './index.css'
+import {Card, CardBody,Col} from 'reactstrap'
+import './index.css'  
 import MyList from './list'
+import {getModelsAPI, postFromURL, getConfig} from '../../data'
+import TableDetail from '../models/tableDetail'
+import { getFormValues } from 'redux-form';
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
-
+const {Option} = Select
 // Drag & Drop node
 class TabNode extends React.Component {
   render() {
@@ -165,6 +168,88 @@ const Content = ({ children, extraContent }) => {
   );
 };
 export default class Demo extends React.Component{
+  constructor(props){
+    super(props)
+    this.state={
+      visible:false,
+      modelAPI:[],
+      modelAPIChoose:{},
+      sourceType:'',
+      link:'',
+      manualName:'',
+      loading:getFormValues
+    }
+  }
+  componentWillMount=()=>{
+    this.setState({ loading: true }, () => {
+      getModelsAPI().then(res=>{
+        this.setState({
+          modelAPI:res,
+          loading:false
+        })
+      })
+    });
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  handleOk = e => {
+    let request = {}
+
+    if (this.state.sourceType != 'upload'){
+      request.link = this.state.link
+      request.typeSrc = 'image'
+      request.username = localStorage.getItem('auth')
+      request.manualName = this.state.manualName
+      request.modelId = this.state.modelAPIChoose.id
+
+      postFromURL(getConfig('AutoTraining')+"/models/"+request.modelId, request).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
+
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  onChange = (value)=> {
+    this.setState({
+      modelAPIChoose:this.state.modelAPI.find(ele=>ele.id==value)
+    })
+  }
+  onChangeSourceType = (value)=> {
+    this.setState({
+      sourceType:value
+    })
+  }
+
+  onChangeLink = (value)=> {
+    this.setState({
+      link:value.target.value
+    })
+  }
+
+  onChangeManualName = (value)=> {
+    this.setState({
+      manualName:value.target.value
+    })
+  }
+
     render()
     {
         return(
@@ -177,29 +262,107 @@ export default class Demo extends React.Component{
     extra={[
       // <Button key="3">Operation</Button>,
       // <Button key="2">Operation</Button>,
-      <Button key="1" type="primary">
+      <Button key="1" type="primary" onClick={this.showModal}>
         Create task
       </Button>
     ]}
     avatar={{ src: '/assets/objectdetection.jpg' }}
-  >
-    <Content
-      extraContent={
-        <img
-          src="/assets/objectdetection-banner.jpeg"
-          alt="content"
-          width="100%"
-        />
-      }
     >
-      {content}
+      <Content
+        extraContent={
+          <img
+            src="/assets/objectdetection-banner.jpeg"
+            alt="content"
+            width="100%"
+          />
+        }
+      >
+        {content}
     </Content>
+    <Modal
+          title="Create task"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          width={950}
+    >
+      <Row>
+      <Col md={4}>
+      <div>Name task</div>
+      <Input style={{ width: '100%' }} onChange={this.onChangeManualName}></Input>
+      <br></br>
+      <br></br>
+      <br></br>
+      <div>Select API model</div>
+        <Select
+        showSearch
+        style={{ width: '100%' }}
+        placeholder="Select model"
+        optionFilterProp="children"
+        onChange={this.onChange}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        {this.state.modelAPI.map(ele=>{
+          return (
+          <Option value={ele.id}>{ele.name}</Option>
+          )
+      })}
+      </Select>
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <div>
+        Select source type
+      </div>
+      <Select
+        showSearch
+        style={{ width: '100%' }}
+        placeholder="Select link or upload"
+        optionFilterProp="children"
+        onChange={this.onChangeSourceType}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        <Option value="link">Link image</Option>
+        {/* <Option value="upload">Upload image local</Option> */}
+      </Select>   
+
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <div>
+        {this.state.sourceType?
+        
+        <React.Fragment>
+          <div>Link image</div>
+          <Input style={{ width: '100%' }} onChange={this.onChangeLink}></Input>  
+        </React.Fragment>
+        
+        :<span></span>}
+      </div>
+      </Col>
+      <Col md={8}>
+      {this.state.modelAPIChoose?
+          <TableDetail data={this.state.modelAPIChoose}></TableDetail>
+      :<div></div>}
+      </Col>  
+      </Row>   
+    </Modal>
   </PageHeader>
     <CardBody className="pt-0">
     <DraggableTabs>
-          <TabPane tab="Task Images" key="1">
-              <MyList/>
-          </TabPane>
+            <TabPane tab="Task Images" key="1">
+              {this.state.loading?
+              <div style={{textAlign:'center'}}>
+              <Spin size="large"></Spin>
+              </div>
+              :<MyList/>}
+            </TabPane>
         </DraggableTabs>
     </CardBody>
         </Card>

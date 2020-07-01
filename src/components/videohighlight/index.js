@@ -1,11 +1,11 @@
 import React from 'react'
-import {Select, Modal, Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import {Spin,Input, Select, Modal, Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs, message } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody,Col} from 'reactstrap'
 import './index.css'  
 import MyList from './list'
-import {getModelsAPI} from '../../data'
+import {getModelsAPI, postFromURL, getConfig} from '../../data'
 import TableDetail from '../models/tableDetail'
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
@@ -173,15 +173,20 @@ export default class Demo extends React.Component{
       visible:false,
       modelAPI:[],
       modelAPIChoose:{},
-      sourceType:''
+      sourceType:'',
+      link:'',
+      manualName:''
     }
   }
   componentWillMount=()=>{
-    getModelsAPI().then(res=>{
-      this.setState({
-        modelAPI:res
+    this.setState({ loading: true }, () => {
+      getModelsAPI().then(res=>{
+        this.setState({
+          modelAPI:res,
+          loading:false
+        })
       })
-    })
+    });
   }
 
   showModal = () => {
@@ -191,6 +196,22 @@ export default class Demo extends React.Component{
   };
 
   handleOk = e => {
+    let request = {}
+
+    if (this.state.sourceType != 'upload'){
+      request.link = this.state.link
+      request.typeSrc = 'video'
+      request.username = localStorage.getItem('auth')
+      request.manualName = this.state.manualName
+      request.modelId = this.state.modelAPIChoose.id
+
+      postFromURL(getConfig('AutoTraining')+"/models/"+request.modelId, request).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
+
     console.log(e);
     this.setState({
       visible: false,
@@ -212,6 +233,18 @@ export default class Demo extends React.Component{
   onChangeSourceType = (value)=> {
     this.setState({
       sourceType:value
+    })
+  }
+
+  onChangeLink = (value)=> {
+    this.setState({
+      link:value.target.value
+    })
+  }
+
+  onChangeManualName = (value)=> {
+    this.setState({
+      manualName:value.target.value
     })
   }
 
@@ -253,6 +286,11 @@ export default class Demo extends React.Component{
     >
       <Row>
       <Col md={4}>
+      <div>Name task</div>
+      <Input style={{ width: '100%' }} onChange={this.onChangeManualName}></Input>
+      <br></br>
+      <br></br>
+      <br></br>
       <div>Select API model</div>
         <Select
         showSearch
@@ -287,8 +325,8 @@ export default class Demo extends React.Component{
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        <Option value="link">Link image online</Option>
-        {/* <Option value="upload">Upload image local</Option> */}
+        <Option value="link">Link video youtube</Option>
+        {/* <Option value="upload">Upload video local</Option> */}
       </Select>   
 
       <br></br>
@@ -296,7 +334,14 @@ export default class Demo extends React.Component{
       <br></br>
 
       <div>
-        {this.state.sourceType?this.state.sourceType:<span></span>}
+        {this.state.sourceType?
+        
+        <React.Fragment>
+          <div>Link video</div>
+          <Input style={{ width: '100%' }} onChange={this.onChangeLink}></Input>  
+        </React.Fragment>
+        
+        :<span></span>}
       </div>
       </Col>
       <Col md={8}>
@@ -310,7 +355,11 @@ export default class Demo extends React.Component{
     <CardBody className="pt-0">
     <DraggableTabs>
             <TabPane tab="Task Videos" key="1">
-              <MyList/>
+            {this.state.loading?
+              <div style={{textAlign:'center'}}>
+              <Spin size="large"></Spin>
+              </div>
+              :<MyList/>}
             </TabPane>
         </DraggableTabs>
     </CardBody>

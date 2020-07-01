@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal,Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
+import { Spin, Modal,Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import {getModels} from '../../data/index'
 import moment from 'moment'
@@ -37,19 +37,23 @@ export default class Demo extends React.Component {
       top: 'none',
       bottom: 'bottomRight',
       visibleModal:false,
-      modelChoose:{}
+      modelChoose:{},
+      loading:false
     };
   
   }
   componentWillMount=()=>{
-    getModels().then(res=>{
-      res.map(ele=>{
-        ele.key = ele.id
+    this.setState({ loading: true }, () => {
+      getModels().then(res=>{
+        res.map(ele=>{
+          ele.key = ele.id
+        })
+        this.setState({
+          data:res,
+          loading:false
+        })
       })
-      this.setState({
-        data:res
-      })
-    })
+    });
   }
   
  columns = [
@@ -193,13 +197,18 @@ export default class Demo extends React.Component {
         <Button className="float-right" type="primary">Create new model</Button>
         <br></br>
         <br></br>
-        <Table
-          {...this.state}
-          pagination={{ position: [this.state.top, this.state.bottom] }}
-          columns={tableColumns}
-          dataSource={this.state.hasData ?this.state.data : null}
-          scroll={scroll}
-        />
+        {this.state.loading?
+              <div style={{textAlign:'center'}}>
+              <Spin size="large"></Spin>
+              </div>
+              :<Table
+              {...this.state}
+              pagination={{ position: [this.state.top, this.state.bottom] }}
+              columns={tableColumns}
+              dataSource={this.state.hasData ?this.state.data : null}
+              scroll={scroll}
+            />}
+        
         <Modal
           title={"Detail model"}
           visible={this.state.visible}

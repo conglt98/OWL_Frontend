@@ -1,30 +1,8 @@
 import React from 'react'
-import { Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
+import {Modal, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import moment from 'moment'
-
-const mock = [
-  {
-    name:'vinfast',
-    createAt: 1591465641920,
-    type:'CenterNet',
-    model:'ctdet_coco_dla_2x',
-    status:'Done'
-  },
-  {
-    name:'fami',
-    createAt: 1591465641920,
-    type:'CenterNet',
-    model:'ctdet_coco_dla_2x',
-    status:'Pending'
-  }
-]
-
-const data = mock
-
-data.map(ele=>{
-    ele.key = ele.id
-})
+import {getTasks, getFromURL,getConfig} from '../../data'
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
@@ -33,22 +11,53 @@ const footer = () => 'Here is footer';
 const pagination = { position: 'bottom' };
 
 export default class Demo extends React.Component {
-  state = {
-    bordered: false,
-    loading: false,
-    pagination,
-    size: 'default',
-    expandable:undefined,
-    title: undefined,
-    showHeader,
-    footer: undefined,
-    rowSelection: undefined,
-    scroll: undefined,
-    hasData: true,
-    tableLayout: undefined,
-    top: 'none',
-    bottom: 'bottomRight',
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+      bordered: false,
+      loading: false,
+      pagination,
+      size: 'default',
+      expandable:undefined,
+      title: undefined,
+      showHeader,
+      footer: undefined,
+      rowSelection: undefined,
+      scroll: undefined,
+      hasData: true,
+      data:[],
+      tableLayout: undefined,
+      top: 'none',
+      bottom: 'bottomRight',
+      visible:false,
+      taskChoose:{},
+      isZoom:false,
+      imageStatus:'loading'
+    };
+  }
+
+  handleImageLoaded = ()=> {
+    this.setState({ imageStatus: "loaded" });
+  }
+
+  handleImageErrored = () =>{
+    this.setState({ imageStatus: "failed to load" });
+  }
+
+  zoomImg=()=>{
+    this.setState({
+      isZoom:!this.state.isZoom
+    })
+  }
+
+  componentWillMount=()=>{
+    getTasks().then(res=>{
+      this.setState({
+        data:res
+      })
+    })
+  }
+  
  menu = (
     <Menu>
       <Menu.Item key="delete">Delete</Menu.Item>
@@ -84,7 +93,7 @@ export default class Demo extends React.Component {
     title: ()=>{
         return <b>Model</b>
     },
-    dataIndex: 'model',
+    dataIndex: 'modelId',
   },
   {
     title: ()=>{
@@ -125,9 +134,47 @@ export default class Demo extends React.Component {
     ),
   },
 ];
- handleDetail=(e)=>{
-     console.log(e.key)
- }
+handleDetail= async (e)=>{
+  console.log(e.id)
+  let taskChoose = this.state.data.find(ele=>ele.id == e.id)
+  if (!taskChoose.linkImage){
+    let res = await getFromURL(getConfig('AutoTraining')+"/result/image/"+taskChoose.id+"/"+taskChoose.modelId)
+    res = res.data
+    let linkImage = 'https://drive.google.com/uc?export=view&id='+res[taskChoose.modelId+'.png']
+
+    taskChoose.linkImage = linkImage
+    this.state.data.find(ele=>ele.id == e.id).linkImage = linkImage
+  }
+
+  console.log(taskChoose)
+  this.setState({
+    taskChoose: taskChoose
+  })
+  this.showModal()
+}
+
+loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
+
+showModal = () => {
+this.setState({
+ visible: true,
+});
+};
+
+handleOk = e => {
+ console.log(e);
+ this.setState({
+   visible: false,
+ });
+};
+
+handleCancel = e => {
+ console.log(e);
+ this.setState({
+   visible: false,
+ });
+};
 
   render() {
     const { xScroll, yScroll, ...state } = this.state;
@@ -152,9 +199,21 @@ export default class Demo extends React.Component {
           {...this.state}
           pagination={{ position: [this.state.top, this.state.bottom] }}
           columns={tableColumns}
-          dataSource={state.hasData ? data : null}
+          dataSource={this.state.hasData ? this.state.data : null}
           scroll={scroll}
         />
+        <Modal
+          title={"Detail task"}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          width={this.state.isZoom?900:500}
+        >
+          <img 
+          onClick={this.zoomImg} 
+          width={'100%'} src={this.state.taskChoose.linkImage}>
+          </img>
+        </Modal>
       </>
     );
   }
