@@ -62,6 +62,9 @@ export default class Demo extends React.Component {
         else if (record.field=='status'){
             return record.value!=="training"?<Tag color="green">{record.value.toUpperCase()}</Tag>:<Tag color="magenta">{record.value.toUpperCase()}</Tag>
         }
+        else if (record.field=='path'){
+          return record.value.split('/')[record.value.split('/').length-1]
+      }
         else if (record.field == 'modelConfig'){
             return Object.keys(record.value).map(ele=>{
             return <Tag color="#f50">{ele}: {record.value[ele]}</Tag>

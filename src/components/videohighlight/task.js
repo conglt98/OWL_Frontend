@@ -159,7 +159,7 @@ export default class Demo extends React.Component{
           <PageHeader
       className="site-page-header"
       onBack={() => window.history.back()}
-      title={this.state.task.name}
+      title={this.state.task?this.state.task.name:"None"}
       subTitle="task"
       avatar={{ src: '/assets/keyword-icon.png' }}
     >

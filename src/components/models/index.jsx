@@ -1,15 +1,20 @@
 import React from 'react'
-import { Spin, Modal,Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
+import { Input, Spin, Select, Modal,Menu, Dropdown, Button,Table, Switch, Radio, message, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import {getModels} from '../../data/index'
 import moment from 'moment'
-import {getFromURL, getConfig} from '../../data'
+import {getFromURL, getConfig, postFromURL} from '../../data'
 import TableDetail from './tableDetail'
-import { controls } from 'react-redux-form';
+import {Row, Col} from 'reactstrap'
 
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 3,
+  rtl: true,
+});
 
-
-
+const {Option} = Select
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
 const showHeader = true;
@@ -38,7 +43,9 @@ export default class Demo extends React.Component {
       bottom: 'bottomRight',
       visibleModal:false,
       modelChoose:{},
-      loading:false
+      loading:false,
+      visibleCreateModel:false,
+      newModel:{}
     };
   
   }
@@ -54,6 +61,54 @@ export default class Demo extends React.Component {
         })
       })
     });
+  }
+
+  refresh=()=>{
+    this.setState({ loading: true }, () => {
+      getModels().then(res=>{
+        res.map(ele=>{
+          ele.key = ele.id
+        })
+        this.setState({
+          data:res,
+          loading:false
+        })
+      })
+    });
+  }
+
+  deployModel=(modelId, deploy)=>{
+    if (deploy == 'true'){
+      postFromURL(getConfig('AutoTraining')+"models/undeploy", {modelId:modelId}).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
+    if (deploy == 'false'){
+      postFromURL(getConfig('AutoTraining')+"models/deploy", {modelId:modelId}).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
+  }
+
+  deleteModel=(modelId, status)=>{
+    if (status == 'delete'){
+      postFromURL(getConfig('AutoTraining')+"models/undelete", {modelId:modelId}).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
+    if (status != 'delete'){
+      postFromURL(getConfig('AutoTraining')+"models/delete", {modelId:modelId}).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
   }
   
  columns = [
@@ -98,7 +153,7 @@ export default class Demo extends React.Component {
     ],
     onFilter: (value, record) => record.address.indexOf(value) === 0,
     render:(text,record)=>{
-        return record.status!=="training"?<Tag color="green">{record.status.toUpperCase()}</Tag>:<Tag color="magenta">{record.status.toUpperCase()}</Tag>
+        return record.status=="trained"?<Tag color="green">{record.status.toUpperCase()}</Tag>:<Tag color="magenta">{record.status.toUpperCase()}</Tag>
     }
   },
   {
@@ -122,17 +177,17 @@ export default class Demo extends React.Component {
         &nbsp;
         <Dropdown overlay={
           <Menu>
-          <Menu.Item key="deploy">{record.deploy=='true'? 'Undeploy':'Deploy'}</Menu.Item>
+          <Menu.Item key="deploy" onClick={()=>{this.deployModel(record.id,record.deploy)}}>{record.deploy=='true'? 'Undeploy':'Deploy'}</Menu.Item>
           
-          {record.deploy=='true'?
+          {/* {record.deploy=='true'?
           <Menu.Item key="deploy"><a href={"/#/manual/object-detection/"+record.id}>Use for image</a></Menu.Item>
           :<React.Fragment></React.Fragment>}
           
           {record.deploy=='true'?
           <Menu.Item key="deploy"><a href={"/#/manual/video-highlight/"+record.id}>Use for video</a></Menu.Item> 
-          :<React.Fragment></React.Fragment>}
+          :<React.Fragment></React.Fragment>} */}
 
-          <Menu.Item key="delete">Delete</Menu.Item>
+          <Menu.Item key="delete" onClick={()=>{this.deleteModel(record.id,record.status)}}>{record.status=='delete'? 'Recycle':'Delete'}</Menu.Item>
         </Menu>
         }>
         <Button type="primary" danger>
@@ -171,6 +226,91 @@ export default class Demo extends React.Component {
     });
   };
 
+ 
+
+  showCreateModal = () => {
+    this.setState({
+      visibleCreateModel: true,
+    });
+  };
+
+  onChangeModelName=(e)=>{
+    this.setState({
+      newModel:{
+        ...this.state.newModel,
+        modelName:e.target.value
+      }
+    })
+  }
+
+  onChangeModelType=(e)=>{
+    this.setState({
+      newModel:{
+        ...this.state.newModel,
+        type:e
+      }
+    })
+  }
+
+  onChangeDatasetName=(e)=>{
+    this.setState({
+      newModel:{
+        ...this.state.newModel,
+        datasetName:e.target.value
+      }
+    })
+  }
+
+  onChangeDatasetLink=(e)=>{
+    this.setState({
+      newModel:{
+        ...this.state.newModel,
+        datasetLink:e.target.value
+      }
+    })
+  }
+
+  onChangeDatasetLinkType=(e)=>{
+    this.setState({
+      newModel:{
+        ...this.state.newModel,
+        datasetLinkType:e
+      }
+    })
+  }
+
+  onChangeDatasetLabel=(e)=>{
+    this.setState({
+      newModel:{
+        ...this.state.newModel,
+        datasetLabel:e
+      }
+    })
+  }
+
+  handleCreateOk = e => {
+    if (this.state.newModel){
+      console.log(this.state.newModel)
+      let request = this.state.newModel
+      postFromURL(getConfig('AutoTraining')+"models", request).then(
+        res =>{
+          message.success(res.status +" - "+res.statusText)
+        }
+      )
+    }
+    this.setState({
+      visibleCreateModel: false,
+    });
+  };
+
+  handleCreateCancel = e => {
+    console.log(e);
+    this.setState({
+      visibleCreateModel: false,
+    });
+  };
+
+
   render() {
     // getFromURL(getConfig('AutoTraining')+'/models').then(res=>{
     //   console.log(res)
@@ -194,7 +334,11 @@ export default class Demo extends React.Component {
 
     return (
       <>
-        <Button className="float-right" type="primary">Create new model</Button>
+
+        <Button className="float-right" type="primary" onClick={this.showCreateModal}>Create new model</Button>
+        <Button className="float-right" style={{marginRight:"10px"}} onClick={this.refresh}>Refresh</Button>
+
+        
         <br></br>
         <br></br>
         {this.state.loading?
@@ -217,6 +361,86 @@ export default class Demo extends React.Component {
           width={920}
         >
           <TableDetail data={this.state.modelChoose}/>
+        </Modal>
+
+        <Modal
+          title="Create model"
+          visible={this.state.visibleCreateModel}
+          onOk={this.handleCreateOk}
+          onCancel={this.handleCreateCancel}
+          width={720}
+        >
+      <Row>
+      <Col md={6}>
+      <div>Model name</div>
+      <Input style={{ width: '100%' }} onChange={this.onChangeModelName}></Input>
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <div>Dataset name</div>
+      <Input style={{ width: '100%' }} onChange={this.onChangeDatasetName}></Input>
+      <br></br>
+      <br></br>
+      <br></br>
+      </Col>
+
+      <Col md={6}>
+      <div>Model type</div>
+      <Select
+        showSearch
+        style={{ width: '100%' }}
+        placeholder="Select type"
+        optionFilterProp="children"
+        onChange={this.onChangeModelType}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        <Option value="CenterNet">CenterNet</Option>
+        {/* <Option value="upload">Upload video local</Option> */}
+      </Select>   
+      <br></br>
+      <br></br>
+      <br></br>
+      <div>Dataset link type</div>
+      <Select
+        showSearch
+        style={{ width: '100%' }}
+        placeholder="Select link type"
+        optionFilterProp="children"
+        onChange={this.onChangeDatasetLinkType}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        <Option value="drive">Google drive</Option>
+        {/* <Option value="upload">Upload video local</Option> */}
+      </Select>   
+      <br></br>
+      <br></br>
+      <br></br>
+      </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+        <div>Dataset label</div>
+        <Select mode="tags" style={{ width: '100%' }} onChange={this.onChangeDatasetLabel} tokenSeparators={[',']}>
+       </Select>
+      <br></br>
+      <br></br>
+      <br></br>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+        <div>Dataset link</div>
+      <Input style={{ width: '100%' }} onChange={this.onChangeDatasetLink}></Input>
+      <br></br>
+      <br></br>
+      <br></br>
+        </Col>
+      </Row>
         </Modal>
       </>
     );
