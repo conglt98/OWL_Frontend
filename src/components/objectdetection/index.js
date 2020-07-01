@@ -178,7 +178,7 @@ export default class Demo extends React.Component{
       // <Button key="3">Operation</Button>,
       // <Button key="2">Operation</Button>,
       <Button key="1" type="primary">
-        Upload
+        Create task
       </Button>
     ]}
     avatar={{ src: '/assets/objectdetection.jpg' }}

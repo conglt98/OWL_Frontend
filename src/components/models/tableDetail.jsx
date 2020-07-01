@@ -3,7 +3,7 @@ import { Card, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'ant
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import {getModelsAPI} from '../../data/index'
 import moment from 'moment'
-
+import './index.css'
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
