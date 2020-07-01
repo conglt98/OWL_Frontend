@@ -12,6 +12,7 @@ class ResponsivePlayer extends React.Component {
     constructor(props){
         super(props)
         this.myRef = React.createRef();
+
         this.state={
             pip:false,
             listEvent:[],
@@ -19,8 +20,9 @@ class ResponsivePlayer extends React.Component {
             loaded: 0,
             duration: 0,
             refresh:false,
-        }
+      }
     }
+
     togglePIP=()=>{
         this.setState({
             pip:!this.state.pip
@@ -112,7 +114,7 @@ class ResponsivePlayer extends React.Component {
                         pip ={this.state.pip}
                         className='react-player'
                         controls={true}
-                        url='https://www.youtube.com/watch?v=nxResdIIyto'
+                        url={this.props.data?this.props.data.link:'https://www.youtube.com/watch?v=nxResdIIyto'}
                         width='100%'
                         height='100%'
                         config={{
@@ -144,7 +146,7 @@ class ResponsivePlayer extends React.Component {
                 <Affix offsetTop={55}>
                 <h4 className="list-events">List events</h4> 
                 </Affix>
-                <Masonry data = {this.state.listEvent} currentTime = {format(this.state.played*this.state.duration)}/>
+                <Masonry data = {this.state.listEvent} videoData = {this.props.data} currentTime = {format(this.state.played*this.state.duration)}/>
             </Col>
         </Row>
         <BackTop visibilityHeight={20}>

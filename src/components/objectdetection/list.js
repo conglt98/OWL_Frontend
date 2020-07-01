@@ -53,7 +53,7 @@ export default class Demo extends React.Component {
   componentWillMount=()=>{
     getTasks().then(res=>{
       this.setState({
-        data:res
+        data: res.filter(ele=>(ele.typeSrc?ele.typeSrc!='video':true))
       })
     })
   }

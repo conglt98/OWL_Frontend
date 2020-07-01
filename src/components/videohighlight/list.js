@@ -1,9 +1,10 @@
 import React from 'react'
-import { Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
+import {Modal, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import moment from 'moment'
 import {getTasks} from '../../data'
 import { element } from 'prop-types';
+import TableDetail from '../models/tableDetail'
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
@@ -30,6 +31,8 @@ export default class Demo extends React.Component {
       tableLayout: undefined,
       top: 'none',
       bottom: 'bottomRight',
+      visibleDetail:false,
+
     };
   }
 
@@ -53,7 +56,10 @@ export default class Demo extends React.Component {
         return <b>Name</b>
     },
     dataIndex: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name)
+    sorter: (a, b) => a.name.localeCompare(b.name),
+    render:(text,record)=>{
+    return <a href={'/#/manual/video-highlight/'+record.id}>{record.name}</a>
+  }
   },
   {
     title: ()=>{
@@ -117,9 +123,34 @@ export default class Demo extends React.Component {
     ),
   },
 ];
- handleDetail=(e)=>{
-     console.log(e.key)
- }
+
+handleDetail=(e)=>{
+  console.log(e.key)
+  this.setState({
+    taskChoose:this.state.data.find(ele=>ele.id == e.id)
+  })
+  this.showDetailModal()
+}
+
+showDetailModal = () => {
+  this.setState({
+    visibleDetail: true,
+  });
+  };
+
+  handleDetailOk = e => {
+    console.log(e);
+    this.setState({
+      visibleDetail: false,
+    });
+  };
+
+  handleDetailCancel = e => {
+    console.log(e);
+    this.setState({
+      visibleDetail: false,
+    });
+  };
 
   render() {
     const { xScroll, yScroll, ...state } = this.state;
@@ -147,6 +178,15 @@ export default class Demo extends React.Component {
           dataSource={this.state.hasData ? this.state.data : null}
           scroll={scroll}
         />
+        <Modal
+          title={"Detail task"}
+          visible={this.state.visibleDetail}
+          onOk={this.handleDetailOk}
+          onCancel={this.handleDetailCancel}
+          width={920}
+        >
+          <TableDetail data={this.state.taskChoose}/>
+        </Modal>
       </>
     );
   }

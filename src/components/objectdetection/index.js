@@ -11,6 +11,15 @@ import { getFormValues } from 'redux-form';
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 const {Option} = Select
+
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 3,
+  rtl: true,
+});
+
+
 // Drag & Drop node
 class TabNode extends React.Component {
   render() {
@@ -191,6 +200,17 @@ export default class Demo extends React.Component{
     });
   }
 
+  refresh=()=>{
+    this.setState({ loading: true }, () => {
+      getModelsAPI().then(res=>{
+        this.setState({
+          modelAPI:res,
+          loading:false
+        })
+      })
+    });
+  }
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -207,7 +227,7 @@ export default class Demo extends React.Component{
       request.manualName = this.state.manualName
       request.modelId = this.state.modelAPIChoose.id
 
-      postFromURL(getConfig('AutoTraining')+"/models/"+request.modelId, request).then(
+      postFromURL(getConfig('AutoTraining')+"models/"+request.modelId, request).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
@@ -261,7 +281,7 @@ export default class Demo extends React.Component{
     // tags={<Tag color="blue">Running</Tag>}
     extra={[
       // <Button key="3">Operation</Button>,
-      // <Button key="2">Operation</Button>,
+      <Button key="2" onClick={this.refresh}>Refresh</Button>,
       <Button key="1" type="primary" onClick={this.showModal}>
         Create task
       </Button>

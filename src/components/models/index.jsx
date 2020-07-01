@@ -129,7 +129,7 @@ export default class Demo extends React.Component {
           :<React.Fragment></React.Fragment>}
           
           {record.deploy=='true'?
-          <Menu.Item key="deploy"><a href={"/#/manual/video-hightlight/"+record.id}>Use for video</a></Menu.Item> 
+          <Menu.Item key="deploy"><a href={"/#/manual/video-highlight/"+record.id}>Use for video</a></Menu.Item> 
           :<React.Fragment></React.Fragment>}
 
           <Menu.Item key="delete">Delete</Menu.Item>

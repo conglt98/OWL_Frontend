@@ -58,6 +58,8 @@ const KeywordVideo = React.lazy(() => import('./components/keyword/video'));
 
 
 const VideoHighlight = React.lazy(() => import('./components/videohighlight'));
+const TaskVideoHighlight = React.lazy(() => import('./components/videohighlight/task'));
+
 const ObjectDetection = React.lazy(() => import('./components/objectdetection'));
 
 
@@ -121,8 +123,9 @@ const routes = [
   { path: '/project/keywords/:id/:videoid',exact:true, name: 'Keyword video', component: KeywordVideo },
 
 
-  { path: '/manual/video-highlight', name: 'Video highlight', component: VideoHighlight },
-  { path: '/manual/object-detection', name: 'Object detection', component: ObjectDetection },
+  { path: '/manual/video-highlight',exact:true,  name: 'Video highlight', component: VideoHighlight },
+  { path: '/manual/video-highlight/:taskid',exact:true,  name: 'Task', component: TaskVideoHighlight },
+  { path: '/manual/object-detection', exact:true, name: 'Object detection', component: ObjectDetection },
 
   // { path: '/events', exact: true,name: 'Events', component: Events },
   // { path: '/events/event/add', exact: true, name: 'Add new event', component: NewEvent },

@@ -9,6 +9,8 @@ import 'animate.css/animate.css'
 import {connect} from 'react-redux';
 import {Drawer, Tag} from 'antd'
 import {setPeekVideo} from '../../../../reducers/MainEvent'
+import {getFromURL,getConfig} from '../../../../data'
+import { controls } from "react-redux-form";
 
 function format(time) {   
   // Hours, minutes and seconds
@@ -29,16 +31,19 @@ function format(time) {
 class App extends React.Component {
   constructor(props){
     super(props)
-    let mockData = []
-    Object.keys(mock).map(ele=>{
-      mockData.push({
-        id:parseInt(ele.split('.')[0]),
-        name:format(parseInt(ele.split('.')[0])),
-        src:`https://drive.google.com/uc?export=view&id=${mock[ele]}`
-      })
-    })
 
-    mockData.sort((a,b)=>a.id - b.id)
+    let mockData = []
+    if (!props.videoData){
+      Object.keys(mock).map(ele=>{
+        mockData.push({
+          id:parseInt(ele.split('.')[0]),
+          name:format(parseInt(ele.split('.')[0])),
+          src:`https://drive.google.com/uc?export=view&id=${mock[ele]}`
+        })
+      })
+  
+      mockData.sort((a,b)=>a.id - b.id)
+    }
 
     this.state = {
       mainId: this.props.id,
@@ -55,6 +60,31 @@ class App extends React.Component {
       // })),
       masterItems: mockData,
       items:mockData
+    }
+  }
+
+  componentWillMount= async ()=>{
+    if (this.props.videoData){
+      let videoId = this.props.videoData.link.split("=")
+      videoId = videoId[videoId.length - 1]
+      let modelId = this.props.videoData.modelId
+      let url = getConfig('AutoTraining')+'result/video/'+videoId+"/"+modelId
+
+      let res = await getFromURL(url)
+      res = res.data
+      let mockData = []
+      Object.keys(res).map(ele=>{
+        mockData.push({
+          id:parseInt(ele.split('.')[0]),
+          name:format(parseInt(ele.split('.')[0])),
+          src:`https://drive.google.com/uc?export=view&id=${res[ele]}`
+        })
+      })
+      mockData.sort((a,b)=>a.id - b.id)
+      this.setState({
+        masterItems:mockData,
+        items:mockData
+      })
     }
   }
 
