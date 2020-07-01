@@ -53,6 +53,7 @@ class App extends React.Component {
       //   name: catNames.random(),
       //   src: randomChoice(cats)
       // })),
+      masterItems: mockData,
       items:mockData
     }
   }
@@ -63,7 +64,8 @@ class App extends React.Component {
       showImg:true,
       item:{
         src: src,
-        seconds: id
+        seconds: id,
+        id: id
       }
     })
   }
@@ -75,7 +77,12 @@ class App extends React.Component {
   }
 
   componentWillReceiveProps=(nextProps)=>{
-    console.log(nextProps)
+    let seconds = parseInt(nextProps.currentTime.split(":")[0])*60+parseInt(nextProps.currentTime.split(":")[1])
+    if (seconds >= 0){
+      this.setState({
+        items:this.state.masterItems.filter(ele=>ele.id>=seconds)
+      })
+    }
     this.state.items.map(ele=>{
       let myId = 'imglist'+ ele.id 
       if (document.getElementById(myId)){
@@ -131,7 +138,7 @@ class App extends React.Component {
               >
                 <img style={{width:'auto'}} src={this.state.item.src} alt="img"></img>
                 <br></br>
-                <Tag color = "magenta">
+                <Tag color = "magenta" className="myBtn">
                   Object detection for keyword at {this.state.item.id} seconds
                 </Tag>
               </Drawer>
@@ -194,7 +201,7 @@ const style = styles({
     align-items: center;
     transition: transform 100ms ease-in-out;
     width: 100%;
-    min-height: 100px;
+    min-height: 220px;
 
     span:last-of-type {
       color: #fff;

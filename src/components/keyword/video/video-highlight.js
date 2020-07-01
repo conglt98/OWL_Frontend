@@ -11,11 +11,15 @@ import {setPeekVideo} from '../../../reducers/MainEvent'
 class ResponsivePlayer extends React.Component {
     constructor(props){
         super(props)
+        this.myRef = React.createRef();
         this.state={
             pip:false,
-            listEvent:[]
+            listEvent:[],
+            played: 0,
+            loaded: 0,
+            duration: 0,
+            refresh:false,
         }
-        this.myRef = React.createRef();
     }
     togglePIP=()=>{
         this.setState({
@@ -25,14 +29,74 @@ class ResponsivePlayer extends React.Component {
 
     refreshEvent=()=>{
         this.setState({
-            listEvent:[]
+            listEvent:[],
         })
     }
+
+    handleSeekChange = e => {
+        this.setState({ played: parseFloat(e.target.value) })
+    }
+
+    handleDuration = (duration) => {
+        console.log('onDuration', duration)
+        this.setState({ duration })
+      }
 
     componentWillReceiveProps=(nextProps)=>{
         console.log(nextProps.seekVideo)
         this.myRef.current.seekTo(nextProps.seekVideo.time-1, 'seconds');
     }
+
+    handlePlay = () => {
+        console.log('onPlay')
+        this.setState({ playing: true })
+      }
+    
+      handleEnablePIP = () => {
+        console.log('onEnablePIP')
+        this.setState({ pip: true })
+      }
+    
+      handleDisablePIP = () => {
+        console.log('onDisablePIP')
+        this.setState({ pip: false })
+      }
+    
+      handlePause = () => {
+        console.log('onPause')
+        this.setState({ playing: false })
+      }
+    
+      handleSeekMouseDown = e => {
+        this.setState({ seeking: true })
+      }
+    
+      handleSeekChange = e => {
+        this.setState({ played: parseFloat(e.target.value) })
+      }
+    
+      handleSeekMouseUp = e => {
+        this.setState({ seeking: false })
+        this.player.seekTo(parseFloat(e.target.value))
+      }
+    
+      handleProgress = state => {
+        console.log('onProgress', state)
+        // We only want to update time slider if we are not currently seeking
+        if (!this.state.seeking) {
+          this.setState(state)
+        }
+      }
+    
+      handleEnded = () => {
+        console.log('onEnded')
+        this.setState({ playing: this.state.loop })
+      }
+    
+      handleDuration = (duration) => {
+        console.log('onDuration', duration)
+        this.setState({ duration })
+      }
 
     render () {
       return (
@@ -44,10 +108,11 @@ class ResponsivePlayer extends React.Component {
                     <ReactPlayer
                         ref={this.myRef}
                         playing={true}
+                        
                         pip ={this.state.pip}
                         className='react-player'
                         controls={true}
-                        url='https://www.youtube.com/watch?v=Ynxk72iCc6A'
+                        url='https://www.youtube.com/watch?v=nxResdIIyto'
                         width='100%'
                         height='100%'
                         config={{
@@ -55,6 +120,16 @@ class ResponsivePlayer extends React.Component {
                             playerVars: { showinfo: 1 }
                             }
                         }}
+                        onPlay={this.handlePlay}
+                        onEnablePIP={this.handleEnablePIP}
+                        onDisablePIP={this.handleDisablePIP}
+                        onPause={this.handlePause}
+                        onBuffer={() => console.log('onBuffer')}
+                        onSeek={e => console.log('onSeek', e)}
+                        onEnded={this.handleEnded}
+                        onError={e => console.log('onError', e)}
+                        onProgress={this.handleProgress}
+                        onDuration={this.handleDuration}
                     />
                     </div>
                     <br></br>
@@ -69,7 +144,7 @@ class ResponsivePlayer extends React.Component {
                 <Affix offsetTop={55}>
                 <h4 className="list-events">List events</h4> 
                 </Affix>
-                <Masonry data = {this.state.listEvent}/>
+                <Masonry data = {this.state.listEvent} currentTime = {format(this.state.played*this.state.duration)}/>
             </Col>
         </Row>
         <BackTop visibilityHeight={20}>
@@ -79,6 +154,20 @@ class ResponsivePlayer extends React.Component {
     }
   }
 
+function format (seconds) {
+const date = new Date(seconds * 1000)
+const hh = date.getUTCHours()
+const mm = date.getUTCMinutes()
+const ss = pad(date.getUTCSeconds())
+if (hh) {
+    return `${hh}:${pad(mm)}:${ss}`
+}
+return `${mm}:${ss}`
+}
+
+function pad (string) {
+return ('0' + string).slice(-2)
+}
 
 const mapStateToProps = state => ({
     seekVideo: state.MainEvent.peekVideo,

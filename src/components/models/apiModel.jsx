@@ -5,12 +5,6 @@ import {getModelsAPI} from '../../data/index'
 import moment from 'moment'
 
 
-
-const data = getModelsAPI();
-data.map(ele=>{
-    ele.key = ele.id
-})
-
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
 const showHeader = true;
@@ -18,23 +12,42 @@ const footer = () => 'Here is footer';
 const pagination = { position: 'bottom' };
 
 export default class Demo extends React.Component {
-  state = {
-    bordered: false,
-    loading: false,
-    pagination,
-    size: 'default',
-    expandable:undefined,
-    title: undefined,
-    showHeader,
-    footer: undefined,
-    rowSelection: undefined,
-    scroll: undefined,
-    hasData: true,
-    tableLayout: undefined,
-    top: 'none',
-    bottom: 'bottomRight',
-  };
- menu = (
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      bordered: false,
+      loading: false,
+      pagination,
+      size: 'default',
+      expandable:undefined,
+      title: undefined,
+      showHeader,
+      footer: undefined,
+      rowSelection: undefined,
+      scroll: undefined,
+      hasData: true,
+      data:[],
+      tableLayout: undefined,
+      top: 'none',
+      bottom: 'bottomRight',
+      visibleModal:false,
+      modelChoose:{}
+    };
+  
+  }
+  componentWillMount=()=>{
+    getModelsAPI().then(res=>{
+      res.map(ele=>{
+        ele.key = ele.id
+      })
+      this.setState({
+        data:res
+      })
+    })
+  }
+ 
+  menu = (
     <Menu>
       <Menu.Item key="delete">Delete</Menu.Item>
     </Menu>
@@ -194,7 +207,7 @@ export default class Demo extends React.Component {
           {...this.state}
           pagination={{ position: [this.state.top, this.state.bottom] }}
           columns={tableColumns}
-          dataSource={state.hasData ? data : null}
+          dataSource={this.state.hasData ? this.state.data : null}
           scroll={scroll}
         />
       </>

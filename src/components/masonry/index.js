@@ -22,7 +22,7 @@ const App = (props) => {
     const FakeCard = ({ data: { id, name, src } }) => (
         <div className={style("card")}>
         <img className={style("img")} alt="kitty" src={src} />
-        <span style={{marginTop:"5px"}} children={'11/11/2020 15h30 '+id+"s"} />
+        <span style={{marginTop:"5px"}} children={'Description'} />
         <span children={<a href={`#/project/${type}/${mainId}/${id}`}>{name}</a>} />
 
         </div>

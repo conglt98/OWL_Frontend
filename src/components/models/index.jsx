@@ -5,12 +5,10 @@ import {getModels} from '../../data/index'
 import moment from 'moment'
 import {getFromURL, getConfig} from '../../data'
 import TableDetail from './tableDetail'
+import { controls } from 'react-redux-form';
 
 
-const data = getModels();
-data.map(ele=>{
-    ele.key = ele.id
-})
+
 
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
@@ -19,31 +17,41 @@ const footer = () => 'Here is footer';
 const pagination = { position: 'bottom' };
 
 export default class Demo extends React.Component {
-  state = {
-    bordered: false,
-    loading: false,
-    pagination,
-    size: 'default',
-    expandable:undefined,
-    title: undefined,
-    showHeader,
-    footer: undefined,
-    rowSelection: undefined,
-    scroll: undefined,
-    hasData: true,
-    tableLayout: undefined,
-    top: 'none',
-    bottom: 'bottomRight',
-    visibleModal:false,
-    modelChoose:{}
-  };
- menu = (
-    <Menu>
-      <Menu.Item key="deploy">Deploy</Menu.Item>
-      <Menu.Item key="delete">Delete</Menu.Item>
-    </Menu>
-);
-
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      bordered: false,
+      loading: false,
+      pagination,
+      size: 'default',
+      expandable:undefined,
+      title: undefined,
+      showHeader,
+      footer: undefined,
+      rowSelection: undefined,
+      scroll: undefined,
+      hasData: true,
+      data:[],
+      tableLayout: undefined,
+      top: 'none',
+      bottom: 'bottomRight',
+      visibleModal:false,
+      modelChoose:{}
+    };
+  
+  }
+  componentWillMount=()=>{
+    getModels().then(res=>{
+      res.map(ele=>{
+        ele.key = ele.id
+      })
+      this.setState({
+        data:res
+      })
+    })
+  }
+  
  columns = [
   {
     title: ()=>{
@@ -108,7 +116,21 @@ export default class Demo extends React.Component {
       <span>
         <Button type="primary" onClick={()=>{this.handleDetail(record)}}>Details</Button>
         &nbsp;
-        <Dropdown overlay={this.menu}>
+        <Dropdown overlay={
+          <Menu>
+          <Menu.Item key="deploy">{record.deploy=='true'? 'Undeploy':'Deploy'}</Menu.Item>
+          
+          {record.deploy=='true'?
+          <Menu.Item key="deploy"><a href={"/#/manual/object-detection/"+record.id}>Use for image</a></Menu.Item>
+          :<React.Fragment></React.Fragment>}
+          
+          {record.deploy=='true'?
+          <Menu.Item key="deploy"><a href={"/#/manual/video-hightlight/"+record.id}>Use for video</a></Menu.Item> 
+          :<React.Fragment></React.Fragment>}
+
+          <Menu.Item key="delete">Delete</Menu.Item>
+        </Menu>
+        }>
         <Button type="primary" danger>
         Actions <DownOutlined />
         </Button>
@@ -120,7 +142,7 @@ export default class Demo extends React.Component {
  handleDetail=(e)=>{
      console.log(e.key)
      this.setState({
-       modelChoose:data.find(ele=>ele.id == e.key)
+       modelChoose:this.state.data.find(ele=>ele.id == e.key)
      })
      this.showModal()
  }
@@ -146,9 +168,9 @@ export default class Demo extends React.Component {
   };
 
   render() {
-    getFromURL(getConfig('AutoTraining')+'/models').then(res=>{
-      console.log(res)
-    })
+    // getFromURL(getConfig('AutoTraining')+'/models').then(res=>{
+    //   console.log(res)
+    // })
 
     const { xScroll, yScroll, ...state } = this.state;
 
@@ -175,7 +197,7 @@ export default class Demo extends React.Component {
           {...this.state}
           pagination={{ position: [this.state.top, this.state.bottom] }}
           columns={tableColumns}
-          dataSource={state.hasData ? data : null}
+          dataSource={this.state.hasData ?this.state.data : null}
           scroll={scroll}
         />
         <Modal

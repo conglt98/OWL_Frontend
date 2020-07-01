@@ -12,11 +12,21 @@ export function getConfig(name){
     }
 }
 
-export function getModels() {
+export async function getModels() {
+    if (getConfig('Use API')=='ON'){
+        let res = await getFromURL(getConfig('AutoTraining')+'/models')
+        let data = res?res.data:{models:[]}
+        return data['models']
+    }
     return mockModels['models']
 }
 
-export function getModelsAPI() {
+export async function getModelsAPI() {
+    if (getConfig('Use API')=='ON'){
+        let res = await getFromURL(getConfig('AutoTraining')+'/models')
+        let data = res?res.data:{models:[]}
+        return data['models'].filter(ele => (ele.deploy === 'true'))
+    }
     return mockModels['models'].filter(ele => (ele.deploy === 'true'))
 }
 
