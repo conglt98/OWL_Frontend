@@ -1,14 +1,16 @@
 import React from 'react'
-import {Modal, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
+import {Tabs, Modal, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import moment from 'moment'
 import {getTasks, getFromURL,getConfig} from '../../data'
-
+import TableDetail from '../models/tableDetail'
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
 const showHeader = true;
 const footer = () => 'Here is footer';
 const pagination = { position: 'bottom' };
+const { TabPane } = Tabs;
+
 
 export default class Demo extends React.Component {
   constructor(props){
@@ -207,12 +209,19 @@ handleCancel = e => {
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          width={this.state.isZoom?900:500}
+          width={this.state.isZoom?900:600}
         >
-          <img 
-          onClick={this.zoomImg} 
-          width={'100%'} src={this.state.taskChoose.linkImage}>
-          </img>
+          <Tabs tabPosition={'left'} defaultActiveKey="1">
+            <TabPane tab="Info" key="1">
+            <TableDetail data={this.state.taskChoose}/>
+            </TabPane>
+            <TabPane tab="Result" key="2">
+                <img 
+              onClick={this.zoomImg} 
+              width={'100%'} src={this.state.taskChoose.linkImage}>
+              </img>
+            </TabPane>
+          </Tabs>
         </Modal>
       </>
     );
