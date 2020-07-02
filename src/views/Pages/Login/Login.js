@@ -21,7 +21,7 @@ class Login extends Component {
     this.state = { redirectToReferrer: false,
     activeTab: new Array(4).fill('1') };
   }
-  vnglogin() {
+  login() {
     return (
     <div>
       <InputGroup className="mb-3 magintop20">
@@ -42,7 +42,7 @@ class Login extends Component {
   </InputGroup>
   </div>)
   }
-  databaselogin() {
+  signup() {
     return (
     <div>
       <InputGroup className="mb-3 magintop20">
@@ -75,10 +75,10 @@ class Login extends Component {
     return (
       <>
         <TabPane tabId="1">
-          {this.vnglogin()}
+          {this.login()}
         </TabPane>
         <TabPane tabId="2">
-          {this.databaselogin()}
+          {this.signup()}
         </TabPane>
       </>
     );
@@ -90,7 +90,8 @@ class Login extends Component {
     const password = elements.password.value
     const tab=this.state.activeTab[0];
     if(tab==='1'){
-      signIn(username, password).then(data=>{
+      if (username){
+        signIn(username, password).then(data=>{
         if(data.status ==="true"){
           console.log(data)
           fakeAuth.authenticate(username,data.token);
@@ -99,30 +100,13 @@ class Login extends Component {
           swal("Thông báo!", "Đăng nhập không thành công!", "error");
         }
       })
+      }
     }else{
-      let login={
+      let signup={
         username:elements.username2.value,
         password:elements.password2.value
       };
-      loginDataToken(login).then(res=>{
-
-          if(res.status===200){
-            fakeAuth.authenticate(res.data.username,res.data.token);
-             this.setState({ redirectToReferrer: true });
-                // loginDataBase(login).then(ret=>{
-                // if(ret.data.status ==="true"){
-                //   fakeAuth.authenticate(ret.data.username,ret.data.role);
-                //   this.setState({ redirectToReferrer: true });
-                // }else{
-                //   swal("Thông báo!", "Đăng nhập không thành công!", "error");
-                // }
-            //})
-          }
-
-      }).catch(err=>{
-        swal("Thông báo!", "Đăng nhập không thành công!", "error");
-      })
-
+      swal("Thông báo!", "Đăng ký!", "success");
   }
 }
   componentWillMount(){
@@ -150,7 +134,16 @@ class Login extends Component {
                           active={this.state.activeTab[0] === '1'}
                           onClick={() => { this.toggle(0, '1'); }}
                         > 
-                           SIGN IN
+                           LOG IN
+                        </NavLink>
+                        
+                      </NavItem>
+                      <NavItem>
+                      <NavLink
+                          active={this.state.activeTab[0] === '2'}
+                          onClick={() => { this.toggle(0, '2'); }}
+                        > 
+                           SIGN UP
                         </NavLink>
                       </NavItem>
                       
@@ -164,7 +157,7 @@ class Login extends Component {
                         {/* <Button type="reset" color="primary" className="px-4">Reset</Button> */}
                         </Col>
                         <Col xs="6" className="text-right">
-                          <Button type="submit" color="primary" className="px-4">Login</Button>
+                          <Button type="submit" color="primary" className="px-4">{this.state.activeTab[0]==='1'?'Login':'Sign up'}</Button>
                         </Col>
                         
                       </Row>
