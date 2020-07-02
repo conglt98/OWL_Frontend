@@ -1,2 +1,2 @@
-export const rolesListSuggest = []
-export const rolesListSearchSuggest = []
+export const rolesListSuggest = ['ADMIN', 'USER']
+export const rolesListSearchSuggest = ['ADMIN', 'USER']

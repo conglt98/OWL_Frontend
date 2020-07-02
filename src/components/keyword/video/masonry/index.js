@@ -68,7 +68,7 @@ class App extends React.Component {
       let videoId = this.props.videoData.link.split("=")
       videoId = videoId[videoId.length - 1]
       let modelId = this.props.videoData.modelId
-      let url = getConfig('AutoTraining')+'result/video/'+videoId+"/"+modelId
+      let url = getConfig('MODEL')+'result/video/'+videoId+"/"+modelId
 
       let res = await getFromURL(url)
       res = res.data

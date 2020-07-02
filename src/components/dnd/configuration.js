@@ -8,17 +8,17 @@ const originData = [
     },
     {
         key: '1',
-        config: 'AutoTraining',
+        config: 'MODEL',
         value: 'http://',
     },
     {
         key: '2',
-        config: 'Crawler&Detect',
+        config: 'DETECTOR',
         value: 'http://',
     },
     {
         key: '3',
-        config: 'Result',
+        config: 'COLLECTOR',
         value: 'http://',
     }
 ];

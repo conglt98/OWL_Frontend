@@ -5,28 +5,16 @@ import fakeAuth from './fakeAuth';
 const data = {
   data: [
     {
-      'id': '1',
-      'name': 'ADMIN',
-      'username': 'ADMIN',
-      'role': 'Administrator',
-      'status': 'ON'
-    }, {
       'id': '2',
       'name': 'Lê Thành Công',
       'username': 'conglt',
-      'role': 'Administrator',
-      'status': 'OFF'
-    }, {
-      'id': '3',
-      'name': 'Bùi Mạnh Cường',
-      'username': 'cuongbm2',
-      'role': 'Executive',
+      'role': 'ADMIN',
       'status': 'ON'
     }, {
-      'id': '4',
-      'name': 'Nguyễn Hữu Phong',
-      'username': 'phongnh',
-      'role': 'Executive',
+      'id': '3',
+      'name': 'Nguyễn Quốc Vương',
+      'username': 'vuongnq4',
+      'role': 'USER',
       'status': 'ON'
     }
   ]
@@ -49,14 +37,16 @@ export async function getAllRole(token) {
       return res
     }
     if (response.status === 200) {
-      console.log("URL: " + url + " 200 OK")
-      return response
-        .json()
-        .then(data => {
-          console.log(data)
-          res.data = data;
-          return res;
-        })
+      // console.log("URL: " + url + " 200 OK")
+      // return response
+      //   .json()
+      //   .then(data => {
+      //     console.log(data)
+      //     res.data = data;
+      //     return res;
+      //   })
+      res.data = data.data
+      return res
     }
 
     return res
@@ -69,7 +59,7 @@ export async function getAllRole(token) {
 export async function getOneRole(username, token) {
   let res = {}
   res.data = {
-    role: ["Administrator"]
+    role: ["ADMIN"]
   }
   return res
   // let url = '/api/get_role/' + username;
@@ -84,7 +74,7 @@ export async function getOneRole(username, token) {
   //   if (response.status !== 200) {
   //     console.log("URL: " + url + " " + response.status + " " + response.statusText)
   //     res.data = {
-  //       role: ["Administrator"]
+  //       role: ["ADMIN"]
   //     }
   //     // fakeAuth.signout(() => {});
   //     return res

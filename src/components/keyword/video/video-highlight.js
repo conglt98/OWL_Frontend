@@ -114,7 +114,7 @@ class ResponsivePlayer extends React.Component {
                         pip ={this.state.pip}
                         className='react-player'
                         controls={true}
-                        url={this.props.data?this.props.data.link:'https://www.youtube.com/watch?v=nxResdIIyto'}
+                        url={this.props.data?this.props.data.link:'https://www.youtube.com/watch?v=zI2QH6flLzI'}
                         width='100%'
                         height='100%'
                         config={{

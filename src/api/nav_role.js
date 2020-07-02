@@ -6,12 +6,12 @@ const data = {
     {
       'id':1,
       'name':'Dashboard',
-      'roles':['ADMIN','EXE','CS'],
+      'roles':['ADMIN','USER'],
     },
     {
       'id':2,
       'name':'Events',
-      'roles':['ADMIN','EXE','CS'],
+      'roles':['ADMIN','USER'],
     },
     {
     'id':3,
@@ -22,21 +22,6 @@ const data = {
     'id':4,
     'name':'RoleManagement',
     'roles':['ADMIN'],
-  },
-  {
-    'id':5,
-    'name':'Add new event',
-    'roles':['ADMIN'],
-  },
-  {
-    'id':6,
-    'name':'Edit',
-    'roles':['ADMIN'],
-  },
-  {
-    'id':7,
-    'name':'Info',
-    'roles':['ADMIN','EXE'],
   }
   ]
 }

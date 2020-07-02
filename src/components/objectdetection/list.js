@@ -138,7 +138,7 @@ handleDetail= async (e)=>{
   console.log(e.id)
   let taskChoose = this.state.data.find(ele=>ele.id == e.id)
   if (!taskChoose.linkImage){
-    let res = await getFromURL(getConfig('AutoTraining')+"/result/image/"+taskChoose.id+"/"+taskChoose.modelId)
+    let res = await getFromURL(getConfig('MODEL')+"/result/image/"+taskChoose.id+"/"+taskChoose.modelId)
     res = res.data
     let linkImage = 'https://drive.google.com/uc?export=view&id='+res[taskChoose.modelId+'.png']
 

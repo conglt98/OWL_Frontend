@@ -44,7 +44,7 @@ class Sidebar extends Component {
   // }
 
   isValidRole = (userRole, rolesValid) => {
-    if (userRole.includes('Administrator'))
+    if (userRole.includes('ADMIN'))
       return true;
     if(!rolesValid) {
       return false;

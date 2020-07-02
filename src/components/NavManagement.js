@@ -59,7 +59,7 @@ class UserRow extends Component {
     const user = this.state.nav
     return (
         <tr key={user.name}>
-          <td width="5%"><strong>{user.name}</strong></td>
+          <td width="20%"><strong>{user.name}</strong></td>
           <td width="40%"><strong>{user.path}</strong></td>
           <td width="30%">
           

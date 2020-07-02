@@ -76,7 +76,7 @@ class DefaultHeader extends Component {
 
   getTag = (tag)=>{
     let color = tag.length > 13 ?  'green':'geekblue';
-    if (tag === 'Administrator') {
+    if (tag === 'ADMIN') {
       color = 'volcano';
     }
   return <Tag color={color} key={tag}>{tag.toUpperCase()}</Tag>;

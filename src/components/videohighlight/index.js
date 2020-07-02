@@ -185,6 +185,9 @@ export default class Demo extends React.Component{
       sourceType:'',
       link:'',
       manualName:'',
+      loading:false,
+      modelType:'',
+      isAPIModelDisable:true,
     }
   }
   componentWillMount=()=>{
@@ -226,7 +229,7 @@ export default class Demo extends React.Component{
       request.manualName = this.state.manualName
       request.modelId = this.state.modelAPIChoose.id
 
-      postFromURL(getConfig('AutoTraining')+"models/"+request.modelId, request).then(
+      postFromURL(getConfig('MODEL')+"models/"+request.modelId, request).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
@@ -251,6 +254,18 @@ export default class Demo extends React.Component{
       modelAPIChoose:this.state.modelAPI.find(ele=>ele.id==value)
     })
   }
+
+  onChangeModelType = (value)=> {
+    if (value){
+      this.setState({
+        isAPIModelDisable: false
+      })  
+    }
+    this.setState({
+      modelType: value
+    })
+  }
+
   onChangeSourceType = (value)=> {
     this.setState({
       sourceType:value
@@ -314,9 +329,26 @@ export default class Demo extends React.Component{
       <br></br>
       <br></br>
       <br></br>
+      <div>Select model type</div>
+        <Select
+        showSearch
+        style={{ width: '100%' }}
+        placeholder="Select type"
+        optionFilterProp="children"
+        onChange={this.onChangeModelType}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        <Option value={'CenterNet'}>CenterNet</Option>
+      </Select>
+      <br></br>
+      <br></br>
+      <br></br>
       <div>Select API model</div>
         <Select
         showSearch
+        disabled={this.state.isAPIModelDisable}
         style={{ width: '100%' }}
         placeholder="Select model"
         optionFilterProp="children"

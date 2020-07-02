@@ -14,7 +14,7 @@ export function getConfig(name){
 
 export async function getModels() {
     if (getConfig('Use API')=='ON'){
-        let res = await getFromURL(getConfig('AutoTraining')+'models')
+        let res = await getFromURL(getConfig('MODEL')+'models')
         let data = res?res.data:{models:[]}
         return data['models']
     }
@@ -23,7 +23,7 @@ export async function getModels() {
 
 export async function getTasks() {
     if (getConfig('Use API')=='ON'){
-        let res = await getFromURL(getConfig('AutoTraining')+'tasks')
+        let res = await getFromURL(getConfig('MODEL')+'tasks')
         let data = res?res.data:{tasks:[]}
         return data['tasks']
     }
@@ -32,7 +32,7 @@ export async function getTasks() {
 
 export async function getModelsAPI() {
     if (getConfig('Use API')=='ON'){
-        let res = await getFromURL(getConfig('AutoTraining')+'models')
+        let res = await getFromURL(getConfig('MODEL')+'models')
         let data = res?res.data:{models:[]}
         return data['models'].filter(ele => (ele.deploy === 'true'))
     }

@@ -79,14 +79,14 @@ export default class Demo extends React.Component {
 
   deployModel=(modelId, deploy)=>{
     if (deploy == 'true'){
-      postFromURL(getConfig('AutoTraining')+"models/undeploy", {modelId:modelId}).then(
+      postFromURL(getConfig('MODEL')+"models/undeploy", {modelId:modelId}).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
       )
     }
     if (deploy == 'false'){
-      postFromURL(getConfig('AutoTraining')+"models/deploy", {modelId:modelId}).then(
+      postFromURL(getConfig('MODEL')+"models/deploy", {modelId:modelId}).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
@@ -96,14 +96,14 @@ export default class Demo extends React.Component {
 
   deleteModel=(modelId, status)=>{
     if (status == 'delete'){
-      postFromURL(getConfig('AutoTraining')+"models/undelete", {modelId:modelId}).then(
+      postFromURL(getConfig('MODEL')+"models/undelete", {modelId:modelId}).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
       )
     }
     if (status != 'delete'){
-      postFromURL(getConfig('AutoTraining')+"models/delete", {modelId:modelId}).then(
+      postFromURL(getConfig('MODEL')+"models/delete", {modelId:modelId}).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
@@ -292,7 +292,7 @@ export default class Demo extends React.Component {
     if (this.state.newModel){
       console.log(this.state.newModel)
       let request = this.state.newModel
-      postFromURL(getConfig('AutoTraining')+"models", request).then(
+      postFromURL(getConfig('MODEL')+"models", request).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
@@ -312,9 +312,7 @@ export default class Demo extends React.Component {
 
 
   render() {
-    // getFromURL(getConfig('AutoTraining')+'/models').then(res=>{
-    //   console.log(res)
-    // })
+
 
     const { xScroll, yScroll, ...state } = this.state;
 
