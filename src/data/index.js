@@ -35,7 +35,7 @@ export async function getModelsAPI(type) {
     let mytype = type?type:'CenterNet'
 
     if (getConfig('Use API', mytype)=='ON'){
-        let res = await getFromURL(getConfig('MODEL', mytype)+'models')
+        let res = await getFromURL(getConfig('MODEL', 'CenterNet')+'models')
         let data = res?res.data:{models:[]}
 
         let faceres = await getFromURL(getConfig('MODEL', 'FaceRecognition')+'models')

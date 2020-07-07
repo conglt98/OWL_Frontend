@@ -193,6 +193,7 @@ export default class Demo extends React.Component{
   componentWillMount=()=>{
     this.setState({ loading: true }, () => {
       getModelsAPI('FaceRecognition').then(res=>{
+        res = res.filter(ele => ele.type=='FaceRecognition')
         this.setState({
           modelAPI:res,
           loading:false
@@ -204,6 +205,8 @@ export default class Demo extends React.Component{
   refresh=()=>{
     this.setState({ loading: true }, () => {
       getModelsAPI('FaceRecognition').then(res=>{
+        res = res.filter(ele => ele.type=='FaceRecognition')
+
         this.setState({
           modelAPI:res,
           loading:false
