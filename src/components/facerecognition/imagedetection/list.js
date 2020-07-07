@@ -195,6 +195,7 @@ handleCancel = e => {
       tableColumns[tableColumns.length - 1].fixed = 'right';
     }
 
+    console.log(this.state.taskChoose)
     return (
       <>
         <Table
