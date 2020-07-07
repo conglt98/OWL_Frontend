@@ -1,12 +1,12 @@
 import React from 'react'
-import {Spin,Input, Select, Modal, Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs, message } from 'antd';
+import {Spin, Input, Select, Modal, Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs, message } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody,Col} from 'reactstrap'
 import './index.css'  
 import MyList from './list'
-import {getModelsAPI, postFromURL, getConfig} from '../../data'
-import TableDetail from '../models/tableDetail'
+import {getModelsAPI, postFromURL, getConfig} from '../../../data'
+import TableDetail from '../../models/tableDetail'
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 const {Option} = Select
@@ -146,7 +146,7 @@ const IconLink = ({ src, text }) => (
 const content = (
   <>
     <Paragraph>
-      OWL platform can support users to upload data from local or put link for video highlight.
+      OWL platform can support users to upload data from local or put link for object detection.
       <br></br>
       All data are collected and analyzed then visualized then show on dashboard.
     </Paragraph>
@@ -201,12 +201,6 @@ export default class Demo extends React.Component{
     });
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
   refresh=()=>{
     this.setState({ loading: true }, () => {
       getModelsAPI().then(res=>{
@@ -218,13 +212,18 @@ export default class Demo extends React.Component{
     });
   }
 
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
 
   handleOk = e => {
     let request = {}
 
     if (this.state.sourceType != 'upload'){
       request.link = this.state.link
-      request.typeSrc = 'video'
+      request.typeSrc = 'image'
       request.username = localStorage.getItem('auth')
       request.manualName = this.state.manualName
       request.modelId = this.state.modelAPIChoose.id
@@ -289,31 +288,29 @@ export default class Demo extends React.Component{
         return(
         <Card>
            <PageHeader
-    title="Video highlight"
+    title="Object image"
     className="site-page-header"
     subTitle="manual"
     // tags={<Tag color="blue">Running</Tag>}
     extra={[
       // <Button key="3">Operation</Button>,
-      // <Button key="2">Operation</Button>,
       <Button key="2" onClick={this.refresh}>Refresh</Button>,
-
       <Button key="1" type="primary" onClick={this.showModal}>
         Create task
       </Button>
     ]}
-    avatar={{ src: '/assets/videohighlight.png' }}
-  >
-    <Content
-      extraContent={
-        <img
-          src="/assets/videohighlight-banner.jpg"
-          alt="content"
-          width="100%"
-        />
-      }
+    avatar={{ src: '/assets/objectdetection.jpg' }}
     >
-      {content}
+      <Content
+        extraContent={
+          <img
+            src="/assets/objectdetection-banner.jpeg"
+            alt="content"
+            width="100%"
+          />
+        }
+      >
+        {content}
     </Content>
     <Modal
           title="Create task"
@@ -348,7 +345,6 @@ export default class Demo extends React.Component{
       <div>Select API model</div>
         <Select
         showSearch
-        disabled={this.state.isAPIModelDisable}
         style={{ width: '100%' }}
         placeholder="Select model"
         optionFilterProp="children"
@@ -380,8 +376,8 @@ export default class Demo extends React.Component{
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        <Option value="link">Link video youtube</Option>
-        {/* <Option value="upload">Upload video local</Option> */}
+        <Option value="link">Link image</Option>
+        {/* <Option value="upload">Upload image local</Option> */}
       </Select>   
 
       <br></br>
@@ -392,7 +388,7 @@ export default class Demo extends React.Component{
         {this.state.sourceType?
         
         <React.Fragment>
-          <div>Link video</div>
+          <div>Link image</div>
           <Input style={{ width: '100%' }} onChange={this.onChangeLink}></Input>  
         </React.Fragment>
         
@@ -409,13 +405,12 @@ export default class Demo extends React.Component{
   </PageHeader>
     <CardBody className="pt-0">
     <DraggableTabs>
-            <TabPane tab="Task Videos" key="1">
-            {this.state.loading?
+            <TabPane tab="Task Images" key="1">
+              {this.state.loading?
               <div style={{textAlign:'center'}}>
               <Spin size="large"></Spin>
               </div>
               :<MyList/>}
-
             </TabPane>
         </DraggableTabs>
     </CardBody>

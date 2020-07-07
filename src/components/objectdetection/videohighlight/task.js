@@ -3,8 +3,8 @@ import {Spin, DatePicker,Switch, PageHeader, Tag, Button, Statistic, Description
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, Col,CardBody} from 'reactstrap'
-import VideoHighlight from '../keyword/video/video-highlight'
-import {getTasks} from '../../data'
+import VideoHighlight from '../../keyword/video/video-highlight'
+import {getTasks} from '../../../data'
 import moment from 'moment'
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;

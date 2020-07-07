@@ -1,16 +1,16 @@
 import React from 'react'
-import {Modal, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
+import {Tabs, Modal, Menu, Dropdown, Button,Table, Switch, Radio, Form, Tag} from 'antd';
 import { DownOutlined,CheckCircleTwoTone, CloseCircleTwoTone} from '@ant-design/icons';
 import moment from 'moment'
-import {getTasks} from '../../data'
-import { element } from 'prop-types';
-import TableDetail from '../models/tableDetail'
-
+import {getTasks, getFromURL,getConfig} from '../../../data'
+import TableDetail from '../../models/tableDetail'
 const expandable = { expandedRowRender: record => <p>{record.description}</p> };
 const title = () => 'Here is title';
 const showHeader = true;
 const footer = () => 'Here is footer';
 const pagination = { position: 'bottom' };
+const { TabPane } = Tabs;
+
 
 export default class Demo extends React.Component {
   constructor(props){
@@ -31,15 +31,31 @@ export default class Demo extends React.Component {
       tableLayout: undefined,
       top: 'none',
       bottom: 'bottomRight',
-      visibleDetail:false,
-
+      visible:false,
+      taskChoose:{},
+      isZoom:false,
+      imageStatus:'loading'
     };
   }
 
+  handleImageLoaded = ()=> {
+    this.setState({ imageStatus: "loaded" });
+  }
+
+  handleImageErrored = () =>{
+    this.setState({ imageStatus: "failed to load" });
+  }
+
+  zoomImg=()=>{
+    this.setState({
+      isZoom:!this.state.isZoom
+    })
+  }
+
   componentWillMount=()=>{
-    getTasks().then(res=>{
+    getTasks('FaceRecognition').then(res=>{
       this.setState({
-        data: res.filter(ele=>(ele.typeSrc?ele.typeSrc=='video':false))
+        data: res.filter(ele=>(ele.typeSrc?ele.typeSrc!='video':true))
       })
     })
   }
@@ -56,10 +72,7 @@ export default class Demo extends React.Component {
         return <b>Name</b>
     },
     dataIndex: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name),
-    render:(text,record)=>{
-    return <a href={'/#/manual/video-highlight/'+record.id}>{record.name}</a>
-  }
+    sorter: (a, b) => a.name.localeCompare(b.name)
   },
   {
     title: ()=>{
@@ -123,34 +136,47 @@ export default class Demo extends React.Component {
     ),
   },
 ];
+handleDetail= async (e)=>{
+  console.log(e.id)
+  let taskChoose = this.state.data.find(ele=>ele.id == e.id)
+  if (!taskChoose.linkImage){
+    let res = await getFromURL(getConfig('MODEL','FaceRecognition')+"/result/image/"+taskChoose.id+"/"+taskChoose.modelId)
+    res = res.data
+    let linkImage = 'https://drive.google.com/uc?export=view&id='+res[taskChoose.modelId+'.png']
 
-handleDetail=(e)=>{
-  console.log(e.key)
+    taskChoose.linkImage = linkImage
+    this.state.data.find(ele=>ele.id == e.id).linkImage = linkImage
+  }
+
+  console.log(taskChoose)
   this.setState({
-    taskChoose:this.state.data.find(ele=>ele.id == e.id)
+    taskChoose: taskChoose
   })
-  this.showDetailModal()
+  this.showModal()
 }
 
-showDetailModal = () => {
-  this.setState({
-    visibleDetail: true,
-  });
-  };
+loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-  handleDetailOk = e => {
-    console.log(e);
-    this.setState({
-      visibleDetail: false,
-    });
-  };
 
-  handleDetailCancel = e => {
-    console.log(e);
-    this.setState({
-      visibleDetail: false,
-    });
-  };
+showModal = () => {
+this.setState({
+ visible: true,
+});
+};
+
+handleOk = e => {
+ console.log(e);
+ this.setState({
+   visible: false,
+ });
+};
+
+handleCancel = e => {
+ console.log(e);
+ this.setState({
+   visible: false,
+ });
+};
 
   render() {
     const { xScroll, yScroll, ...state } = this.state;
@@ -180,12 +206,22 @@ showDetailModal = () => {
         />
         <Modal
           title={"Detail task"}
-          visible={this.state.visibleDetail}
-          onOk={this.handleDetailOk}
-          onCancel={this.handleDetailCancel}
-          width={920}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          width={this.state.isZoom?900:600}
         >
-          <TableDetail data={this.state.taskChoose}/>
+          <Tabs tabPosition={'left'} defaultActiveKey="1">
+            <TabPane tab="Info" key="1">
+            <TableDetail data={this.state.taskChoose}/>
+            </TabPane>
+            <TabPane tab="Result" key="2">
+                <img 
+              onClick={this.zoomImg} 
+              width={'100%'} src={this.state.taskChoose.linkImage}>
+              </img>
+            </TabPane>
+          </Tabs>
         </Modal>
       </>
     );

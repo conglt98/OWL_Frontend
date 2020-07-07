@@ -5,8 +5,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody,Col} from 'reactstrap'
 import './index.css'  
 import MyList from './list'
-import {getModelsAPI, postFromURL, getConfig} from '../../data'
-import TableDetail from '../models/tableDetail'
+import {getModelsAPI, postFromURL, getConfig} from '../../../data'
+import TableDetail from '../../models/tableDetail'
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
 const {Option} = Select
@@ -146,7 +146,7 @@ const IconLink = ({ src, text }) => (
 const content = (
   <>
     <Paragraph>
-      OWL platform can support users to upload data from local or put link for object detection.
+      OWL platform can support users to upload data from local or put link for face recognition.
       <br></br>
       All data are collected and analyzed then visualized then show on dashboard.
     </Paragraph>
@@ -192,7 +192,7 @@ export default class Demo extends React.Component{
   }
   componentWillMount=()=>{
     this.setState({ loading: true }, () => {
-      getModelsAPI().then(res=>{
+      getModelsAPI('FaceRecognition').then(res=>{
         this.setState({
           modelAPI:res,
           loading:false
@@ -203,7 +203,7 @@ export default class Demo extends React.Component{
 
   refresh=()=>{
     this.setState({ loading: true }, () => {
-      getModelsAPI().then(res=>{
+      getModelsAPI('FaceRecognition').then(res=>{
         this.setState({
           modelAPI:res,
           loading:false
@@ -228,7 +228,7 @@ export default class Demo extends React.Component{
       request.manualName = this.state.manualName
       request.modelId = this.state.modelAPIChoose.id
 
-      postFromURL(getConfig('MODEL')+"models/"+request.modelId, request).then(
+      postFromURL(getConfig('MODEL','FaceRecognition')+"models/"+request.modelId, request).then(
         res =>{
           message.success(res.status +" - "+res.statusText)
         }
@@ -288,7 +288,7 @@ export default class Demo extends React.Component{
         return(
         <Card>
            <PageHeader
-    title="Object detection"
+    title="Face image"
     className="site-page-header"
     subTitle="manual"
     // tags={<Tag color="blue">Running</Tag>}
@@ -299,12 +299,12 @@ export default class Demo extends React.Component{
         Create task
       </Button>
     ]}
-    avatar={{ src: '/assets/objectdetection.jpg' }}
+    avatar={{ src: '/assets/face-icon.png' }}
     >
       <Content
         extraContent={
           <img
-            src="/assets/objectdetection-banner.jpeg"
+            src="/assets/face-banner.png"
             alt="content"
             width="100%"
           />
@@ -337,7 +337,7 @@ export default class Demo extends React.Component{
           option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        <Option value={'CenterNet'}>CenterNet</Option>
+        <Option value={'FaceRecognition'}>FaceRecognition</Option>
       </Select>
       <br></br>
       <br></br>

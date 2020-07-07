@@ -10,7 +10,8 @@ import {connect} from 'react-redux';
 import {Drawer, Tag} from 'antd'
 import {setPeekVideo} from '../../../../reducers/MainEvent'
 import {getFromURL,getConfig} from '../../../../data'
-import { controls } from "react-redux-form";
+import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+
 
 function format(time) {   
   // Hours, minutes and seconds
@@ -68,24 +69,38 @@ class App extends React.Component {
       let videoId = this.props.videoData.link.split("=")
       videoId = videoId[videoId.length - 1]
       let modelId = this.props.videoData.modelId
-      let url = getConfig('MODEL')+'result/video/'+videoId+"/"+modelId
-
+      let url = getConfig('MODEL',this.props.videoData.type)+'result/video/'+videoId+"/"+modelId
       let res = await getFromURL(url)
-      res = res.data
+      res = res ? res.data:{}
       let mockData = []
       Object.keys(res).map(ele=>{
-        mockData.push({
-          id:parseInt(ele.split('.')[0]),
-          name:format(parseInt(ele.split('.')[0])),
-          src:`https://drive.google.com/uc?export=view&id=${res[ele]}`
-        })
+        if (!ele.includes('txt')){
+          mockData.push({
+            id:parseInt(ele.split('.')[0]),
+            name:format(parseInt(ele.split('.')[0])),
+            src:`https://drive.google.com/uc?export=view&id=${res[ele]}`
+          })
+        }
       })
       mockData.sort((a,b)=>a.id - b.id)
+      console.log(mockData)
       this.setState({
         masterItems:mockData,
         items:mockData
       })
     }
+  }
+
+  componentDidMount() {
+
+    Events.scrollEvent.register('begin', function () {
+      console.log("begin", arguments);
+    });
+
+    Events.scrollEvent.register('end', function () {
+      console.log("end", arguments);
+    });
+
   }
 
   toggleShowImg = (id)=>{
@@ -108,10 +123,20 @@ class App extends React.Component {
 
   componentWillReceiveProps=(nextProps)=>{
     let seconds = parseInt(nextProps.currentTime.split(":")[0])*60+parseInt(nextProps.currentTime.split(":")[1])
-    if (seconds >= 0){
-      this.setState({
-        items:this.state.masterItems.filter(ele=>ele.id>=seconds)
-      })
+    if (seconds >= 0 ){
+      
+      const items = this.state.items
+      let index = 0
+      for (let i= 0; i< items.length;i++){
+        if (items[i].id >= seconds){
+          index = i
+          scroll.scrollTo(150+i*228,{
+            duration: 800,
+            delay: 0,
+            smooth: "easeInOutQuint"})
+          break;
+        }
+      }
     }
     this.state.items.map(ele=>{
       let myId = 'imglist'+ ele.id 
@@ -131,13 +156,15 @@ class App extends React.Component {
     document.getElementById(myId).classList.add("animate__zoomOutLeft");
     this.props.setPeekVideo(JSON.parse(JSON.stringify({"time":id})))
   }
-  
+
   FakeCard = ({ data: { id, name, src, animated } }) => (
+        <Element name = {String(id)}>
         <div id={'imglist'+id} className={style("card")}>
-        <img className={style("img")} alt="kitty" src={src} onClick={()=>{this.toggleShowImg(id)}}/>
-        <span onClick={()=>{this.processClickImg(id)}} style={{marginTop:"5px"}} children={name} />
-        {/* <span children={name}/> */}
+          <img className={style("img")} alt="kitty" src={src} onClick={()=>{this.toggleShowImg(id)}}/>
+          <span onClick={()=>{this.processClickImg(id)}} style={{marginTop:"5px"}} children={name} />
+          {/* <span children={name}/> */}
         </div>
+        </Element>
   );
   render(){
     return (

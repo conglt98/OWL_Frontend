@@ -18,10 +18,14 @@ const KeywordKeyword = React.lazy(() => import('./components/keyword/keyword/ind
 const KeywordVideo = React.lazy(() => import('./components/keyword/video'));
 
 
-const VideoHighlight = React.lazy(() => import('./components/videohighlight'));
-const TaskVideoHighlight = React.lazy(() => import('./components/videohighlight/task'));
+const VideoHighlight = React.lazy(() => import('./components/objectdetection/videohighlight'));
+const TaskVideoHighlight = React.lazy(() => import('./components/objectdetection/videohighlight/task'));
+const ObjectDetection = React.lazy(() => import('./components/objectdetection/imagedetection'));
 
-const ObjectDetection = React.lazy(() => import('./components/objectdetection'));
+const FaceVideoHighlight = React.lazy(() => import('./components/facerecognition/videohighlight'));
+const FaceTaskVideoHighlight = React.lazy(() => import('./components/facerecognition/videohighlight/task'));
+const FaceObjectDetection = React.lazy(() => import('./components/facerecognition/imagedetection'));
+
 
 
 const RoleManagement = React.lazy(() => import('./components/RoleManagement'));
@@ -51,11 +55,15 @@ const routes = [
   { path: '/project/keywords/:id',exact:true, name: 'Keyword', component: KeywordKeyword },
   { path: '/project/keywords/:id/:videoid',exact:true, name: 'Keyword video', component: KeywordVideo },
 
-
-  { path: '/manual/video-highlight',exact:true,  name: 'Video highlight', component: VideoHighlight },
-  { path: '/manual/video-highlight/:taskid',exact:true,  name: 'Task', component: TaskVideoHighlight },
   { path: '/manual/object-detection', exact:true, name: 'Object detection', component: ObjectDetection },
+  { path: '/manual/object-detection/video-highlight',exact:true,  name: 'Video highlight', component: VideoHighlight },
+  { path: '/manual/object-detection/video-highlight/:taskid',exact:true,  name: 'Task', component: TaskVideoHighlight },
+  { path: '/manual/object-detection/image-detection', exact:true, name: 'Object image', component: ObjectDetection },
 
+  { path: '/manual/face-recognition', exact:true, name: 'Face recognition', component: FaceObjectDetection },
+  { path: '/manual/face-recognition/video-highlight',exact:true,  name: 'Video highlight', component: FaceVideoHighlight },
+  { path: '/manual/face-recognition/video-highlight/:taskid',exact:true,  name: 'Task', component: FaceTaskVideoHighlight },
+  { path: '/manual/face-recognition/image-detection', exact:true, name: 'Face image', component: FaceObjectDetection },
  
   { path: '/admin/manager/role-management',exact: true, name: 'Role Management', component: RoleManagement},
   { path: '/admin/manager/nav-management',exact: true, name: 'Nav Management', component: NavManagement},

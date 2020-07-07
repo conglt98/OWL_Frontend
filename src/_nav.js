@@ -43,15 +43,37 @@ export default {
     },
     {
       name: 'Object detection',
-      url: '/manual/object-detection',
-      icon: 'icon-picture',
-      
+      icon: 'icon-target',
+      children: [
+        {
+          name: 'Object image',
+          url: '/manual/object-detection/image-detection',
+          icon: 'icon-picture',
+        },
+        {
+          name: 'Video highlight',
+          url: '/manual/object-detection/video-highlight',
+          icon: 'icon-pie-chart',
+        },
+      ],
     },
     {
-      name: 'Video highlight',
-      url: '/manual/video-highlight',
-      icon: 'icon-pie-chart',
+      name: 'Face recognition',
+      icon: 'icon-emotsmile',
+      children: [
+        {
+          name: 'Face image',
+          url: '/manual/face-recognition/image-detection',
+          icon: 'icon-picture',
+        },
+        {
+          name: 'Video highlight',
+          url: '/manual/face-recognition/video-highlight',
+          icon: 'icon-pie-chart',
+        },
+      ],
     },
+    
     // {
     //   title: true,
     //   name: 'User',

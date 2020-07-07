@@ -4,21 +4,25 @@ const originData = [
       {
         key: '0',
         config: 'Use API',
+        type: 'CenterNet',
         value: 'OFF',
     },
     {
         key: '1',
         config: 'MODEL',
+        type: 'CenterNet',
         value: 'http://',
     },
     {
         key: '2',
-        config: 'DETECTOR',
-        value: 'http://',
+        config: 'Use API',
+        type: 'FaceRecognition',
+        value: 'OFF',
     },
     {
         key: '3',
-        config: 'COLLECTOR',
+        config: 'MODEL',
+        type: 'FaceRecognition',
         value: 'http://',
     }
 ];
@@ -103,11 +107,19 @@ const EditableTable = () => {
   const columns = [
     {
       title:  ()=>{
+        return <b>Type</b>
+    },
+      dataIndex: 'type',
+      width: '25%',
+      editable: false,
+    },
+    {
+      title:  ()=>{
         return <b>Config</b>
     },
       dataIndex: 'config',
       width: '25%',
-      editable: true,
+      editable: false,
     },
     {
       title: ()=>{

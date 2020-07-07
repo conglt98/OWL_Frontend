@@ -134,7 +134,7 @@ export default class Demo extends React.Component {
         return <b>Type</b>
     },
     dataIndex: 'type',
-    sorter: (a, b) => a.type - b.type
+    sorter: (a, b) => a.type.localeCompare(b.type)
   },
   {
     title: ()=>{
@@ -396,6 +396,8 @@ export default class Demo extends React.Component {
         }
       >
         <Option value="CenterNet">CenterNet</Option>
+        <Option value="FaceRecognition">FaceRecognition</Option>
+
         {/* <Option value="upload">Upload video local</Option> */}
       </Select>   
       <br></br>
