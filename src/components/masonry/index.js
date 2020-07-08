@@ -8,21 +8,28 @@ import { Masonry } from "masonic";
 const App = (props) => {
   const mainId = props.id
   // Constructs the data for our grid items
-  const [items] = React.useState(() =>
-    Array.from(Array(5000), () => ({
-      id: i++,
-      name: catNames.random(),
-      src: randomChoice(cats)
-    }))
-  );
 
   const type = props.type?props.type:'youtube'
-
   
-    const FakeCard = ({ data: { id, name, src } }) => (
+  let items = []
+
+  if (type=='youtube'){
+    let tmp = props.data
+    tmp.map(ele=>{
+      items.push({
+        id:ele.videoId,
+        name:ele.title,
+        src:ele.thumbnails.replace('default','hqdefault'),
+        date:ele.publishedAt
+      })
+    })
+    items = items.sort((a,b)=> b.date.localeCompare(a.date))
+  }
+  
+  const FakeCard = ({ data: { id, name, src, date } }) => (
         <div className={style("card")}>
         <img className={style("img")} alt="kitty" src={src} />
-        <span style={{marginTop:"5px"}} children={'Description'} />
+        <span style={{marginTop:"5px"}} children={date} />
         <span children={<a href={`#/project/${type}/${mainId}/${id}`}>{name}</a>} />
 
         </div>

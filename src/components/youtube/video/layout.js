@@ -12,7 +12,7 @@ const initialData = {
     },
     'task-3': {
       id: 'task-3',
-      content: 'Donut',
+      content: 'BasicPieChart',
       title:'Reaction overall'
     },
     'task-4': {

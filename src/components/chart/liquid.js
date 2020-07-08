@@ -2,7 +2,15 @@ import { Liquid } from '@antv/g2plot';
 import React, { useEffect } from 'react';
 import uuid from 'react-uuid'
 
-const dataMock = 5000
+const dataMock = 5000000
+
+function findNear(num){
+  let tmp = num
+  while(tmp % 100000 != 0){
+    tmp = tmp +1
+  }
+  return tmp
+}
 
 const ColChart = (propsMaster) => {
   const ref = React.useRef(null)
@@ -22,7 +30,7 @@ const ColChart = (propsMaster) => {
           text: title,
         },
         min: 0,
-        max: 10000,
+        max: findNear(data),
         value: data,
         width:480,
         height:480,

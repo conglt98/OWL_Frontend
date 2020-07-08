@@ -2,13 +2,16 @@ import { Gauge } from '@antv/g2plot';
 import React, { useEffect } from 'react';
 import uuid from 'react-uuid'
 
-const dataMock = 50
+const dataMock = 70
 
 const ColChart = (propsMaster) => {
   const ref = React.useRef(null)
   let id = uuid()
   let data = dataMock
   if (propsMaster.data){
+    data = propsMaster.data
+  }
+  if (propsMaster.data == 0){
     data = propsMaster.data
   }
   let title = propsMaster.title?propsMaster.title:"Reaction chart"
@@ -61,7 +64,7 @@ const ColChart = (propsMaster) => {
         statistic: {
           visible: true,
           position: ['50%', '100%'],
-          text: `${data}% positive comments`,
+          text: `${data.toFixed(2)}% positive comments`,
           color: '#2e3033',
           size: 20,
         },

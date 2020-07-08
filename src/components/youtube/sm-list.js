@@ -8,13 +8,13 @@ import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import VList from 'react-virtualized/dist/commonjs/List';
 import InfiniteLoader from 'react-virtualized/dist/commonjs/InfiniteLoader';
+import {getListChannel, getTopicChannel} from '../../data/youtube'
+import TOPIC from '../youtube/TOPIC'
 
-const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 message.config({
   top: 100,
   duration: 2,
   maxCount: 3,
-  rtl: true,
 });
 
 export default class VirtualizedExample extends React.Component {
@@ -26,24 +26,37 @@ export default class VirtualizedExample extends React.Component {
   loadedRowsMap = {};
 
   componentDidMount() {
-    this.fetchData(res => {
-      this.setState({
-        data: res.results,
-      });
-    });
+    if (this.props.type=='topic'){
+      getTopicChannel({
+        "ymdFrom":"20200707",
+        "ymdTo":"20200708"
+      }).then(res=>{
+        if (res.status == 200)
+        {
+          res = res.data
+          this.setState({
+            data: res.data,
+          });
+          message.success(res.msg)
+        }
+      })
+    }else{
+      getListChannel({
+        "ymdFrom":"20200708",
+        "ymdTo":"20200708"
+      }).then(res=>{
+        if (res.status == 200)
+        {
+          res = res.data
+          this.setState({
+            data: res.data,
+          });
+          message.success(res.msg)
+        }
+      })
+    }
   }
 
-  fetchData = callback => {
-    reqwest({
-      url: fakeDataUrl,
-      type: 'json',
-      method: 'get',
-      contentType: 'application/json',
-      success: res => {
-        callback(res);
-      },
-    });
-  };
 
   handleInfiniteOnLoad = ({ startIndex, stopIndex }) => {
     let { data } = this.state;
@@ -54,20 +67,43 @@ export default class VirtualizedExample extends React.Component {
       // 1 means loading
       this.loadedRowsMap[i] = 1;
     }
-    if (data.length > 19) {
-      message.warning('Virtualized List loaded all');
+    if (data.length >= data.length) {
+      // message.info('Virtualized List loaded all');
       this.setState({
         loading: false,
       });
       return;
     }
-    this.fetchData(res => {
-      data = data.concat(res.results);
-      this.setState({
-        data,
-        loading: false,
-      });
-    });
+    if (this.props.type == 'topic'){
+      getTopicChannel({
+        "ymdFrom":"20200707",
+        "ymdTo":"20200708"
+      }).then(res=>{
+        if (res.status==200){
+          res =res.data
+          data = data.concat(res.data);
+          this.setState({
+            data,
+            loading: false,
+          });
+        }
+      })
+    }
+    else{
+      getListChannel({
+        "ymdFrom":"20200707",
+        "ymdTo":"20200708"
+      }).then(res=>{
+        if (res.status==200){
+          res =res.data
+          data = data.concat(res.data);
+          this.setState({
+            data,
+            loading: false,
+          });
+        }
+      })
+    }
   };
 
   isRowLoaded = ({ index }) => !!this.loadedRowsMap[index];
@@ -75,11 +111,15 @@ export default class VirtualizedExample extends React.Component {
   renderItem = ({ index, key, style }) => {
     const { data } = this.state;
     const item = data[index];
+    const type = this.props.type
+
+    const id = type == 'topic'?item.replaceAll('/','_'):item.channelId
+    const name =  type == 'topic'?TOPIC[item]:item.title
     return (
       <List.Item key={key} style={style}>
         <List.Item.Meta
-          avatar={<Avatar src={this.props.type==='topic'?"/assets/topic-icon.png":"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} />}
-          title={<a href={"/#/project/youtube/"+this.props.type+"/"+index}>{item.name.last}</a>}
+          avatar={<Avatar src={this.props.type==='topic'?"/assets/topic-icon.png":item.thumbnails} />}
+          title={<a href={"/#/project/youtube/"+this.props.type+"/"+id}>{name}</a>}
           description={item.email}
         />
         <div><DeleteOutlined style={{color:'red'}} /></div>

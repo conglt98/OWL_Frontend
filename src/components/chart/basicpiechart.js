@@ -51,16 +51,17 @@ const ColChart = (propsMaster) => {
         text:
           des,
       },
-      radius: 0.8,
+      radius: 0.7,
       renderer:'svg',
       width:480,
       height:480,
       data,
       angleField: 'value',
       colorField: 'type',
+      color: ['#1979C9', '#D62A0D', '#FAA219','green'],
       label: {
         visible: true,
-        type: 'inner',
+        type: 'spider',
       },
     });
     

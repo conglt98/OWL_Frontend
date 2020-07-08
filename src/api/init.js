@@ -3,7 +3,7 @@ import fakeAuth from './fakeAuth'
 import {host,port} from '../config/api'
 // Create an axios instance
 const api = axios.create({
-  baseURL: host+':'+port+'/api/',
+  baseURL: host+':'+port+'/',
   headers: {
     'Authorization': 'Bearer '+fakeAuth.getAccessToken(),
   }

@@ -8,27 +8,27 @@ const initialData = {
     'task-2': {
       id: 'task-2',
       content: 'StackBar',
-      title:'Channel comparision overall'
+      title:'Channel comparison overall'
     },
     'task-3': {
       id: 'task-3',
       content: 'GroupCol',
-      title:'Channel comparision subscribers'
+      title:'Channel comparison subscribers'
     },
     'task-4': {
       id: 'task-4',
       content: 'PercentArea',
-      title:'Channel comparision uploads'
+      title:'Channel comparison uploads'
     },
     'task-5': {
       id: 'task-5',
       content: 'Scatter',
-      title:'Channel distribution overall (views, subscribers)'
+      title:'Channel distribution overall (views, uploads)'
     },
     'task-6': {
       id: 'task-6',
       content: 'Radar',
-      title:'Channel comparision features'
+      title:'Channel comparison features'
     },
     'task-7': {
       id: 'task-7',

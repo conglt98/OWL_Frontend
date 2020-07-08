@@ -6,6 +6,7 @@ import {Card, CardBody,Col} from 'reactstrap'
 import Dnd from "../../dnd";
 import Layout from './layout'
 import moment from 'moment'
+import TOPIC from '../TOPIC'
 import './index.css'
 // import MyList from './list'
 import MyList from '../../masonry/index'
@@ -149,7 +150,7 @@ export default class Demo extends React.Component{
           <PageHeader
       className="site-page-header"
       onBack={() => window.history.back()}
-      title={"Topic_"+this.props.match.params.id}
+      title={TOPIC[this.props.match.params.id.replaceAll('_','/')]}
       subTitle="topic"
       extra={[
         // <Button key="3">Operation</Button>,
@@ -157,7 +158,7 @@ export default class Demo extends React.Component{
       ]}
       avatar={{ src: '/assets/yt.png' }}
     >
-      <Descriptions size="small" column={2}>
+      {/* <Descriptions size="small" column={2}>
         <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
         <Descriptions.Item label="Association">
           <a>421421</a>
@@ -168,6 +169,7 @@ export default class Demo extends React.Component{
           Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
         </Descriptions.Item>
       </Descriptions>
+     */}
     </PageHeader>
             <CardBody className="pt-0">
             <Row>

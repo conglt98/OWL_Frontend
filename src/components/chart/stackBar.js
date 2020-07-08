@@ -108,7 +108,7 @@ const ColChart = (propsMaster) => {
   useEffect(() => {
    
     const stackBarPlot = new StackedBar(document.getElementById(id), {
-        forceFit: true,
+        // forceFit: true,
         title: {
         visible: true,
         text: title,
@@ -128,10 +128,9 @@ const ColChart = (propsMaster) => {
         xField: Object.keys(data[0])[2],
         stackField: Object.keys(data[0])[1],
         label: {
-        offset: 0,
-        visible: true,
+        visible: false,
         position: 'middle',
-        formatter: (v) => Math.round(v / 10000),
+        // formatter: (v) => Math.round(v / 100000),
         },
     }
     );

@@ -124,9 +124,9 @@ const ColChart = (propsMaster) => {
           text: title,
         },
         data,
-        angleField: 'item',
-        radiusField: 'score',
-        seriesField: 'user',
+        angleField: 'type',
+        radiusField: 'value',
+        seriesField: Object.keys(data[0])[1],
         radiusAxis: {
           grid: {
             line: {

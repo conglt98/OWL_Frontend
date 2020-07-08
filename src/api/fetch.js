@@ -1,6 +1,7 @@
 import {headers} from './init'
 import fakeAuth from './fakeAuth'
-
+import {host,port} from '../config/api'
+import axios from 'axios'
 function IsJsonString(str) {
   try {
       JSON.parse(str);
@@ -78,22 +79,23 @@ export async function postDataTokenMode(mode, url = '', data = {}, token) {
 export async function signIn(username, password) {
     let user = {
       username: username,
-      code: password,
-      type: 'ga'
+      password: password,
     };
 
-    // return postData('/api/auth',user).then((data) => {
-    //     console.log(data)
-    //     return data;// JSON data parsed by `response.json()` call
-    //   });
-    // return postData('api/auth',user).then(data=>{
-    //   return {
-    //     status:"true",
-    //     token:"1"
-    //   }
-    // })
-    return {
-      status:"true",
-      token:"1"
-    }
+    return axios.post(`${host}:${port}/authen/login`,user).then((data) => {
+      console.log(data)
+      return data;// JSON data parsed by `response.json()` call
+    });
+}
+
+export async function signUp(username, password) {
+  let user = {
+    username: username,
+    password: password,
+  };
+
+  return axios.post(`${host}:${port}/authen/signup`,user).then((data) => {
+      console.log(data)
+      return data;// JSON data parsed by `response.json()` call
+    });
 }

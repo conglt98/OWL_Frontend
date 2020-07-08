@@ -4,15 +4,19 @@ import { Button, Card, CardBody, CardGroup, Col,
   Container, Form, Input, InputGroup, InputGroupAddon, 
   InputGroupText ,Nav, NavItem, NavLink,
   TabPane, Row, TabContent,Badge} from 'reactstrap';
-
+import {message} from 'antd'
 import {loginDataToken} from '../../../api/auth'
-import {signIn} from '../../../api/fetch'
+import {signIn, signUp} from '../../../api/fetch'
 import fakeAuth from '../../../api/fakeAuth'
 import {getOneRole} from '../../../api/role'
 import {getAllNavRole} from '../../../api/nav_role'
 import swal from 'sweetalert';
 import logo from '../../../assets/img/brand/logo.svg'
-
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 3,
+});
 class Login extends Component {
   constructor(props){
     super(props)
@@ -92,10 +96,16 @@ class Login extends Component {
     if(tab==='1'){
       if (username){
         signIn(username, password).then(data=>{
-        if(data.status ==="true"){
-          console.log(data)
-          fakeAuth.authenticate(username,data.token);
-          this.setState({ redirectToReferrer: true });
+          if(data.status == 200){
+          data = data.data
+          if (data.msg == 'login successfull!'){
+            message.success(data.msg)
+            fakeAuth.authenticate(username,data.data.access_token);
+            // this.setState({ redirectToReferrer: true });
+            window.location.reload(false)
+          }else{
+            message.error(data.msg)
+          }
         }else{
           swal("Thông báo!", "Đăng nhập không thành công!", "error");
         }
@@ -106,7 +116,23 @@ class Login extends Component {
         username:elements.username2.value,
         password:elements.password2.value
       };
-      swal("Thông báo!", "Đăng ký!", "success");
+      if (signup.username && signup.password){
+        console.log(signup)
+
+        signUp(signup.username, signup.password).then(data=>{
+        console.log(data)
+        if (data.status == 200){
+          data = data.data
+          if (data.msg == 'username is exist!'){
+            message.error(data.msg)
+          }else{
+            message.success(data.msg)
+          }
+        }else{
+          swal("Thông báo!", "Đăng ký không thành công!", "error");
+        }
+      })
+      }
   }
 }
   componentWillMount(){

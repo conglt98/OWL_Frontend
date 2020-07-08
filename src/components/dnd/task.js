@@ -36,7 +36,7 @@ class Task extends Component {
             aria-roledescription="Press bar to lift the task"
           >
             <div>
-            {getChart(this.props.task.content,this.props.task.title)} 
+            {getChart(this.props.task.content,this.props.task.title, this.props.task.data)} 
             </div>
           </Container>
         )

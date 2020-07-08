@@ -12,6 +12,7 @@ function getDataList(data) {
       id: list.length,
     });
   });
+  
   return list;
 }
 
@@ -21,7 +22,6 @@ function getWordCloudConfig(data) {
     height: 480,
     data: getDataList(data),
     forceFit:true,
-    maskImage: 'https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*07tdTIOmvlYAAAAAAAAAAABkARQnAQ',
     wordStyle: {
       rotation: [-Math.PI / 2, Math.PI / 2],
       rotateRatio: 0.5,
@@ -42,7 +42,7 @@ function getWordCloudConfig(data) {
     tooltip: {
       visible: true,
     },
-    selected: -1,
+    selected: -2,
 
     onWordCloudHover: hoverAction,
   };
