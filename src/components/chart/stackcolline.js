@@ -54,12 +54,12 @@ const ColChart = (propsMaster) => {
         forceFit: true,
         renderer:'svg',
         xField: 'time',
-        yField: [Object.keys(data[0][0])[1], Object.keys(data[1][0])[1]],
+        yField: data&&data[0]&&data[1]&&data[0][0]&&data[1][0]?[Object.keys(data[0][0])[1], Object.keys(data[1][0])[1]]:['subscribers','uploads'],
         xAxis: {
             type: 'dateTime',
             tickCount: 5,
         },
-        columnStackField: Object.keys(data[0][0])[2],
+        columnStackField: data && data[0] && data[0][0]?Object.keys(data[0][0])[2]:'views',
       });
       columnLine.render();
       

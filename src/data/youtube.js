@@ -15,6 +15,18 @@ export function getInfoChannel(dateRange, channelId){
     })
 }
 
+export function addYoutubeChannel(channelId){
+    return api.post('youtube/channel/add', {channelId:channelId}).then(res =>{
+        return res
+    })
+}
+
+export function addYoutubeTopic(topicId){
+    return api.post('youtube/topic/add', {topicId:topicId}).then(res =>{
+        return res
+    })
+}
+
 export function getTopicChannel(dateRange){
     return api.post('youtube/topic/info/list', dateRange).then(res =>{
         return res

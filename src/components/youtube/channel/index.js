@@ -140,7 +140,8 @@ export default class Demo extends React.Component{
       edit:false,
       channel:{},
       loading:false,
-      layout:Layout
+      layout:Layout,
+      range:[moment().add(-30, 'days'),moment()],
     }
   }  
   
@@ -149,26 +150,42 @@ export default class Demo extends React.Component{
       edit:!this.state.edit
     })
   }
+
+  onChangeRangePicker=(e)=>{
+    console.log(e)
+    this.setState({
+      range:e
+    })
+  }
   
+  refresh=()=>{
+    this.componentWillMount()
+  }
 
   componentWillMount= async()=>{
+    let start = moment(this.state.range[0]).format('YYYYMMDD')
+    let end = moment(this.state.range[1]).format('YYYYMMDD')
+    
     this.setState({ loading: true }, () => {
-      getInfoChannel({'ymdFrom':'20200707','ymdTo':'20200708'},this.props.match.params.id).then(async (res)=>{
+      getInfoChannel({'ymdFrom':start,'ymdTo':end},this.props.match.params.id).then(async (res)=>{
         res = res.data?res.data:{data:[]}
         console.log(res)
         
         let videos = await getVideoChannel({
-          'ymdFrom':'20200708',
-          'ymdTo':'20200708'
+          'ymdFrom':start,
+          'ymdTo':end,
         }, this.props.match.params.id)
         videos = videos.data
 
-        let channelStatistic = await getChannelStatistic({'ymdFrom':'20200608','ymdTo':'20200708'}, this.props.match.params.id)
+        let channelStatistic = await getChannelStatistic({'ymdFrom':start,'ymdTo':end}, this.props.match.params.id)
+        console.log(channelStatistic)
 
         channelStatistic = channelStatistic.data
         let layout = this.state.layout
         let data = channelStatistic.data && channelStatistic.data.length > 0?channelStatistic.data:[]
-
+        console.log(data)
+        if (data == null || data.length == 0)
+          return;
         let chart1 = 0
         let chart2 = []
         let chart2_1 = []
@@ -179,7 +196,7 @@ export default class Demo extends React.Component{
           children:[]
         }
 
-        let maxDate = data[0].updatedAt
+        let maxDate = data[0]?data[0].updatedAt: moment().format('YYYYMMDD')
         data.map(ele=>{
           if (ele.updatedAt > maxDate){
             maxDate = ele.updatedAt
@@ -236,7 +253,7 @@ export default class Demo extends React.Component{
         layout.tasks['task-4'].data = chart4
         let videosOut = videos.data?videos.data:[]
         this.setState({
-          channel: res.data.length > 0? res.data[0]:{},
+          channel: res.data && res.data.length > 0? res.data[0]:{},
           loading:false,
           videos: videosOut,
           layout:layout
@@ -279,10 +296,13 @@ export default class Demo extends React.Component{
       </PageHeader>
               <CardBody className="pt-0">
               <Row>
-                <Col>
-                <RangePicker className="float-right" value={[moment().add(-1, 'days'),moment().add(-1, 'days')]}/>
+                <Col md={12}>
+                  <Button className="float-right"  key="1" onClick={this.refresh} type="primary">
+                    Refresh
+                  </Button>
+                  <RangePicker className="float-right" style={{marginRight:'5px'}}  value={this.state.range} onChange={this.onChangeRangePicker}/>
                 </Col>
-              </Row>
+              </Row> 
               <DraggableTabs>
               <TabPane tab="Overview" key="1">
               <Row>

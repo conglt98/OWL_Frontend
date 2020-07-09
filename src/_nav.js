@@ -10,6 +10,11 @@ export default {
       // },
     },
     {
+      name: 'E-news',
+      url: '/e-news',
+      icon: 'icon-feed',
+    },
+    {
       title: true,
       name: 'Project',
       wrapper: {            // optional wrapper object

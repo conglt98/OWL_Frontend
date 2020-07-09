@@ -10,7 +10,7 @@ const FacebookPost = React.lazy(() => import('./components/facebook/post'));
 
 const Youtube = React.lazy(() => import('./components/youtube'));
 const YoutubeChannel = React.lazy(() => import('./components/youtube/channel'));
-const YoutubeTopic = React.lazy(() => import('./components/youtube/topic'));
+const YoutubeTopic = React.lazy(() => import('./components/youtube/topic/index'));
 const YoutubeVideo = React.lazy(() => import('./components/youtube/video'));
 
 
@@ -26,7 +26,7 @@ const FaceVideoHighlight = React.lazy(() => import('./components/facerecognition
 const FaceTaskVideoHighlight = React.lazy(() => import('./components/facerecognition/videohighlight/task'));
 const FaceObjectDetection = React.lazy(() => import('./components/facerecognition/imagedetection'));
 
-
+const Enews = React.lazy(() => import('./components/enews/index'));
 
 const RoleManagement = React.lazy(() => import('./components/RoleManagement'));
 const NavManagement = React.lazy(() => import('./components/NavManagement'));
@@ -41,6 +41,8 @@ const Configuration = React.lazy(() => import('./components/dnd/configuration'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/e-news', name: 'E-news', component: Enews },
+
   { path: '/project/keywords',exact:true, name: 'Keywords', component: Keyword },
   { path: '/project/facebook',exact:true, name: 'Facebook', component: Facebook },
   { path: '/project/facebook/page/:id',exact:true, name: 'Facebook page', component: FacebookPage },

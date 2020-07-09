@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import {Input, Select,Modal,Spin,DatePicker, Switch,Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
+import {message,Input, Select,Modal,Spin,DatePicker, Switch,Typography ,PageHeader, Tag, Button, Statistic, Descriptions, Row,Tabs } from 'antd';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {Card, CardBody, Col} from 'reactstrap'
@@ -8,7 +8,14 @@ import Layout from './layout'
 import './index.css'
 import MyList from './sm-list'
 import moment from 'moment'
-import {getListChannelStatistic} from  '../../data/youtube'
+import {getListChannelStatistic, addYoutubeChannel, addYoutubeTopic} from  '../../data/youtube'
+import TOPIC from './TOPIC'
+
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 3,
+});
 
 const { TabPane } = Tabs;
 const { Paragraph } = Typography;
@@ -194,12 +201,33 @@ export default class Demo extends React.Component{
       modalAddMore:false,
       newType:'',
       newId:'',
+      range:[moment().add(-30, 'days'),moment()],
     }
   }  
 
+  onChangeRangePicker=(e)=>{
+    console.log(e)
+    this.setState({
+      range:e
+    })
+  }
+
   componentWillMount=()=>{
+    if (!(this.state.range&&this.state.range[0]&&this.state.range[1])){
+      message.error("Input date range!")
+      return;
+    }
+
+    let start = moment(this.state.range[0]).format('YYYYMMDD')
+    let end = moment(this.state.range[1]).format('YYYYMMDD')
+    
+    let dataRange = {
+      'ymdFrom':start,
+      'ymdTo':end
+    }
+
     this.setState({ loading: true }, () => {
-      getListChannelStatistic({'ymdFrom':'20200608','ymdTo':'20200708'}).then(res=>{
+      getListChannelStatistic(dataRange).then(res=>{
         res = res.data
         let layout = this.state.layout
         let data = res.data && res.data.length > 0?res.data:[]
@@ -290,12 +318,12 @@ export default class Demo extends React.Component{
 
             chartTreeMap7.children.push({
               name:ele.title,
-              value:parseInt(ele.videoCount)
+              value:parseInt(ele.viewCount)
             })
           }
           chartWorldCloud8.push({
             name:ele.title,
-            value:parseInt(ele.videoCount)
+            value:parseInt(ele.subscriberCount)
           })
         })
         console.log(chartCompareOverall2)
@@ -317,9 +345,32 @@ export default class Demo extends React.Component{
     });
   }
 
+  refresh=()=>{
+    this.componentWillMount()
+  }
   
-  handleOk = e => {
-    console.log(e);
+  handleOk = async e => {
+    let type = this.state.newType;
+    let id = this.state.newId
+
+    if (type == 'channel' && id){
+      let res = await addYoutubeChannel(id)
+      console.log(res)
+      if (res.status == 200){
+        message.success(res.data.msg)
+      }else{
+        message.error(res.statusText)
+      }
+    }else if (type == 'topic' && id){
+      let res = addYoutubeTopic(id)
+      if (res.status == 200){
+        message.success(res.data.msg)
+      }else{
+        message.error(res.statusText)
+      }
+    }else{
+      message.error("Input is not valid!")
+    }
     this.setState({
       modalAddMore: false,
     });
@@ -344,9 +395,24 @@ export default class Demo extends React.Component{
     })
   }
 
+
+  onChangeNewType=(e)=>{
+    this.setState({
+      newType:e
+    })
+  }
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-
+  onChangeChannelId=(e)=>{
+    this.setState(
+      {newId:e.target.value}
+    )
+  }
+  onChangeTopicId=(e)=>{
+    this.setState({
+      newId:e
+    })
+  }
   render()
   {
   return(
@@ -377,12 +443,15 @@ export default class Demo extends React.Component{
       {content}
     </Content>
     </PageHeader>
-    <CardBody className="pt-0">
+      <CardBody className="pt-0">
       <Row>
-        <Col>
-        <RangePicker className="float-right" value={[moment().add(-30, 'days'),moment()]}/>
+        <Col md={12}>
+          <Button className="float-right"  key="1" onClick={this.refresh} type="primary">
+            Refresh
+          </Button>
+          <RangePicker className="float-right" style={{marginRight:'5px'}}  value={this.state.range} onChange={this.onChangeRangePicker}/>
         </Col>
-      </Row>
+      </Row>     
       <Modal visible={this.state.modalAddMore}
        title="Add more"
        onOk={this.handleOk}
@@ -404,8 +473,25 @@ export default class Demo extends React.Component{
       <br>
       </br>
       <br></br>
-      <Input placeholder="Input id">
-      </Input>
+      {this.state.newType=='topic'?
+      <Select
+        showSearch
+        style={{ width: '100%' }}
+        placeholder="Select topic"
+        optionFilterProp="children"
+        onChange={this.onChangeTopicId}
+        filterOption={(input, option) =>
+          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        {Object.keys(TOPIC).map(ele=>{
+          return(
+          <Option key={ele} value={ele}>{TOPIC[ele]}</Option>
+          )
+        })}
+      </Select>
+      :<Input placeholder="Input id" onChange= {this.onChangeChannelId}>
+      </Input>}
       </Modal>
       <DraggableTabs>
         <TabPane tab="Overview" key="1">
@@ -422,10 +508,10 @@ export default class Demo extends React.Component{
         
         </TabPane>
         <TabPane tab="Channels" key="2">
-          <MyList type={'channel'}/>
+          <MyList type={'channel'} range={this.state.range}/>
         </TabPane>
         <TabPane tab="Topics" key="3">
-          <MyList type={'topic'}/>
+          <MyList type={'topic'}  range={this.state.range}/>
         </TabPane>
       </DraggableTabs>
     </CardBody>

@@ -3,7 +3,7 @@ import { List, message, Avatar, Spin } from 'antd';
 import {DeleteOutlined} from '@ant-design/icons'
 
 import reqwest from 'reqwest';
-
+import moment from 'moment'
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import VList from 'react-virtualized/dist/commonjs/List';
@@ -25,36 +25,51 @@ export default class VirtualizedExample extends React.Component {
 
   loadedRowsMap = {};
 
+  componentWillReceiveProps=(props)=>{
+    let start = moment(props.range[0]).format('YYYYMMDD')
+    let end = moment(props.range[1]).format('YYYYMMDD')
+    this.reload(start, end)  }
+
   componentDidMount() {
-    if (this.props.type=='topic'){
-      getTopicChannel({
-        "ymdFrom":"20200707",
-        "ymdTo":"20200708"
-      }).then(res=>{
-        if (res.status == 200)
-        {
-          res = res.data
-          this.setState({
-            data: res.data,
-          });
-          message.success(res.msg)
-        }
-      })
-    }else{
-      getListChannel({
-        "ymdFrom":"20200708",
-        "ymdTo":"20200708"
-      }).then(res=>{
-        if (res.status == 200)
-        {
-          res = res.data
-          this.setState({
-            data: res.data,
-          });
-          message.success(res.msg)
-        }
-      })
-    }
+    let start = moment(this.props.range[0]).format('YYYYMMDD')
+    let end = moment(this.props.range[1]).format('YYYYMMDD')
+    this.reload(start, end)
+  }
+
+  reload = (start, end) =>{
+    this.setState({loading:true},()=>{
+      if (this.props.type=='topic'){
+        getTopicChannel({
+          "ymdFrom":end,
+          "ymdTo":end,
+        }).then(res=>{
+          if (res.status == 200)
+          {
+            res = res.data
+            this.setState({
+              data: res.data,
+              loading:false,
+            });
+            message.success(res.msg)
+          }
+        })
+      }else{
+        getListChannel({
+          "ymdFrom":end,
+          "ymdTo":end
+        }).then(res=>{
+          if (res.status == 200)
+          {
+            res = res.data
+            this.setState({
+              data: res.data,
+              loading:false,
+            });
+            message.success(res.msg)
+          }
+        })
+      }
+    })
   }
 
 
@@ -74,10 +89,12 @@ export default class VirtualizedExample extends React.Component {
       });
       return;
     }
+    let start = moment(this.props.range[0]).format('YYYYMMDD')
+    let end = moment(this.props.range[1]).format('YYYYMMDD')
     if (this.props.type == 'topic'){
       getTopicChannel({
-        "ymdFrom":"20200707",
-        "ymdTo":"20200708"
+        "ymdFrom":end,
+        "ymdTo":end
       }).then(res=>{
         if (res.status==200){
           res =res.data
@@ -91,8 +108,8 @@ export default class VirtualizedExample extends React.Component {
     }
     else{
       getListChannel({
-        "ymdFrom":"20200707",
-        "ymdTo":"20200708"
+        "ymdFrom":end,
+        "ymdTo":end
       }).then(res=>{
         if (res.status==200){
           res =res.data
