@@ -129,17 +129,17 @@ class DefaultLayout extends Component {
     let retRouter= routesAppendRole.filter(route => (this.isValidRole(roles, route.roles)))
 
     let routesAppendNav=this.appendRoleToNav(navigation.items,this.state.nav_roles);
-    console.log(routesAppendNav)
+    // console.log(routesAppendNav)
     let retNavItems = routesAppendNav.filter(nav => (this.isValidRole(roles, nav.roles)))
-    console.log(retNavItems)
+    // console.log(retNavItems)
     retNavItems.map(ele=>{
       if (ele.children){
         ele.children = ele.children.filter(child =>(this.isValidRole(roles, child.roles)))
       }
     })
-    console.log(retNavItems)
+    // console.log(retNavItems)
     let retNav = {items:retNavItems}
-    console.log(retRouter)
+    // console.log(retRouter)
     return (
       <div className="app">
         <AppHeader fixed>
