@@ -41,6 +41,7 @@ const ColChart = (propsMaster) => {
           visible: true,
           autoHide: true,
         },
+        tickCount:3,
       },
       yAxis: {
         visible: true,

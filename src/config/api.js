@@ -1,2 +1,2 @@
-export const host = 'http://192.168.1.5'
+export const host = 'http://128.199.245.81'
 export const port = '5000'

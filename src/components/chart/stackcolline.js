@@ -57,7 +57,7 @@ const ColChart = (propsMaster) => {
         yField: data&&data[0]&&data[1]&&data[0][0]&&data[1][0]?[Object.keys(data[0][0])[1], Object.keys(data[1][0])[1]]:['subscribers','uploads'],
         xAxis: {
             type: 'dateTime',
-            tickCount: 5,
+            tickCount: 3,
         },
         columnStackField: data && data[0] && data[0][0]?Object.keys(data[0][0])[2]:'views',
       });

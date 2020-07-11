@@ -299,15 +299,15 @@ export default class Demo extends React.Component{
             })
 
             chartRadar6.push({
-              type:'views',
+              type:'views (M)',
               channel:ele.title,
-              value:parseInt(ele.viewCount)
+              value:parseInt(ele.viewCount/1000000)
             })
           
             chartRadar6.push({
-              type:'subscribers',
+              type:'subscribers (K)',
               channel:ele.title,
-              value:parseInt(ele.subscriberCount)
+              value:parseInt(ele.subscriberCount/1000)
             })
 
             chartRadar6.push({

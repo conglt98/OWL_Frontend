@@ -95,6 +95,8 @@ class Login extends Component {
     const tab=this.state.activeTab[0];
     if(tab==='1'){
       if (username){
+        // fakeAuth.authenticate('conglt','xxx');
+        // window.location.reload(false)
         signIn(username, password).then(data=>{
           if(data.status == 200){
           data = data.data

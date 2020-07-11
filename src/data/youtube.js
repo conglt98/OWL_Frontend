@@ -10,7 +10,6 @@ export function getInfoChannel(dateRange, channelId){
     let req = {...dateRange,channelId:channelId}
     console.log(req)
     return api.post('youtube/channel/info/single', req).then(res =>{
-        
         return res
     })
 }

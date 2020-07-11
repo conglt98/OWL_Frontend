@@ -50,7 +50,7 @@ export default class VirtualizedExample extends React.Component {
               data: res.data,
               loading:false,
             });
-            message.success(res.msg)
+            // message.success(res.msg)
           }
         })
       }else{
@@ -65,7 +65,7 @@ export default class VirtualizedExample extends React.Component {
               data: res.data,
               loading:false,
             });
-            message.success(res.msg)
+            // message.success(res.msg)
           }
         })
       }

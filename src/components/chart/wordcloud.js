@@ -26,7 +26,7 @@ function getWordCloudConfig(data) {
       rotation: [-Math.PI / 2, Math.PI / 2],
       rotateRatio: 0.5,
       rotationSteps: 4,
-      fontSize: [10, 200],
+      fontSize: [40, 500],
       color: (word, weight) => {
         return getRandomColor();
       },
@@ -97,6 +97,7 @@ const ColChart = (propsMaster) => {
   let data = dataMock
   if (propsMaster.data){
     data = propsMaster.data
+    data.push({name:'unknown',value:500000000})
   }
   let title = propsMaster.title?propsMaster.title:"Reaction chart"
   let des = propsMaster.description?propsMaster.description:""

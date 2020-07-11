@@ -1,4 +1,4 @@
-import { PercentStackedArea } from '@antv/g2plot';
+import { StackedColumn } from '@antv/g2plot';
 import React, { useEffect } from 'react';
 import uuid from 'react-uuid'
 
@@ -120,7 +120,7 @@ const ColChart = (propsMaster) => {
   let des = propsMaster.description?propsMaster.description:""
 
   useEffect(() => {
-    const areaPlot = new PercentStackedArea(document.getElementById(id), {
+    const areaPlot = new StackedColumn(document.getElementById(id), {
         title: {
           visible: true,
           text: title,
@@ -141,7 +141,12 @@ const ColChart = (propsMaster) => {
         xField: Object.keys(data[0])[1],
         yField: Object.keys(data[0])[2],
         stackField: Object.keys(data[0])[0],
-        color: ['#82d1de', '#cb302d', '#e3ca8c'],
+        xAxis: {
+          type: 'dateTime',
+          tickCount: 3,
+        },
+        color: ['#ae331b', '#f27957', '#ae331b', '#609db7', '#1a6179'],
+        // color: ['#82d1de', '#cb302d', '#e3ca8c'],
         areaStyle: {
           fillOpacity: 0.7,
         },
