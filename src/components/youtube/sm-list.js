@@ -47,7 +47,7 @@ export default class VirtualizedExample extends React.Component {
           {
             res = res.data
             this.setState({
-              data: res.data,
+              data: res.data?res.data:[],
               loading:false,
             });
             // message.success(res.msg)
@@ -62,7 +62,7 @@ export default class VirtualizedExample extends React.Component {
           {
             res = res.data
             this.setState({
-              data: res.data,
+              data: res.data?res.data:[],
               loading:false,
             });
             // message.success(res.msg)

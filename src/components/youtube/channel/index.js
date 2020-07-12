@@ -8,7 +8,7 @@ import Layout from './layout'
 import LayoutSubscriber from './layoutsubscriber'
 import LayoutView from './layoutview'
 import LayoutUpload from './layoutupload'
-import {getInfoChannel, getVideoChannel, getChannelStatistic} from '../../../data/youtube'
+import {getInfoChannel, getVideoChannel, getChannelStatistic, getListVideoStatistic} from '../../../data/youtube'
 import moment from 'moment'
 import './index.css'
 // import MyList from './list'
@@ -133,6 +133,15 @@ class DraggableTabs extends React.Component {
   }
 }
 
+const Content = ({ children, extraContent }) => {
+  return (
+    <Row>
+      <div style={{ flex: 1 }}>{children}</div>
+      <div className="image">{extraContent}</div>
+    </Row>
+  );
+};
+
 export default class Demo extends React.Component{
   constructor(props){
     super(props)
@@ -241,11 +250,15 @@ export default class Demo extends React.Component{
         layout.tasks['task-2'].data = chart1
         layout.tasks['task-1'].data = chart2
         layout.tasks['task-3'].data = chart3
-        if (videos.data){
-          videos.data.map(ele=>{
+        
+        
+        let listVideoStatistic = await getListVideoStatistic({'ymdFrom':end,'ymdTo':end}, this.props.match.params.id)
+        listVideoStatistic = listVideoStatistic.data
+        if (listVideoStatistic.data){
+          listVideoStatistic.data.map(ele=>{
             chart4.children.push({
               name:ele.title,
-              value:parseInt(ele.updatedAt)
+              value:parseInt(ele.viewCount)
             })
           })
         }
@@ -282,17 +295,27 @@ export default class Demo extends React.Component{
         ]}
         avatar={{ src: this.state.channel.thumbnails }}
       >
-        <Descriptions size="small" column={2}>
-        <Descriptions.Item label="Country">{this.state.channel.country}</Descriptions.Item>
-          <Descriptions.Item label="">
-            <a></a>
-          </Descriptions.Item>
-      <Descriptions.Item label="Published at">{this.state.channel.publishedAt}</Descriptions.Item>
-          <Descriptions.Item label=""></Descriptions.Item>
-          <Descriptions.Item label="Updated at">
-            {this.state.channel.updatedAt}
-          </Descriptions.Item>
-        </Descriptions>
+        <Content
+      extraContent={
+        <img
+          src={this.state.channel.thumbnails}
+          alt="content"
+          width="100%"
+        />
+      }
+    >
+      <Descriptions size="small" column={2}>
+          <Descriptions.Item label="Country">{this.state.channel.country?this.state.channel.country:'N/A'}</Descriptions.Item>
+            <Descriptions.Item label="">
+              <a></a>
+            </Descriptions.Item>
+        <Descriptions.Item label="Published at">{this.state.channel.publishedAt}</Descriptions.Item>
+            <Descriptions.Item label=""></Descriptions.Item>
+            <Descriptions.Item label="Updated at">
+              {this.state.channel.updatedAt}
+            </Descriptions.Item>
+          </Descriptions>
+      </Content>  
       </PageHeader>
               <CardBody className="pt-0">
               <Row>

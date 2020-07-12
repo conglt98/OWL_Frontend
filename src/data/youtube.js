@@ -59,6 +59,14 @@ export function getChannelStatistic(dateRange, channelId){
     })
 }
 
+export function getListVideoStatistic(dateRange, channelId){
+    let req = {...dateRange,channelId:channelId}
+    return api.post('youtube/video/statistics/list', req).then(res =>{
+        return res
+    })
+}
+
+
 export function getVideoStatistic(dateRange, videoId){
     let req = {...dateRange,videoId:videoId}
     return api.post('youtube/video/statistics/single', req).then(res =>{
